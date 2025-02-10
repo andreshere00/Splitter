@@ -15,6 +15,7 @@ class FileReader(ABC):
     def read(self, file_path):
         pass
 
+
 class TextFileReader(FileReader):
     def read(self, file_path):
         try:
@@ -106,38 +107,3 @@ class SvgFileReader(FileReader):
         except Exception as e:
             logging.error(f"Error reading SVG file {file_path}: {e}")
         return ""
-
-class ReadManager:
-    """Manages reading files using a factory pattern."""
-
-    _readers = {
-        "txt": TextFileReader(),
-        "md": MarkdownFileReader(),
-        "pdf": PdfFileReader(),
-        "docx": WordFileReader(),
-        "xlsx": ExcelFileReader(),
-        "csv": CsvFileReader(),
-        "png": ImageFileReader(),
-        "jpg": ImageFileReader(),
-        "jpeg": ImageFileReader(),
-        "svg": SvgFileReader(),
-    }
-
-    @classmethod
-    def register_reader(cls, extension, reader):
-        """Registers a new reader for a file extension."""
-        if not issubclass(type(reader), FileReader):
-            raise TypeError(f"Reader must be an instance of FileReader, got {type(reader)}")
-        cls._readers[extension] = reader
-
-    @classmethod
-    def read_file(cls, file_path):
-        """Reads a file based on its extension."""
-        ext = file_path.split(".")[-1].lower()
-        reader = cls._readers.get(ext)
-        
-        if not reader:
-            logging.error(f"No reader available for file type: {ext}")
-            return ""
-
-        return reader.read(file_path)

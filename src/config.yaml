@@ -3,3 +3,14 @@ logging:
   format: "%(asctime)s - %(levelname)s - %(message)s"
   filename: "app.log"  # Set to null for console output
   filemode: "w"  # Overwrite log file on each run
+
+splitter:
+  method: "paragraph"  # Options: word, sentence, paragraph, semantic, fixed, paged
+  config:
+    fixed: 
+      size: 500  # Only for "fixed" method (number of characters or words)
+    semantic: 
+      threshold: 0.8  # Only for "semantic" method
+    paged: 
+      allowed_documents: ["pdf", "docx", "xlsx"]  # Only for "paged" method
+
