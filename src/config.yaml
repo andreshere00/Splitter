@@ -1,0 +1,5 @@
+logging:
+  level: "ERROR"
+  format: "%(asctime)s - %(levelname)s - %(message)s"
+  filename: "app.log"  # Set to null for console output
+  filemode: "w"  # Overwrite log file on each run
