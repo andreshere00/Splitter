@@ -1,16 +1,46 @@
 logging:
   level: "ERROR"
   format: "%(asctime)s - %(levelname)s - %(message)s"
-  filename: "app.log"  # Set to null for console output
+  filename: "logging"  # Set to null for console output
   filemode: "w"  # Overwrite log file on each run
 
 splitter:
-  method: "paragraph"  # Options: word, sentence, paragraph, semantic, fixed, paged
-  config:
-    fixed: 
-      size: 500  # Only for "fixed" method (number of characters or words)
-    semantic: 
-      threshold: 0.8  # Only for "semantic" method
-    paged: 
-      allowed_documents: ["pdf", "docx", "xlsx"]  # Only for "paged" method
+  method: "auto"  # Selectable via config.yaml or overridden via console
 
+  word:
+    num_words: 100  # Number of words in each chunk
+
+  sentence:
+    num_sentences: 5  # Number of sentences in each chunk
+
+  paragraph:
+    num_paragraphs: 3  # Number of paragraphs in each chunk
+
+  semantic:
+    language_model: "bert-base-uncased"  # Model used for semantic similarity
+    overlap: 0.2  # Overlapping ratio between chunks
+
+  fixed:
+    size: 500  # Number of characters per chunk
+
+  recursive:
+    size: 500  # Number of characters per chunk
+    overlap: 50  # Overlapping characters between chunks
+
+  paged:
+    num_pages: 1  # Number of pages in each chunk
+    overlap: 0.1  # Overlapping pages between chunks
+
+  row-column:
+    num_columns: 2  # Number of columns per chunk
+    column_names: ["Column1", "Column2"]  # Specify specific column names
+    num_rows: 5  # Number of rows per chunk
+    row_names: ["Row1", "Row2"]  # Specify specific row names
+
+  schema-based:
+    num_registers: 50  # Number of registers per chunk
+    overlap: 5  # Overlapping registers between chunks
+
+  auto:
+    methods: ["sentence", "semantic"]  # Auto mode can combine multiple splitters
+    fallback: "paragraph"  # If auto fails, default to paragraph splitting
