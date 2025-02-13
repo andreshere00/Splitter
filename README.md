@@ -27,7 +27,7 @@ The **Splitter** system is responsible for processing documents and dividing the
 | **Paged Splitter**     | Splits text into pages. | Input data, number of pages in each chunk, overlap. | `doc`, `docx`, `pdf`, `xls`, `xlsx`, `ppt`, `pptx` |
 | **Recursive Splitter** | Splits based on a specified chunk size with overlap. | Input data, number of characters in each chunk, overlap parameter. | `txt`, `markdown`, `doc`, `docx`, `pdf`, `ppt`, `pptx` |
 | **Row-Column Splitter** | Splits table content by rows or columns. | Input data, number of columns, column names, number of rows, row names. | `xlsx`, `xls`, `json`, `yaml` |
-| **Schema-based Splitter** | Splits a hierarchical schema while preserving headers. | Input data, number of registers, overlap. | `json`, `yaml`, `xml`, `ppt`, `pptx` |
+| **Schema-based Splitter** | Splits a hierarchical schema while preserving headers. | Input data, number of registers, overlap. | `json`, `yaml`, `xml`, `xls`, `xlsx`, `ppt`, `pptx` |
 | **Auto Splitter**      | Combines multiple splitting methods based on document content. | Input data, number of characters in each chunk, overlap. | All formats |
 
 ### **3. Chunk Manager**
@@ -49,18 +49,18 @@ The **Splitter** system is responsible for processing documents and dividing the
 
 ### **API Definition**
 #### **Input**
-- `document_name`
-- `document_path`
-- `document_id`
-- `metadata` (dummy)
+- `document_name := str`.
+- `document_path := str`.
+- `document_id := str`.
+- `metadata := list[str]`.
 
 #### **Output**
-- `chunk_id`
-- `path`
-- `document_id`
-- `document_name`
-- `conversion_method`
-- `metadata` (dummy)
+- `chunk_id := str`.
+- `chunk_path := str`.
+- `document_id := str`.
+- `document_name := str`.
+- `conversion_method := str`.
+- `metadata := list[str]`.
 
 ---
 
