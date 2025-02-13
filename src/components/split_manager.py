@@ -1,5 +1,6 @@
 import logging
 import yaml
+import argparse
 import os
 
 from src.services.word_splitter import WordSplitter
@@ -8,6 +9,10 @@ from src.services.paragraph_splitter import ParagraphSplitter
 from src.services.semantic_splitter import SemanticSplitter
 from src.services.fixed_splitter import FixedSplitter
 from src.services.paged_splitter import PagedSplitter
+from src.services.recursive_splitter import RecursiveSplitter
+from src.services.row_column_splitter import RowColumnSplitter
+from src.services.schema_based_splitter import SchemaBasedSplitter
+from src.services.auto_splitter import AutoSplitter
 
 
 class SplitManager:
@@ -50,23 +55,53 @@ class SplitManager:
                 logger.addHandler(file_handler)
 
     def _initialize_splitter(self):
-        """Dynamically select the splitting strategy based on config."""
+        """Dynamically select the splitting strategy based on config or console argument."""
         splitter_config = self.config.get("splitter", {})
-        method = splitter_config.get("method", "paragraph")
-        config = splitter_config.get("config", {})
+
+        # Support console arguments
+        parser = argparse.ArgumentParser(description="Select the splitting method.")
+        parser.add_argument("--method", type=str, help="Splitting method (word, sentence, paragraph, etc.)")
+        args = parser.parse_args()
+
+        # Use console argument if provided, otherwise use config
+        method = args.method if args.method else splitter_config.get("method", "auto")
 
         splitters = {
-            "word": WordSplitter(),
-            "sentence": SentenceSplitter(),
-            "paragraph": ParagraphSplitter(),
-            "semantic": SemanticSplitter(threshold=config.get("semantic", {}).get("threshold", 0.8)),
-            "fixed": FixedSplitter(size=config.get("fixed", {}).get("size", 500)),
-            "paged": PagedSplitter(allowed_docs=config.get("paged", {}).get("allowed_documents", ["pdf", "docx", "xlsx"])),
+            "word": WordSplitter(num_words=splitter_config.get("word", {}).get("num_words", 100)),
+            "sentence": SentenceSplitter(num_sentences=splitter_config.get("sentence", {}).get("num_sentences", 5)),
+            "paragraph": ParagraphSplitter(num_paragraphs=splitter_config.get("paragraph", {}).get("num_paragraphs", 3)),
+            "semantic": SemanticSplitter(
+                language_model=splitter_config.get("semantic", {}).get("language_model", "bert-base-uncased"),
+                overlap=splitter_config.get("semantic", {}).get("overlap", 0.2),
+            ),
+            "fixed": FixedSplitter(size=splitter_config.get("fixed", {}).get("size", 500)),
+            "recursive": RecursiveSplitter(
+                size=splitter_config.get("recursive", {}).get("size", 500),
+                overlap=splitter_config.get("recursive", {}).get("overlap", 50),
+            ),
+            "paged": PagedSplitter(
+                num_pages=splitter_config.get("paged", {}).get("num_pages", 1),
+                overlap=splitter_config.get("paged", {}).get("overlap", 0.1),
+            ),
+            "row-column": RowColumnSplitter(
+                num_columns=splitter_config.get("row-column", {}).get("num_columns", 2),
+                column_names=splitter_config.get("row-column", {}).get("column_names", ["Column1", "Column2"]),
+                num_rows=splitter_config.get("row-column", {}).get("num_rows", 5),
+                row_names=splitter_config.get("row-column", {}).get("row_names", ["Row1", "Row2"]),
+            ),
+            "schema-based": SchemaBasedSplitter(
+                num_registers=splitter_config.get("schema-based", {}).get("num_registers", 50),
+                overlap=splitter_config.get("schema-based", {}).get("overlap", 5),
+            ),
+            "auto": AutoSplitter(
+                methods=splitter_config.get("auto", {}).get("methods", ["sentence", "semantic"]),
+                fallback=splitter_config.get("auto", {}).get("fallback", "paragraph"),
+            ),
         }
 
         if method not in splitters:
-            logging.error(f"Invalid splitting method: {method}. Defaulting to paragraph.")
-            return ParagraphSplitter()
+            logging.error(f"Invalid splitting method: {method}. Defaulting to 'auto'.")
+            return splitters["auto"]
 
         return splitters[method]
 
