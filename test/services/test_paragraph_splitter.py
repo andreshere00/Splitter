@@ -16,6 +16,11 @@ class TestParagraphSplitter(unittest.TestCase):
         """Splitting into chunks of 1 paragraph should return each paragraph separately."""
         splitter = ParagraphSplitter(num_paragraphs=1)
         chunks = splitter.split(SAMPLE_TEXT)
+        # Print chunks for inspection.
+        print("\n--- Splitting into single paragraph chunks ---")
+        for i, chunk in enumerate(chunks):
+            print(f"Chunk {i+1}:\n{chunk}\n{'-'*40}")
+        
         # Expected: each non-empty paragraph as a separate chunk.
         paragraphs = [p.strip() for p in SAMPLE_TEXT.split("\n") if p.strip()]
         self.assertEqual(chunks, paragraphs)
@@ -27,6 +32,11 @@ class TestParagraphSplitter(unittest.TestCase):
         """
         splitter = ParagraphSplitter(num_paragraphs=100)
         chunks = splitter.split(SAMPLE_TEXT)
+        # Print chunk for inspection.
+        print("\n--- Splitting into max paragraph chunks ---")
+        for i, chunk in enumerate(chunks):
+            print(f"Chunk {i+1}:\n{chunk}\n{'-'*40}")
+        
         paragraphs = [p.strip() for p in SAMPLE_TEXT.split("\n") if p.strip()]
         expected = "\n\n".join(paragraphs)
         self.assertEqual(len(chunks), 1)
