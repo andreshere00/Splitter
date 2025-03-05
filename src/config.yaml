@@ -5,6 +5,7 @@ file_io:
 
 # 2. Logging Configuration
 logging:
+  enabled: true                # Set to false to disable logging
   level: "INFO"                # Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL
   format: "%(asctime)s - %(levelname)s - %(message)s"
   handlers:
@@ -16,7 +17,7 @@ logging:
 # 3. Splitting Methods Configuration
 splitter:
   # The method to use when splitting. Must be one of the keys under `methods` below.
-  method: "sentence"
+  method: "fixed"
 
   methods:
     word:
@@ -33,7 +34,7 @@ splitter:
       overlap: 0.2                         # Overlap ratio between chunks
 
     fixed:
-      size: 500  # Number of characters per chunk
+      size: 100  # Number of characters per chunk
 
     paged:
       num_pages: 1  # Number of pages in each chunk
