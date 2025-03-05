@@ -1,0 +1,23 @@
+2025-03-05 17:35:46,380 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 17:37:52,429 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:29:09,244 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:29:46,547 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:29:52,733 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:30:31,840 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:30:52,492 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:33:06,105 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:34:02,343 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:34:17,118 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:34:45,964 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:36:25,197 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:36:52,359 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:37:21,305 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:40:57,545 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:42:41,456 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:42:59,691 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:43:37,099 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:43:46,372 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:44:04,961 - ERROR - Unsupported file type: .doc for file data/test/test_1.doc
+2025-03-05 18:44:54,944 - ERROR - Error reading Word document data/test/test_1.doc: "There is no item named 'word/document.xml' in the archive"
+2025-03-05 18:45:56,027 - ERROR - Error reading Word document data/test/test_1.doc: 'NoneType' object has no attribute 'seek'
+2025-03-05 18:55:24,264 - ERROR - Error converting file data/test/test_1.docx using markitdown: module 'markitdown' has no attribute 'convert'
