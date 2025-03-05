@@ -37,6 +37,11 @@ class SplitManager:
     def _configure_logging(self):
         """Set up logging configuration based on the config file."""
         log_config = self.config.get("logging", {})
+        enabled = log_config.get("enabled", True)
+        if not enabled:
+            logging.disable(logging.CRITICAL)
+            return
+
         log_level = log_config.get("level", "ERROR").upper()
         log_format = log_config.get("format", "%(asctime)s - %(levelname)s - %(message)s")
 
@@ -52,7 +57,13 @@ class SplitManager:
                 stream_handler.setFormatter(logging.Formatter(log_format))
                 logger.addHandler(stream_handler)
             elif handler_config["type"] == "file":
-                file_handler = logging.FileHandler(handler_config["filename"], mode=handler_config.get("mode", "a"))
+                filename = handler_config.get("filename", "app.log")
+                mode = handler_config.get("mode", "a")
+                # Ensure the directory exists before creating the FileHandler
+                log_dir = os.path.dirname(filename)
+                if log_dir and not os.path.exists(log_dir):
+                    os.makedirs(log_dir, exist_ok=True)
+                file_handler = logging.FileHandler(filename, mode=mode)
                 file_handler.setFormatter(logging.Formatter(log_format))
                 logger.addHandler(file_handler)
 
