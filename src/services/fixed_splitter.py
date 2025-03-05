@@ -1,5 +1,3 @@
-# src/services/fixed_splitter.py
-
 class FixedSplitter:
     """
     FixedSplitter divides the input text into chunks of a fixed number of characters.
