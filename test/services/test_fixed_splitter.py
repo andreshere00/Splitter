@@ -35,9 +35,15 @@ SAMPLE_TEXT = (
 )
 
 class TestFixedSplitter(unittest.TestCase):
+
     def test_split_into_100_character_chunks(self):
+        print("\n[Context] Testing splitting into 100-character chunks...")
         splitter = FixedSplitter(size=100)
         chunks = splitter.split(SAMPLE_TEXT)
+        
+        # Print each chunk with context.
+        for i, chunk in enumerate(chunks):
+            print(f"Chunk {i + 1} (100-char):\n{chunk}\n{'-'*40}")
         
         # Verify that every chunk except possibly the last one is exactly 100 characters.
         for chunk in chunks[:-1]:
@@ -48,8 +54,13 @@ class TestFixedSplitter(unittest.TestCase):
         self.assertEqual(reconstructed, SAMPLE_TEXT, "Reconstructed text does not match the original.")
 
     def test_split_into_single_character_chunks(self):
+        print("\n[Context] Testing splitting into single-character chunks...")
         splitter = FixedSplitter(size=1)
         chunks = splitter.split(SAMPLE_TEXT)
+        
+        # Print each chunk with context.
+        for i, chunk in enumerate(chunks):
+            print(f"Chunk {i + 1} (1-char): '{chunk}'")
         
         # Every chunk should be exactly 1 character.
         for chunk in chunks:
@@ -60,26 +71,21 @@ class TestFixedSplitter(unittest.TestCase):
         self.assertEqual(reconstructed, SAMPLE_TEXT, "Reconstructed text does not match the original.")
 
     def test_split_with_zero_chunk_size_raises_exception(self):
+        print("\n[Context] Testing splitting with a chunk size of 0 (should raise exception)...")
         with self.assertRaises(ValueError) as context:
             FixedSplitter(size=0)
         self.assertEqual(str(context.exception), "Chunk size must be greater than 0")
 
     def test_split_with_negative_chunk_size_raises_exception(self):
+        print("\n[Context] Testing splitting with a negative chunk size (should raise exception)...")
         with self.assertRaises(ValueError) as context:
             FixedSplitter(size=-1)
         self.assertEqual(str(context.exception), "Chunk size must be greater than 0")
 
     def test_split_into_large_chunk(self):
-        # When chunk size is larger than the text length, we expect one chunk equal to the entire text.
+        print("\n[Context] Testing splitting into a large chunk (chunk size 10000)...")
         splitter = FixedSplitter(size=10000)
         chunks = splitter.split(SAMPLE_TEXT)
-        # According to the specification, the text length is 2786 characters.
+        # When chunk size is larger than the text, one chunk is expected.
         self.assertEqual(len(chunks), 1, "Expected one chunk when chunk size is larger than text length.")
-        self.assertEqual(len(chunks[0]), len(SAMPLE_TEXT), "The single chunk should be 2786 characters long.")
-
-    def test_print_chunks(self):
-        # For debugging: print chunks from splitting into 100-character pieces.
-        splitter = FixedSplitter(size=100)
-        chunks = splitter.split(SAMPLE_TEXT)
-        for i, chunk in enumerate(chunks):
-            print(f"Chunk {i + 1}:\n{chunk}\n{'-'*40}")
+        self.assertEqual(len(chunks[0]), len(SAMPLE_TEXT), "The single chunk should equal the text length.")
