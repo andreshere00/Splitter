@@ -1,46 +1,60 @@
+# 1. File I/O Configuration
+file_io:
+  input_path: "data/input"     # Where the application reads files from
+  output_path: "data/output"   # Where the application saves the results
+
+# 2. Logging Configuration
 logging:
-  level: "ERROR"
+  level: "INFO"                # Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL
   format: "%(asctime)s - %(levelname)s - %(message)s"
-  filename: "logging"  # Set to null for console output
-  filemode: "w"  # Overwrite log file on each run
+  handlers:
+    - type: "stream"
+    - type: "file"
+      filename: "logs/app.log"
+      mode: "a"
 
+# 3. Splitting Methods Configuration
 splitter:
-  method: "auto"  # Selectable via config.yaml or overridden via console
+  # The method to use when splitting. Must be one of the keys under `methods` below.
+  method: "sentence"
 
-  word:
-    num_words: 100  # Number of words in each chunk
+  methods:
+    word:
+      num_words: 100  # Number of words in each chunk
 
-  sentence:
-    num_sentences: 5  # Number of sentences in each chunk
+    sentence:
+      num_sentences: 5  # Number of sentences in each chunk
 
-  paragraph:
-    num_paragraphs: 3  # Number of paragraphs in each chunk
+    paragraph:
+      num_paragraphs: 3  # Number of paragraphs in each chunk
 
-  semantic:
-    language_model: "bert-base-uncased"  # Model used for semantic similarity
-    overlap: 0.2  # Overlapping ratio between chunks
+    semantic:
+      language_model: "bert-base-uncased"  # For semantic similarity
+      overlap: 0.2                         # Overlap ratio between chunks
 
-  fixed:
-    size: 500  # Number of characters per chunk
+    fixed:
+      size: 500  # Number of characters per chunk
 
-  recursive:
-    size: 500  # Number of characters per chunk
-    overlap: 50  # Overlapping characters between chunks
+    paged:
+      num_pages: 1  # Number of pages in each chunk
+      overlap: 0.1  # Overlap (in pages) between chunks
 
-  paged:
-    num_pages: 1  # Number of pages in each chunk
-    overlap: 0.1  # Overlapping pages between chunks
+    recursive:
+      size: 500     # Characters per chunk
+      overlap: 50   # Overlapping characters
 
-  row-column:
-    num_columns: 2  # Number of columns per chunk
-    column_names: ["Column1", "Column2"]  # Specify specific column names
-    num_rows: 5  # Number of rows per chunk
-    row_names: ["Row1", "Row2"]  # Specify specific row names
+    row-column:
+      num_columns: 2
+      column_names: ["Column1", "Column2"]
+      num_rows: 5
+      row_names: ["Row1", "Row2"]
 
-  schema-based:
-    num_registers: 50  # Number of registers per chunk
-    overlap: 5  # Overlapping registers between chunks
+    schema-based:
+      num_registers: 50  # Number of registers (or rows) per chunk
+      overlap: 5         # Overlapping registers
 
-  auto:
-    methods: ["sentence", "semantic"]  # Auto mode can combine multiple splitters
-    fallback: "paragraph"  # If auto fails, default to paragraph splitting
+    auto:
+      fallback_method: "paragraph"
+      chunk_size: 500
+      overlap: 100
+
