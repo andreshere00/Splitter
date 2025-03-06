@@ -74,4 +74,8 @@ class ReadManager:
             return markdown_text.text_content
         except Exception as e:
             logging.error(f"Error converting file {file_path} using markitdown: {e}")
+<<<<<<< HEAD
             return ""
+=======
+            return ""
+>>>>>>> develop
