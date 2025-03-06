@@ -1,7 +1,7 @@
 import logging
 import yaml
 import os
-from markitdown import MarkItDown  # Hypothetical library that converts various file formats to Markdown
+from markitdown import MarkItDown 
 
 class ReadManager:
     def __init__(self, config_path="src/config.yaml"):
@@ -13,8 +13,6 @@ class ReadManager:
         file_io_config = self.config.get("file_io", {})
         self.input_path = file_io_config.get("input_path", "data/input")
         self.md = MarkItDown()
-        # Optionally store output_path if needed
-        # self.output_path = file_io_config.get("output_path", "data/output")
 
     def load_config(self, config_path):
         """Load configuration from a YAML file."""
@@ -74,8 +72,4 @@ class ReadManager:
             return markdown_text.text_content
         except Exception as e:
             logging.error(f"Error converting file {file_path} using markitdown: {e}")
-<<<<<<< HEAD
             return ""
-=======
-            return ""
->>>>>>> develop

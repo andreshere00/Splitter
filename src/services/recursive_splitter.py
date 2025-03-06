@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 class RecursiveSplitter:
@@ -35,16 +35,20 @@ class RecursiveSplitter:
     def split(self, text: str) -> List[str]:
         """
         Splits the provided text into chunks using the recursive splitting strategy.
+        The output from the underlying splitter is converted into a list of strings.
+        If an element has a 'page_content' attribute, that attribute is used; otherwise,
+        the element is assumed to be a string.
 
         Args:
             text (str): The input text to split.
 
         Returns:
-            List[str]: A list of text chunks resulting from the splitting operation.
+            List[str]: A list of text chunks (strings) resulting from the splitting operation.
                        Returns an empty list if the input text is empty.
         """
         if not text:
             return []
         
-        chunks = self.splitter.create_documents([text])
+        documents = self.splitter.split_text(text)
+        chunks = [doc if isinstance(doc, str) else doc.page_content for doc in documents]
         return chunks
