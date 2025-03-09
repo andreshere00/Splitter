@@ -1,51 +1,29 @@
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-
-class RecursiveSplitter:
-    """
-    RecursiveSplitter uses LangChain's RecursiveCharacterTextSplitter to split text
-    recursively using a list of separators. It takes a chunk size and an overlap value.
-    
-    Attributes:
-        size (int): The target number of characters per chunk.
-        overlap (int): The number of characters to overlap between chunks.
-    """
-    
-    def __init__(self, size=500, overlap=50):
+class WordSplitter:
+    def __init__(self, num_words=10):
         """
-        Initialize the RecursiveSplitter with a fixed chunk size and overlap.
+        Initialize the splitter with the number of words per chunk.
         
         Args:
-            size (int): The desired number of characters per chunk.
-            overlap (int): The overlapping characters between chunks.
+            num_words (int): The desired number of words per chunk.
+                             Must be greater than 0.
         """
-        self.size = size
-        self.overlap = overlap
-        self.splitter = RecursiveCharacterTextSplitter(
-            separators=[
-                "\n\n",
-                "\n",
-                " ",
-                ".",
-                ",",
-                "\u200b",  # Zero-width space
-                "\uff0c",  # Fullwidth comma
-                "\u3001",  # Ideographic comma
-                "\uff0e",  # Fullwidth full stop
-                "\u3002",  # Ideographic full stop
-                "",
-            ],
-            chunk_size=self.size,
-            chunk_overlap=self.overlap
-        )
-    
+        if num_words <= 0:
+            raise ValueError("num_words must be greater than 0")
+        self.num_words = num_words
+
     def split(self, text):
         """
-        Splits the input text using the recursive character splitter.
+        Split the text into chunks of words.
         
         Args:
-            text (str): The text to be split.
+            text (str): The input text.
         
         Returns:
             List[str]: A list of text chunks.
         """
-        return self.splitter.split_text(text)
+        words = text.split()
+        groups = []
+        for i in range(0, len(words), self.num_words):
+            group = " ".join(words[i:i+self.num_words])
+            groups.append(group)
+        return groups
