@@ -1,7 +1,7 @@
-import unittest
-from src.services.fixed_splitter import FixedSplitter
+import re
+import pytest
+from src.services.sentence_splitter import SentenceSplitter
 
-# The sample text to be used in tests.
 SAMPLE_TEXT = (
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget purus non est porta rutrum. "
     "Suspendisse euismod lectus laoreet sem pellentesque egestas et et sem. Pellentesque ex felis, cursus "
@@ -34,58 +34,43 @@ SAMPLE_TEXT = (
     "tincidunt neque elit, fringilla hendrerit orci fermentum et. In pretium ac purus in iaculis."
 )
 
-class TestFixedSplitter(unittest.TestCase):
+def test_split_into_chunks_of_5():
+    splitter = SentenceSplitter(num_sentences=5)
+    groups = splitter.split(SAMPLE_TEXT)
+    
+    print("\n--- Split into chunks of 5 sentences ---")
+    for i, group in enumerate(groups, 1):
+        print(f"Chunk {i}: {group}\n")
+    
+    # Count sentences in the original text
+    sentences = re.split(r'(?<=[.!?])\s+', SAMPLE_TEXT)
+    sentences = [s.strip() for s in sentences if s.strip()]
+    expected_num_groups = (len(sentences) + 4) // 5  # Ceiling division
 
-    def test_split_into_100_character_chunks(self):
-        print("\n--- Testing splitting into 100-character chunks...")
-        splitter = FixedSplitter(size=100)
-        chunks = splitter.split(SAMPLE_TEXT)
-        
-        # Print each chunk with context.
-        for i, chunk in enumerate(chunks):
-            print(f"Chunk {i + 1} (100-char):\n{chunk}\n{'-'*40}")
-        
-        # Verify that every chunk except possibly the last one is exactly 100 characters.
-        for chunk in chunks[:-1]:
-            self.assertEqual(len(chunk), 100, "Chunk length is not 100 characters.")
-        
-        # Reassemble and check that the result matches the original text.
-        reconstructed = "".join(chunks)
-        self.assertEqual(reconstructed, SAMPLE_TEXT, "Reconstructed text does not match the original.")
+    assert len(groups) == expected_num_groups
 
-    def test_split_into_single_character_chunks(self):
-        print("\n--- Testing splitting into single-character chunks...")
-        splitter = FixedSplitter(size=1)
-        chunks = splitter.split(SAMPLE_TEXT)
-        
-        # Print each chunk with context.
-        for i, chunk in enumerate(chunks):
-            print(f"Chunk {i + 1} (1-char): '{chunk}'")
-        
-        # Every chunk should be exactly 1 character.
-        for chunk in chunks:
-            self.assertEqual(len(chunk), 1, "Chunk length is not 1 character.")
-        
-        # Reassemble and check.
-        reconstructed = "".join(chunks)
-        self.assertEqual(reconstructed, SAMPLE_TEXT, "Reconstructed text does not match the original.")
+    # Verify that all groups except possibly the last one have exactly 5 sentences.
+    for group in groups[:-1]:
+        sub_sentences = re.split(r'(?<=[.!?])\s+', group)
+        sub_sentences = [s.strip() for s in sub_sentences if s.strip()]
+        assert len(sub_sentences) == 5
 
-    def test_split_with_zero_chunk_size_raises_exception(self):
-        print("\n--- Testing splitting with a chunk size of 0 (should raise exception)...")
-        with self.assertRaises(ValueError) as context:
-            FixedSplitter(size=0)
-        self.assertEqual(str(context.exception), "Chunk size must be greater than 0")
+def test_split_into_chunks_of_1000():
+    splitter = SentenceSplitter(num_sentences=1000)
+    groups = splitter.split(SAMPLE_TEXT)
+    
+    print("\n--- Split into chunks of 1000 sentences ---")
+    for i, group in enumerate(groups, 1):
+        print(f"Chunk {i}: {group}\n")
+    
+    # With 1000 sentences per group and fewer than 1000 sentences in the text,
+    # we expect a single group containing all sentences.
+    assert len(groups) == 1
 
-    def test_split_with_negative_chunk_size_raises_exception(self):
-        print("\n--- Testing splitting with a negative chunk size (should raise exception)...")
-        with self.assertRaises(ValueError) as context:
-            FixedSplitter(size=-1)
-        self.assertEqual(str(context.exception), "Chunk size must be greater than 0")
+def test_split_into_chunks_of_0():
+    with pytest.raises(ValueError, match="num_sentences must be greater than 0"):
+        SentenceSplitter(num_sentences=0)
 
-    def test_split_into_large_chunk(self):
-        print("\n--- Testing splitting into a large chunk (chunk size 10000)...")
-        splitter = FixedSplitter(size=10000)
-        chunks = splitter.split(SAMPLE_TEXT)
-        # When chunk size is larger than the text, one chunk is expected.
-        self.assertEqual(len(chunks), 1, "Expected one chunk when chunk size is larger than text length.")
-        self.assertEqual(len(chunks[0]), len(SAMPLE_TEXT), "The single chunk should equal the text length.")
+def test_split_into_chunks_of_negative():
+    with pytest.raises(ValueError, match="num_sentences must be greater than 0"):
+        SentenceSplitter(num_sentences=-3)
