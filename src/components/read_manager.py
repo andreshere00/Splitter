@@ -1,71 +1,81 @@
-import pytest
-import os
+import logging
 import yaml
-from unittest.mock import MagicMock
-from src.components.read_manager import ReadManager
+import os
+from markitdown import MarkItDown 
 
-@pytest.fixture
-def temp_config(tmp_path):
-    """Creates a temporary config file for testing."""
-    config_data = {
-        "file_io": {"input_path": str(tmp_path)},
-        "logging": {"enabled": False}
-    }
-    config_path = tmp_path / "config.yaml"
-    with open(config_path, "w") as file:
-        yaml.dump(config_data, file)
-    return str(config_path), str(tmp_path)
+class ReadManager:
+    def __init__(self, config_path="src/config.yaml", markdown_converter=None):
+        """Initialize ReadManager with configurations and logging."""
+        self.config = self.load_config(config_path)
+        self._configure_logging()  # Set up logging first
+        
+        # Read file I/O paths from config
+        file_io_config = self.config.get("file_io", {})
+        self.input_path = file_io_config.get("input_path", "data/input")
+        
+        # Allow dependency injection for the Markdown converter
+        self.md = markdown_converter if markdown_converter is not None else MarkItDown()
 
-@pytest.fixture
-def read_manager(temp_config):
-    """Creates a ReadManager instance with test config and a dummy converter."""
-    config_path, _ = temp_config
-    # Create a dummy markdown converter
-    dummy_converter = MagicMock()
-    dummy_converter.convert.return_value.text_content = "Converted Markdown"
-    return ReadManager(config_path=config_path, markdown_converter=dummy_converter)
+    def load_config(self, config_path):
+        """Load configuration from a YAML file."""
+        try:
+            with open(config_path, "r", encoding="utf-8") as file:
+                return yaml.safe_load(file)
+        except FileNotFoundError:
+            logging.error(f"Configuration file not found: {config_path}")
+            return {}
+        except yaml.YAMLError as e:
+            logging.error(f"Error parsing YAML config: {e}")
+            return {}
 
-def create_test_file(directory, filename, content="test content"):
-    """Helper function to create test files."""
-    file_path = os.path.join(directory, filename)
-    # Create parent directories if they don't exist
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    with open(file_path, "w", encoding="utf-8") as file:
-        file.write(content)
-    return file_path
+    def _configure_logging(self):
+        """Set up logging configuration based on config.yaml."""
+        log_config = self.config.get("logging", {})
+        enabled = log_config.get("enabled", True)
+        if not enabled:
+            logging.disable(logging.CRITICAL)
+            return
 
-def test_read_valid_files(read_manager, temp_config):
-    """Test reading valid files (4 test cases)."""
-    _, input_path = temp_config
+        log_level = log_config.get("level", "ERROR").upper()
+        log_format = log_config.get("format", "%(asctime)s - %(levelname)s - %(message)s")
 
-    filenames = ["tmp/test_1.docx",
-                 "tmp/test_1.md", 
-                 "tmp/test_1.pdf", 
-                 "tmp/test_1.txt"]
-    for filename in filenames:
-        create_test_file(input_path, filename, "Converted Markdown")
+        logging.basicConfig(level=log_level, format=log_format)
+        logger = logging.getLogger()
+        logger.handlers.clear()
 
-    for filename in filenames:
-        content = read_manager.read_file(filename)
-        assert content == "Converted Markdown"
+        for handler_config in log_config.get("handlers", []):
+            if handler_config["type"] == "stream":
+                stream_handler = logging.StreamHandler()
+                stream_handler.setFormatter(logging.Formatter(log_format))
+                logger.addHandler(stream_handler)
+            elif handler_config["type"] == "file":
+                log_file = handler_config.get("filename", "app.log")
+                log_mode = handler_config.get("mode", "a")
+                log_dir = os.path.dirname(log_file)
+                if log_dir and not os.path.exists(log_dir):
+                    os.makedirs(log_dir, exist_ok=True)
+                file_handler = logging.FileHandler(log_file, mode=log_mode)
+                file_handler.setFormatter(logging.Formatter(log_format))
+                logger.addHandler(file_handler)
 
-def test_read_from_non_existing_folder(read_manager):
-    """Test reading from a non-existing folder."""
-    with pytest.raises(FileNotFoundError):
-        read_manager.read_file("nonexistent.txt")
+    def read_file(self, file_name):
+        """
+        Convert any file into Markdown using the markitdown library.
+        """
+        file_path = os.path.join(self.input_path, file_name)
+        
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"File not found: {file_path}")
 
-def test_read_from_empty_file(read_manager, temp_config):
-    """Test reading from an empty file."""
-    _, input_path = temp_config
-    create_test_file(input_path, "empty.md", "")
+        if os.path.getsize(file_path) == 0:
+            raise ValueError("File is empty")
 
-    with pytest.raises(ValueError, match="File is empty"):
-        read_manager.read_file("empty.md")
+        if not file_name.lower().endswith((".txt", ".md", ".docx", ".pdf")):
+            raise ValueError("Invalid file extension")
 
-def test_read_invalid_extension(read_manager, temp_config):
-    """Test reading from a file with an invalid extension."""
-    _, input_path = temp_config
-    create_test_file(input_path, "malicious.exe", "EXE file content")
-
-    with pytest.raises(ValueError, match="Invalid file extension"):
-        read_manager.read_file("malicious.exe")
+        try:
+            markdown_text = self.md.convert(file_path)
+            return markdown_text.text_content
+        except Exception as e:
+            logging.error(f"Error converting file {file_path} using markitdown: {e}")
+            raise RuntimeError("Failed to convert file")
