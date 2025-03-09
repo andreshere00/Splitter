@@ -1,3 +1,5 @@
 *.venv*
 *cache*
 *log*
+*.DS_store*
+*ignore*
