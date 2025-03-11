@@ -1,4 +1,9 @@
-class ParagraphSplitter:
+from typing import List
+
+from src.services.base_splitter import BaseSplitter
+
+
+class ParagraphSplitter(BaseSplitter):
     """
     ParagraphSplitter divides the input text into chunks by paragraphs.
     
@@ -7,7 +12,7 @@ class ParagraphSplitter:
                               Must be greater than 0 if specified.
     """
     
-    def __init__(self, num_paragraphs=None):
+    def __init__(self, num_paragraphs:int = None) -> None:
         """
         Initialize the ParagraphSplitter.
         
@@ -19,7 +24,7 @@ class ParagraphSplitter:
             raise ValueError("Number of paragraphs must be greater than 0")
         self.num_paragraphs = num_paragraphs
 
-    def split(self, text):
+    def split(self, text: str) -> List[str]:
         """
         Splits the provided text into paragraphs.
         

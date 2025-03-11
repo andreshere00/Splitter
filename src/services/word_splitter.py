@@ -1,5 +1,9 @@
-class WordSplitter:
-    def __init__(self, num_words=10):
+from typing import List
+from src.services.base_splitter import BaseSplitter
+
+
+class WordSplitter(BaseSplitter):
+    def __init__(self, num_words: int = 10) -> None:
         """
         Initialize the splitter with the number of words per chunk.
         
@@ -11,7 +15,7 @@ class WordSplitter:
             raise ValueError("num_words must be greater than 0")
         self.num_words = num_words
 
-    def split(self, text):
+    def split(self, text: str) -> List[str]:
         """
         Split the text into chunks of words.
         

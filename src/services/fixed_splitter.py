@@ -1,4 +1,9 @@
-class FixedSplitter:
+from typing import List
+
+from src.services.base_splitter import BaseSplitter
+
+
+class FixedSplitter(BaseSplitter):
     """
     FixedSplitter divides the input text into chunks of a fixed number of characters.
 
@@ -6,7 +11,7 @@ class FixedSplitter:
         size (int): The number of characters per chunk.
     """
     
-    def __init__(self, size=500):
+    def __init__(self, size: int = 500) -> None:
         """
         Initialize the FixedSplitter with a specific chunk size.
         
@@ -17,7 +22,7 @@ class FixedSplitter:
             raise ValueError("Chunk size must be greater than 0")
         self.size = size
 
-    def split(self, text):
+    def split(self, text: str) -> List[str]:
         """
         Splits the provided text into chunks, each with a fixed number of characters.
         If the chunk size is larger than the document size, the entire document is returned as one chunk.
