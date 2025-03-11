@@ -2,6 +2,7 @@ import logging
 import yaml
 import argparse
 import os
+from typing import Any, Dict, List, Protocol
 
 from src.services.word_splitter import WordSplitter
 from src.services.sentence_splitter import SentenceSplitter
@@ -15,18 +16,24 @@ from src.services.schema_based_splitter import SchemaBasedSplitter
 from src.services.auto_splitter import AutoSplitter
 
 
-class SplitManager:
-    def __init__(self, config_path="src/config.yaml"):
-        """Initialize SplitManager with configurations and logging."""
-        self.config = self.load_config(config_path)
-        self._configure_logging()
-        self.splitter = self._initialize_splitter()
+# Protocol that all the splitter classes should follow
+class Splitter(Protocol):
+    def split(self, text: str) -> List[str]:
+        ...
 
-    def load_config(self, config_path):
+class SplitManager:
+    def __init__(self, config_path: str = "src/config.yaml") -> None:
+        """Initialize SplitManager with configurations and logging."""
+        self.config: Dict[str, Any] = self.load_config(config_path)
+        self._configure_logging()
+        self.splitter: Splitter = self._initialize_splitter()
+
+    def load_config(self, config_path: str) -> Dict[str, Any]:
         """Load configuration from a YAML file."""
         try:
             with open(config_path, "r", encoding="utf-8") as file:
-                return yaml.safe_load(file)
+                config = yaml.safe_load(file)
+                return config if config is not None else {}
         except FileNotFoundError:
             logging.error(f"Configuration file not found: {config_path}")
             return {}
@@ -34,16 +41,16 @@ class SplitManager:
             logging.error(f"Error parsing YAML config: {e}")
             return {}
 
-    def _configure_logging(self):
+    def _configure_logging(self) -> None:
         """Set up logging configuration based on the config file."""
-        log_config = self.config.get("logging", {})
-        enabled = log_config.get("enabled", True)
+        log_config: Dict[str, Any] = self.config.get("logging", {})
+        enabled: bool = log_config.get("enabled", True)
         if not enabled:
             logging.disable(logging.CRITICAL)
             return
 
-        log_level = log_config.get("level", "ERROR").upper()
-        log_format = log_config.get("format", "%(asctime)s - %(levelname)s - %(message)s")
+        log_level: str = log_config.get("level", "ERROR").upper()
+        log_format: str = log_config.get("format", "%(asctime)s - %(levelname)s - %(message)s")
 
         # Set basic configuration for logging
         logging.basicConfig(level=log_level, format=log_format)
@@ -57,8 +64,8 @@ class SplitManager:
                 stream_handler.setFormatter(logging.Formatter(log_format))
                 logger.addHandler(stream_handler)
             elif handler_config["type"] == "file":
-                filename = handler_config.get("filename", "app.log")
-                mode = handler_config.get("mode", "a")
+                filename: str = handler_config.get("filename", "app.log")
+                mode: str = handler_config.get("mode", "a")
                 # Ensure the directory exists before creating the FileHandler
                 log_dir = os.path.dirname(filename)
                 if log_dir and not os.path.exists(log_dir):
@@ -67,9 +74,14 @@ class SplitManager:
                 file_handler.setFormatter(logging.Formatter(log_format))
                 logger.addHandler(file_handler)
 
-    def _initialize_splitter(self):
-        """Dynamically select the splitting strategy based on the config or console argument."""
-        splitter_config = self.config.get("splitter", {})
+    def _initialize_splitter(self) -> Splitter:
+        """
+        Dynamically select the splitting strategy based on the config or console argument.
+        
+        Returns:
+            A splitter instance conforming to the Splitter protocol.
+        """
+        splitter_config: Dict[str, Any] = self.config.get("splitter", {})
 
         # Support console argument override
         parser = argparse.ArgumentParser(description="Select the splitting method.")
@@ -77,9 +89,9 @@ class SplitManager:
         args, unknown = parser.parse_known_args()
 
         # Use console argument if provided, otherwise use config
-        method = args.method if args.method else splitter_config.get("method", "auto")
+        method: str = args.method if args.method else splitter_config.get("method", "auto")
 
-        splitters = {
+        splitters: Dict[str, Any] = {
             "word": WordSplitter(num_words=splitter_config.get("word", {}).get("num_words", 100)),
             "sentence": SentenceSplitter(num_sentences=splitter_config.get("sentence", {}).get("num_sentences", 5)),
             "paragraph": ParagraphSplitter(num_paragraphs=splitter_config.get("paragraph", {}).get("num_paragraphs", 3)),
@@ -118,8 +130,16 @@ class SplitManager:
 
         return splitters[method]
 
-    def split_text(self, text):
-        """Apply the selected splitting technique to the input text."""
+    def split_text(self, text: str) -> List[str]:
+        """
+        Apply the selected splitting technique to the input text.
+        
+        Args:
+            text (str): The text to split.
+        
+        Returns:
+            List[str]: The list of text chunks resulting from the split.
+        """
         if not text.strip():
             logging.warning("Empty text provided for splitting.")
             return []

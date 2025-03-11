@@ -1,7 +1,10 @@
-from typing import List, Union
+from typing import List
+from src.services.base_splitter import BaseSplitter
+
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-class RecursiveSplitter:
+
+class RecursiveSplitter(BaseSplitter):
     """
     RecursiveSplitter uses LangChain's RecursiveCharacterTextSplitter to split a text
     recursively into chunks based on a defined chunk size and overlap.
