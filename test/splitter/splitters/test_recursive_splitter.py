@@ -1,7 +1,7 @@
-import re
-import pytest
-from src.services.sentence_splitter import SentenceSplitter
+import unittest
+from src.splitter.splitters.recursive_splitter import RecursiveSplitter
 
+# Sample text for testing.
 SAMPLE_TEXT = (
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget purus non est porta rutrum. "
     "Suspendisse euismod lectus laoreet sem pellentesque egestas et et sem. Pellentesque ex felis, cursus "
@@ -34,43 +34,36 @@ SAMPLE_TEXT = (
     "tincidunt neque elit, fringilla hendrerit orci fermentum et. In pretium ac purus in iaculis."
 )
 
-def test_split_into_chunks_of_5():
-    splitter = SentenceSplitter(num_sentences=5)
-    groups = splitter.split(SAMPLE_TEXT)
-    
-    print("\n--- Split into chunks of 5 sentences ---")
-    for i, group in enumerate(groups, 1):
-        print(f"Chunk {i}: {group}\n")
-    
-    # Count sentences in the original text
-    sentences = re.split(r'(?<=[.!?])\s+', SAMPLE_TEXT)
-    sentences = [s.strip() for s in sentences if s.strip()]
-    expected_num_groups = (len(sentences) + 4) // 5  # Ceiling division
+class TestRecursiveSplitter(unittest.TestCase):
+    def test_empty_text_returns_empty_list(self):
+        """Test that splitting an empty text returns an empty list."""
+        splitter = RecursiveSplitter(size=100, overlap=25)
+        self.assertEqual(splitter.split(""), [])
 
-    assert len(groups) == expected_num_groups
+    def test_valid_text_splits_into_chunks(self):
+        """Test that a valid text is split into a list of non-empty string chunks."""
+        splitter = RecursiveSplitter(size=100, overlap=25)
+        chunks = splitter.split(SAMPLE_TEXT)
+        # Print each chunk for debugging purposes.
+        print("\n--- RecursiveSplitter Chunks ---")
+        for i, chunk in enumerate(chunks):
+            print(f"Chunk {i+1}:\n{chunk}\n{'-'*40}")
+        # Check that we have at least one chunk.
+        self.assertTrue(chunks, "Expected non-empty list of chunks.")
+        # Ensure that each chunk is a non-empty string.
+        for chunk in chunks:
+            self.assertIsInstance(chunk, str)
+            self.assertTrue(len(chunk) > 0)
 
-    # Verify that all groups except possibly the last one have exactly 5 sentences.
-    for group in groups[:-1]:
-        sub_sentences = re.split(r'(?<=[.!?])\s+', group)
-        sub_sentences = [s.strip() for s in sub_sentences if s.strip()]
-        assert len(sub_sentences) == 5
+    def test_invalid_size_raises_exception(self):
+        """Test that a non-positive chunk size raises a ValueError."""
+        with self.assertRaises(ValueError) as context:
+            RecursiveSplitter(size=0, overlap=25)
+        self.assertEqual(str(context.exception), "Chunk size and overlap parameters should be greater than 0")
 
-def test_split_into_chunks_of_1000():
-    splitter = SentenceSplitter(num_sentences=1000)
-    groups = splitter.split(SAMPLE_TEXT)
-    
-    print("\n--- Split into chunks of 1000 sentences ---")
-    for i, group in enumerate(groups, 1):
-        print(f"Chunk {i}: {group}\n")
-    
-    # With 1000 sentences per group and fewer than 1000 sentences in the text,
-    # we expect a single group containing all sentences.
-    assert len(groups) == 1
-
-def test_split_into_chunks_of_0():
-    with pytest.raises(ValueError, match="num_sentences must be greater than 0"):
-        SentenceSplitter(num_sentences=0)
-
-def test_split_into_chunks_of_negative():
-    with pytest.raises(ValueError, match="num_sentences must be greater than 0"):
-        SentenceSplitter(num_sentences=-3)
+    def test_invalid_overlap_raises_exception(self):
+        """Test that a non-positive overlap value raises a ValueError."""
+        with self.assertRaises(ValueError) as context:
+            RecursiveSplitter(size=100, overlap=0)
+        self.assertEqual(str(context.exception), "Chunk size and overlap parameters should be greater than 0")
+        

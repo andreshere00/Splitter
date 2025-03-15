@@ -2,7 +2,7 @@ import pytest
 import os
 import yaml
 from unittest.mock import MagicMock
-from src.components.read_manager import ReadManager
+from src.reader.read_manager import ReadManager
 
 @pytest.fixture
 def temp_config(tmp_path):

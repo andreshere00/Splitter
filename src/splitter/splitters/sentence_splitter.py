@@ -1,5 +1,5 @@
 from typing import List
-from src.services.base_splitter import BaseSplitter
+from src.splitter.base_splitter import BaseSplitter
 
 import re
 
