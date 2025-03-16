@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from markitdown import MarkItDown
 
@@ -23,24 +23,32 @@ class ReadManager:
         md (Any): The Markdown converter instance used for file conversion.
     """
 
-    def __init__(self, config: Dict[str, Any], markdown_converter: Any = None) -> None:
+    def __init__(
+        self,
+        config: Optional[Dict[str, Any]] = None,
+        *,
+        input_path: Optional[str] = None,
+        markdown_converter: Any = None,
+    ) -> None:
         """
-        Initializes the ReadManager with a configuration dictionary.
+        Initializes the ReadManager with a configuration dictionary or with provided arguments.
 
-        Sets up logging and the input directory for file processing.
-        Uses dependency injection for the Markdown converter, defaulting to `MarkItDown`.
+        If no configuration dictionary is provided, it builds one using the provided arguments.
 
         Args:
-            config (Dict[str, Any]): A dictionary containing configuration settings.
+            config (Optional[Dict[str, Any]]): A dictionary containing configuration settings.
+            input_path (Optional[str]): The directory path where input files are stored.
             markdown_converter (Any, optional): An instance of a Markdown converter.
                                                 Defaults to `MarkItDown`.
         """
+        if config is None:
+            if input_path is None:
+                input_path = "data/input"
+            config = {"file_io": {"input_path": input_path}}
         self.config = config
         self.logging = LoggingManager.configure_logging(self.config)
-
         file_io_config = self.config.get("file_io", {})
         self.input_path = file_io_config.get("input_path", "data/input")
-
         # Use dependency injection for the Markdown converter.
         self.md = markdown_converter if markdown_converter is not None else MarkItDown()
 

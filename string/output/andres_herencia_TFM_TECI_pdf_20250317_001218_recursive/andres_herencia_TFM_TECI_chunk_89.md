@@ -1,0 +1,1 @@
+shown in Figure 2.7. Figure 2.8 represents the attention weights for a certain text.

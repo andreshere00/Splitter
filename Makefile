@@ -1,4 +1,4 @@
-.PHONY: install test clean run format help docs pre-commit
+.PHONY: install test clean run format help docs pre-commit launch
 
 help:
 	@echo "Available commands:"
@@ -12,6 +12,7 @@ help:
 	@echo "  make shell     - Run a uv shell."
 	@echo "  make docs      - Run the documentation server."
 	@echo "  make pre-commit    - Install pre-commit hooks."	
+	@echo "  make launch    - Serve and launch the FastAPI application."
 
 install:
 	uv sync & uv run pre-commit install & uv run pre-commit install --hook-type commit-msg
@@ -34,6 +35,10 @@ clean-cache:
 run:
 	@echo "Running the application with default parameters..."
 	uv run python src/application/cli.py
+
+launch:
+	@echo "Running the FastAPI application"
+	uv run uvicorn src.application.api.app:app --reload
 
 format:
 	@echo "Running pyupgrade..."

@@ -1,0 +1,1 @@
+peaks that take little time to normalize to the average value.
