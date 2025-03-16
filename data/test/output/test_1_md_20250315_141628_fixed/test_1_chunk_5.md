@@ -1,2 +1,0 @@
-. Proin gravida dolor mi, eget imperdiet eros elementum quis. Vivamus justo quam, finibus vitae accumsan id, dignissim luctus mauris. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. [1]
-\* Maecenas in egestas neque. Duis eu sapien sed nunc imperdiet dignissim. Duis maximus, lacus nec eleifend pretium, lectus neque elementum augue, sit amet convallis justo sem et felis. Integer elementum, mautris non cursus porta, tortor tellus accumsan odio, eget sollicitud

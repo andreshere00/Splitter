@@ -16,7 +16,7 @@ logging:
 
 # 3. Splitting Methods Configuration
 splitter:
-  method: "fixed"
+  method: "sentence"
 
   methods:
     word:
