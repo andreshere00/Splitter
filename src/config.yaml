@@ -16,7 +16,7 @@ logging:
 
 # 3. Splitting Methods Configuration
 splitter:
-  method: "sentence"
+  method: "recursive"
 
   methods:
     word:
@@ -41,7 +41,7 @@ splitter:
 
     recursive:
       size: 500     # Characters per chunk
-      overlap: 50   # Overlapping characters
+      overlap: 100   # Overlapping characters
 
     row-column:
       num_columns: 2
