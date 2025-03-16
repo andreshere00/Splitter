@@ -3,3 +3,4 @@
 *log*
 *.DS_store*
 *ignore*
+data/test/output/*

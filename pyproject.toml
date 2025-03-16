@@ -14,3 +14,6 @@ dependencies = [
     "pytest>=8.3.5",
     "pyyaml>=6.0.2",
 ]
+
+[tool.poetry.scripts]
+splitter = "src.application.cli:main"
