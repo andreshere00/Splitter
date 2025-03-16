@@ -1,5 +1,5 @@
 import pytest
-from src.services.word_splitter import WordSplitter
+from src.splitter.splitters.word_splitter import WordSplitter
 
 SAMPLE_TEXT = (
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget purus non est porta rutrum. "
