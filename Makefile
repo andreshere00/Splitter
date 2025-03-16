@@ -1,4 +1,4 @@
-.PHONY: install test clean run format help shell
+.PHONY: install test clean run format help docs pre-commit
 
 help:
 	@echo "Available commands:"
