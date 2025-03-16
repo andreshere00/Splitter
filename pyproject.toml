@@ -5,19 +5,23 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "autopep8>=2.3.2",
     "beautifulsoup4>=4.13.3",
-    "black>=25.1.0",
-    "flake8>=7.1.2",
-    "isort>=6.0.1",
     "langchain-text-splitters>=0.3.6",
     "markdown>=3.7",
     "markitdown>=0.0.1a5",
     "pandas>=2.2.3",
     "pytesseract>=0.3.13",
+    "pyyaml>=6.0.2",
+]
+
+[dependency-groups]
+dev = [
+    "autopep8>=2.3.2",
+    "black>=25.1.0",
+    "flake8>=7.1.2",
+    "isort>=6.0.1",
     "pytest>=8.3.5",
     "pyupgrade>=3.19.1",
-    "pyyaml>=6.0.2",
 ]
 
 [tool.poetry.scripts]
