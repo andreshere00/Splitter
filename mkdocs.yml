@@ -1,0 +1,19 @@
+site_name: Splitter Documentation
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - API:
+      - Chunker: chunker/docs.md
+      - Reader: reader/docs.md
+      - Splitter: splitter/docs.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          setup_commands:
+            - import sys; sys.path.insert(0, "./src")

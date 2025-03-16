@@ -10,9 +10,11 @@ help:
 	@echo "  make run       - Execute the application using uv."
 	@echo "  make format    - Run pyupgrade, isort, black and flake8 for code style."
 	@echo "  make shell     - Run a uv shell."
+	@echo "  make docs      - Run the documentation server."
+	@echo "  make pre-commit    - Install pre-commit hooks."	
 
 install:
-	uv sync
+	uv sync & uv run pre-commit install & uv run pre-commit install --hook-type commit-msg
 
 test:
 	uv run pytest
@@ -43,5 +45,9 @@ format:
 	@echo "Running flake8..."
 	uv run flake8 --max-line-length=101 --ignore=E203 src/
 
-shell:
-	uv shell
+docs:
+	@echo "Running the Documentation server."
+	uv run mkdocs serve
+
+pre-commit:
+	uv run pre-commit
