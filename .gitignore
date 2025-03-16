@@ -1,6 +1,18 @@
+# Environment values & virtual environment
 *.venv*
+.env
+
+# Cache
 *cache*
+
+# Logs
 *log*
+
+# DS Store
 *.DS_store*
+
+# Ignore files
 *ignore*
+
+# Test data
 data/test/output/*
