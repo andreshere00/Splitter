@@ -1,4 +1,5 @@
 import unittest
+
 from src.splitter.splitters.paragraph_splitter import ParagraphSplitter
 
 # The sample text to be used in tests.
@@ -10,6 +11,7 @@ SAMPLE_TEXT = (
     "Maecenas in egestas neque. Duis eu sapien sed nunc imperdiet dignissim. Duis maximus, lacus nec eleifend pretium, lectus neque elementum augue, sit amet convallis justo sem et felis. Integer elementum, mauris non cursus porta, tortor tellus accumsan odio, eget sollicitudin ligula quam et erat. Aliquam erat volutpat. Ut pellentesque cursus rhoncus. Suspendisse a mollis elit, in rhoncus felis. Aliquam vel leo vel nulla imperdiet sodales vitae id leo. Pellentesque auctor sollicitudin rhoncus. Nullam egestas risus vel quam efficitur pellentesque. Maecenas commodo justo ligula, at scelerisque elit venenatis sit amet. Etiam tincidunt neque elit, fringilla hendrerit orci fermentum et. In pretium ac purus in iaculis."
 )
 
+
 class TestParagraphSplitter(unittest.TestCase):
 
     def test_split_into_single_paragraph_chunks(self):
@@ -20,14 +22,14 @@ class TestParagraphSplitter(unittest.TestCase):
         print("\n--- Splitting into single paragraph chunks ---")
         for i, chunk in enumerate(chunks):
             print(f"Chunk {i+1}:\n{chunk}\n{'-'*40}")
-        
+
         # Expected: each non-empty paragraph as a separate chunk.
         paragraphs = [p.strip() for p in SAMPLE_TEXT.split("\n") if p.strip()]
         self.assertEqual(chunks, paragraphs)
 
     def test_split_into_max_paragraph_chunks(self):
         """
-        Splitting into chunks of 100 paragraphs should return a single chunk 
+        Splitting into chunks of 100 paragraphs should return a single chunk
         containing all paragraphs (since the sample text contains fewer paragraphs).
         """
         splitter = ParagraphSplitter(num_paragraphs=100)
@@ -36,7 +38,7 @@ class TestParagraphSplitter(unittest.TestCase):
         print("\n--- Splitting into max paragraph chunks ---")
         for i, chunk in enumerate(chunks):
             print(f"Chunk {i+1}:\n{chunk}\n{'-'*40}")
-        
+
         paragraphs = [p.strip() for p in SAMPLE_TEXT.split("\n") if p.strip()]
         expected = "\n\n".join(paragraphs)
         self.assertEqual(len(chunks), 1)
@@ -46,10 +48,14 @@ class TestParagraphSplitter(unittest.TestCase):
         """Splitting into chunks of 0 paragraphs should raise a ValueError."""
         with self.assertRaises(ValueError) as context:
             ParagraphSplitter(num_paragraphs=0)
-        self.assertEqual(str(context.exception), "Number of paragraphs must be greater than 0")
+        self.assertEqual(
+            str(context.exception), "Number of paragraphs must be greater than 0"
+        )
 
     def test_split_into_negative_paragraphs_raises_exception(self):
         """Splitting into chunks of negative paragraphs should raise a ValueError."""
         with self.assertRaises(ValueError) as context:
             ParagraphSplitter(num_paragraphs=-3)
-        self.assertEqual(str(context.exception), "Number of paragraphs must be greater than 0")
+        self.assertEqual(
+            str(context.exception), "Number of paragraphs must be greater than 0"
+        )

@@ -1,4 +1,5 @@
 import unittest
+
 from src.splitter.splitters.recursive_splitter import RecursiveSplitter
 
 # Sample text for testing.
@@ -34,6 +35,7 @@ SAMPLE_TEXT = (
     "tincidunt neque elit, fringilla hendrerit orci fermentum et. In pretium ac purus in iaculis."
 )
 
+
 class TestRecursiveSplitter(unittest.TestCase):
     def test_empty_text_returns_empty_list(self):
         """Test that splitting an empty text returns an empty list."""
@@ -59,11 +61,16 @@ class TestRecursiveSplitter(unittest.TestCase):
         """Test that a non-positive chunk size raises a ValueError."""
         with self.assertRaises(ValueError) as context:
             RecursiveSplitter(size=0, overlap=25)
-        self.assertEqual(str(context.exception), "Chunk size and overlap parameters should be greater than 0")
+        self.assertEqual(
+            str(context.exception),
+            "Chunk size and overlap parameters should be greater than 0",
+        )
 
     def test_invalid_overlap_raises_exception(self):
         """Test that a non-positive overlap value raises a ValueError."""
         with self.assertRaises(ValueError) as context:
             RecursiveSplitter(size=100, overlap=0)
-        self.assertEqual(str(context.exception), "Chunk size and overlap parameters should be greater than 0")
-        
+        self.assertEqual(
+            str(context.exception),
+            "Chunk size and overlap parameters should be greater than 0",
+        )

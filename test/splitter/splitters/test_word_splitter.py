@@ -1,4 +1,5 @@
 import pytest
+
 from src.splitter.splitters.word_splitter import WordSplitter
 
 SAMPLE_TEXT = (
@@ -33,6 +34,7 @@ SAMPLE_TEXT = (
     "tincidunt neque elit, fringilla hendrerit orci fermentum et. In pretium ac purus in iaculis."
 )
 
+
 class TestWordSplitter:
     def test_split_chunks_of_10(self):
         """
@@ -41,18 +43,20 @@ class TestWordSplitter:
         """
         splitter = WordSplitter(num_words=10)
         groups = splitter.split(SAMPLE_TEXT)
-        
+
         print("\n--- Test Split in Chunks of 10 Words ---")
         for idx, group in enumerate(groups, start=1):
             print(f"Chunk {idx}: {group}")
-        
+
         # Verify that all groups except possibly the last one have exactly 10 words.
         for group in groups[:-1]:
             word_count = len(group.split())
             assert word_count == 10, f"Expected 10 words, got {word_count}"
         # The last group may have fewer than 10 words.
         last_count = len(groups[-1].split())
-        assert last_count <= 10, f"Expected last chunk to have <= 10 words, got {last_count}"
+        assert (
+            last_count <= 10
+        ), f"Expected last chunk to have <= 10 words, got {last_count}"
 
     def test_split_chunks_of_10000(self):
         """
@@ -61,13 +65,13 @@ class TestWordSplitter:
         """
         splitter = WordSplitter(num_words=10000)
         groups = splitter.split(SAMPLE_TEXT)
-        
+
         print("\n--- Test Split in Chunks of 10000 Words ---")
         print("Output groups:", groups)
-        
+
         # Expect one group containing the entire text.
         assert len(groups) == 1
-        
+
         # Ensure the output chunk equals the original text (after normalizing whitespace).
         assert groups[0].split() == SAMPLE_TEXT.split()
 
