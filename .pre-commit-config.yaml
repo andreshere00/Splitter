@@ -1,0 +1,21 @@
+repos:
+  - repo: local
+    hooks:
+      - id: flake8
+        name: Check for code conventions compliance
+        entry: uv run flake8 --max-line-length=101 --ignore=E203 src/
+        language: system
+        types: [python]
+
+      - id: run-tests
+        name: Run Tests with Coverage
+        # This hook runs pytest; adjust options (or add coverage checking)
+        entry: uv run pytest test --maxfail=1 --disable-warnings -q
+        language: system
+        types: [python]
+      
+      - id: commit-message-check
+        name: Check Commit Message Structure
+        entry: uv run python scripts/validate_commit_msg.py
+        language: system
+        stages: [commit-msg]
