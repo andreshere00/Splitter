@@ -10,6 +10,7 @@ help:
 	@echo "  make run       - Execute the application using uv."
 	@echo "  make format    - Run pyupgrade, isort, black and flake8 for code style."
 	@echo "  make shell     - Run a uv shell."
+	@echo "  make docs      - Run the documentation server."
 
 install:
 	uv sync
@@ -45,3 +46,7 @@ format:
 
 shell:
 	uv shell
+
+docs:
+	@echo "Running the Documentation server."
+	uv run mkdocs serve
