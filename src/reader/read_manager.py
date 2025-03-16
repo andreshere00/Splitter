@@ -1,9 +1,10 @@
-from typing import Any, Dict
 import logging
-import yaml
 import os
+from typing import Any, Dict
 
-from markitdown import MarkItDown 
+import yaml
+from markitdown import MarkItDown
+
 
 class ReadManager:
     """
@@ -12,18 +13,22 @@ class ReadManager:
 
     This class reads configuration settings from a YAML file, configures logging
     based on those settings, and determines the input directory for file I/O.
-    It also performs file validation and conversion to Markdown format using the 
-    MarkItDown library (or a user-provided converter) to handle files with extensions 
+    It also performs file validation and conversion to Markdown format using the
+    MarkItDown library (or a user-provided converter) to handle files with extensions
     such as '.txt', '.md', '.docx', and '.pdf'.
 
     Attributes:
-        config (Dict[str, Any]): A dictionary containing configuration values loaded from the YAML file.
-        input_path (str): The directory path where input files are stored, as specified in the configuration.
+        config (Dict[str, Any]): A dictionary containing configuration values loaded from
+            the YAML file.
+        input_path (str): The directory path where input files are stored, as specified in
+            the configuration.
         md (Any): The Markdown converter instance used to convert files to Markdown.
                   Allows for dependency injection; defaults to an instance of MarkItDown.
     """
 
-    def __init__(self, config_path: str = "src/config.yaml", markdown_converter: Any = None) -> None:
+    def __init__(
+        self, config_path: str = "src/config.yaml", markdown_converter: Any = None
+    ) -> None:
         """
         Initialize the ReadManager with configurations, logging, and a Markdown converter.
 
@@ -34,11 +39,11 @@ class ReadManager:
                                                 If None, defaults to MarkItDown.
         """
         self.config = self.load_config(config_path)
-        self._configure_logging() 
-        
+        self._configure_logging()
+
         file_io_config = self.config.get("file_io", {})
         self.input_path = file_io_config.get("input_path", "data/input")
-        
+
         # Allow dependency injection for the Markdown converter
         self.md = markdown_converter if markdown_converter is not None else MarkItDown()
 
@@ -50,7 +55,8 @@ class ReadManager:
             config_path (str): The path to the YAML configuration file.
 
         Returns:
-            Dict[str, Any]: The configuration as a dictionary. Returns an empty dictionary if an error occurs.
+            Dict[str, Any]: The configuration as a dictionary. Returns an empty
+                dictionary if an error occurs.
         """
         try:
             with open(config_path, "r", encoding="utf-8") as file:
@@ -77,7 +83,9 @@ class ReadManager:
             return
 
         log_level = log_config.get("level", "ERROR").upper()
-        log_format = log_config.get("format", "%(asctime)s - %(levelname)s - %(message)s")
+        log_format = log_config.get(
+            "format", "%(asctime)s - %(levelname)s - %(message)s"
+        )
 
         logging.basicConfig(level=log_level, format=log_format)
         logger = logging.getLogger()
@@ -105,7 +113,7 @@ class ReadManager:
         This method constructs the full file path based on the configured input directory,
         validates that the file exists, is non-empty, and has a supported extension. It then
         converts the file to Markdown format using the provided or default Markdown converter.
-        
+
         Supported file extensions are: '.txt', '.md', '.docx', and '.pdf'.
 
         Args:
@@ -120,7 +128,7 @@ class ReadManager:
             RuntimeError: If an error occurs during the Markdown conversion process.
         """
         file_path = os.path.join(self.input_path, file_name)
-        
+
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File not found: {file_path}")
 

@@ -1,4 +1,5 @@
 from typing import List
+
 from src.splitter.base_splitter import BaseSplitter
 
 
@@ -6,7 +7,7 @@ class WordSplitter(BaseSplitter):
     def __init__(self, num_words: int = 10) -> None:
         """
         Initialize the splitter with the number of words per chunk.
-        
+
         Args:
             num_words (int): The desired number of words per chunk.
                              Must be greater than 0.
@@ -18,16 +19,16 @@ class WordSplitter(BaseSplitter):
     def split(self, text: str) -> List[str]:
         """
         Split the text into chunks of words.
-        
+
         Args:
             text (str): The input text.
-        
+
         Returns:
             List[str]: A list of text chunks.
         """
         words = text.split()
         groups = []
         for i in range(0, len(words), self.num_words):
-            group = " ".join(words[i:i+self.num_words])
+            group = " ".join(words[i : i + self.num_words])
             groups.append(group)
         return groups

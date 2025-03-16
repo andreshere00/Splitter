@@ -1,7 +1,8 @@
 from typing import List
-from src.splitter.base_splitter import BaseSplitter
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from src.splitter.base_splitter import BaseSplitter
 
 
 class RecursiveSplitter(BaseSplitter):
@@ -14,27 +15,29 @@ class RecursiveSplitter(BaseSplitter):
         overlap (int): The number of overlapping characters between chunks.
         splitter (RecursiveCharacterTextSplitter): The underlying splitter instance.
     """
-    
+
     def __init__(self, size: int = 500, overlap: int = 25) -> None:
         """
         Initialize the RecursiveSplitter with a specific chunk size and overlap.
 
         Args:
             size (int): The desired number of characters per chunk. Must be greater than 0.
-            overlap (int): The number of overlapping characters between chunks. Must be greater than 0.
+            overlap (int): The number of overlapping characters between chunks. Must be greater
+                than 0.
 
         Raises:
             ValueError: If either size or overlap is less than or equal to 0.
         """
         if size <= 0 or overlap <= 0:
-            raise ValueError("Chunk size and overlap parameters should be greater than 0")
+            raise ValueError(
+                "Chunk size and overlap parameters should be greater than 0"
+            )
         self.size: int = size
         self.overlap: int = overlap
         self.splitter: RecursiveCharacterTextSplitter = RecursiveCharacterTextSplitter(
-            chunk_size=self.size,
-            chunk_overlap=self.overlap
+            chunk_size=self.size, chunk_overlap=self.overlap
         )
-        
+
     def split(self, text: str) -> List[str]:
         """
         Splits the provided text into chunks using the recursive splitting strategy.
@@ -51,7 +54,9 @@ class RecursiveSplitter(BaseSplitter):
         """
         if not text:
             return []
-        
+
         documents = self.splitter.split_text(text)
-        chunks = [doc if isinstance(doc, str) else doc.page_content for doc in documents]
+        chunks = [
+            doc if isinstance(doc, str) else doc.page_content for doc in documents
+        ]
         return chunks

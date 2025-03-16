@@ -11,8 +11,17 @@ dependencies = [
     "markitdown>=0.0.1a5",
     "pandas>=2.2.3",
     "pytesseract>=0.3.13",
-    "pytest>=8.3.5",
     "pyyaml>=6.0.2",
+]
+
+[dependency-groups]
+dev = [
+    "autopep8>=2.3.2",
+    "black>=25.1.0",
+    "flake8>=7.1.2",
+    "isort>=6.0.1",
+    "pytest>=8.3.5",
+    "pyupgrade>=3.19.1",
 ]
 
 [tool.poetry.scripts]

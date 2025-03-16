@@ -1,10 +1,8 @@
 import logging
 from typing import List
-from src.utils.splitter import (
-    load_config, 
-    configure_logging, 
-    create_splitter
-)
+
+from src.utils.splitter import configure_logging, create_splitter, load_config
+
 
 class SplitManager:
     def __init__(self, config_path: str = "src/config.yaml") -> None:

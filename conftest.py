@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 # Add the project root directory to PYTHONPATH
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__)))

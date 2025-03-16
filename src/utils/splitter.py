@@ -1,25 +1,18 @@
 import logging
-import yaml
 import os
-from typing import Any, Dict, List, Protocol
+from typing import Any, Dict
 
-from src.splitter.splitters import (
-    WordSplitter,
-    SentenceSplitter,
-    ParagraphSplitter,
-    # SemanticSplitter,
+import yaml
+
+from src.splitter.base_splitter import BaseSplitter
+from src.splitter.splitters import (  # SemanticSplitter,; PagedSplitter,; RowColumnSplitter,; SchemaBasedSplitter,; AutoSplitter, # noqa: E501
     FixedSplitter,
-    # PagedSplitter,
+    ParagraphSplitter,
     RecursiveSplitter,
-    # RowColumnSplitter,
-    # SchemaBasedSplitter,
-    # AutoSplitter
+    SentenceSplitter,
+    WordSplitter,
 )
 
-# Protocol that all splitter classes should follow.
-class Splitter(Protocol):
-    def split(self, text: str) -> List[str]:
-        ...
 
 def load_config(config_path: str) -> Dict[str, Any]:
     """Load configuration from a YAML file."""
@@ -31,6 +24,7 @@ def load_config(config_path: str) -> Dict[str, Any]:
         logging.error(f"Error loading config: {e}")
         return {}
 
+
 def configure_logging(config: Dict[str, Any]) -> None:
     """Configure logging based on the provided configuration."""
     log_config = config.get("logging", {})
@@ -41,7 +35,7 @@ def configure_logging(config: Dict[str, Any]) -> None:
     log_level = log_config.get("level", "ERROR").upper()
     log_format = log_config.get("format", "%(asctime)s - %(levelname)s - %(message)s")
     logging.basicConfig(level=log_level, format=log_format)
-    
+
     logger = logging.getLogger()
     logger.handlers.clear()  # Remove default handlers
 
@@ -60,20 +54,21 @@ def configure_logging(config: Dict[str, Any]) -> None:
         handler.setFormatter(logging.Formatter(log_format))
         logger.addHandler(handler)
 
-def create_splitter(config: Dict[str, Any]) -> Splitter:
+
+def create_splitter(config: Dict[str, Any]) -> BaseSplitter:
     """
     Factory method to instantiate the desired splitter from configuration.
     Loads all the parameters for the selected method from the configuration at once.
-    
+
     Args:
         config: The configuration dictionary.
-    
+
     Returns:
         An instance of a class that conforms to the Splitter protocol.
     """
     splitter_config = config.get("splitter", {})
     method = splitter_config.get("method", "auto")
-    
+
     splitter_mapping = {
         "word": WordSplitter,
         "sentence": SentenceSplitter,
@@ -86,7 +81,7 @@ def create_splitter(config: Dict[str, Any]) -> Splitter:
         # "schema-based": SchemaBasedSplitter,
         # "auto": AutoSplitter,
     }
-    
+
     splitter_class = splitter_mapping.get(method)
     # if not splitter_class:
     #     logging.error(f"Invalid splitting method: {method}. Defaulting to 'auto'.")
@@ -95,5 +90,5 @@ def create_splitter(config: Dict[str, Any]) -> Splitter:
     # else:
     #     params = splitter_config.get(method, {})
     params = splitter_config.get(method, {})
-    
+
     return splitter_class(**params)

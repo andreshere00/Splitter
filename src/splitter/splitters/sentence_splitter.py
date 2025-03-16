@@ -1,7 +1,7 @@
-from typing import List
-from src.splitter.base_splitter import BaseSplitter
-
 import re
+from typing import List
+
+from src.splitter.base_splitter import BaseSplitter
 
 
 class SentenceSplitter(BaseSplitter):
@@ -20,11 +20,11 @@ class SentenceSplitter(BaseSplitter):
         :param text: The markdown text to split.
         :return: A list of sentence groups.
         """
-        sentences = re.split(r'(?<=[.!?])\s+', text)
+        sentences = re.split(r"(?<=[.!?])\s+", text)
         sentences = [s.strip() for s in sentences if s.strip()]
 
         chunks = []
         for i in range(0, len(sentences), self.num_sentences):
-            chunk = " ".join(sentences[i:i + self.num_sentences])
+            chunk = " ".join(sentences[i : i + self.num_sentences])
             chunks.append(chunk)
         return chunks

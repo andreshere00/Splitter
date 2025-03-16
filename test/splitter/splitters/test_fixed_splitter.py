@@ -1,4 +1,5 @@
 import unittest
+
 from src.splitter.splitters.fixed_splitter import FixedSplitter
 
 # The sample text to be used in tests.
@@ -34,50 +35,63 @@ SAMPLE_TEXT = (
     "tincidunt neque elit, fringilla hendrerit orci fermentum et. In pretium ac purus in iaculis."
 )
 
+
 class TestFixedSplitter(unittest.TestCase):
 
     def test_split_into_100_character_chunks(self):
         print("\n--- Testing splitting into 100-character chunks...")
         splitter = FixedSplitter(size=100)
         chunks = splitter.split(SAMPLE_TEXT)
-        
+
         # Print each chunk with context.
         for i, chunk in enumerate(chunks):
             print(f"Chunk {i + 1} (100-char):\n{chunk}\n{'-'*40}")
-        
+
         # Verify that every chunk except possibly the last one is exactly 100 characters.
         for chunk in chunks[:-1]:
             self.assertEqual(len(chunk), 100, "Chunk length is not 100 characters.")
-        
+
         # Reassemble and check that the result matches the original text.
         reconstructed = "".join(chunks)
-        self.assertEqual(reconstructed, SAMPLE_TEXT, "Reconstructed text does not match the original.")
+        self.assertEqual(
+            reconstructed,
+            SAMPLE_TEXT,
+            "Reconstructed text does not match the original.",
+        )
 
     def test_split_into_single_character_chunks(self):
         print("\n--- Testing splitting into single-character chunks...")
         splitter = FixedSplitter(size=1)
         chunks = splitter.split(SAMPLE_TEXT)
-        
+
         # Print each chunk with context.
         for i, chunk in enumerate(chunks):
             print(f"Chunk {i + 1} (1-char): '{chunk}'")
-        
+
         # Every chunk should be exactly 1 character.
         for chunk in chunks:
             self.assertEqual(len(chunk), 1, "Chunk length is not 1 character.")
-        
+
         # Reassemble and check.
         reconstructed = "".join(chunks)
-        self.assertEqual(reconstructed, SAMPLE_TEXT, "Reconstructed text does not match the original.")
+        self.assertEqual(
+            reconstructed,
+            SAMPLE_TEXT,
+            "Reconstructed text does not match the original.",
+        )
 
     def test_split_with_zero_chunk_size_raises_exception(self):
-        print("\n--- Testing splitting with a chunk size of 0 (should raise exception)...")
+        print(
+            "\n--- Testing splitting with a chunk size of 0 (should raise exception)..."
+        )
         with self.assertRaises(ValueError) as context:
             FixedSplitter(size=0)
         self.assertEqual(str(context.exception), "Chunk size must be greater than 0")
 
     def test_split_with_negative_chunk_size_raises_exception(self):
-        print("\n--- Testing splitting with a negative chunk size (should raise exception)...")
+        print(
+            "\n--- Testing splitting with a negative chunk size (should raise exception)..."
+        )
         with self.assertRaises(ValueError) as context:
             FixedSplitter(size=-1)
         self.assertEqual(str(context.exception), "Chunk size must be greater than 0")
@@ -87,5 +101,13 @@ class TestFixedSplitter(unittest.TestCase):
         splitter = FixedSplitter(size=10000)
         chunks = splitter.split(SAMPLE_TEXT)
         # When chunk size is larger than the text, one chunk is expected.
-        self.assertEqual(len(chunks), 1, "Expected one chunk when chunk size is larger than text length.")
-        self.assertEqual(len(chunks[0]), len(SAMPLE_TEXT), "The single chunk should equal the text length.")
+        self.assertEqual(
+            len(chunks),
+            1,
+            "Expected one chunk when chunk size is larger than text length.",
+        )
+        self.assertEqual(
+            len(chunks[0]),
+            len(SAMPLE_TEXT),
+            "The single chunk should equal the text length.",
+        )
