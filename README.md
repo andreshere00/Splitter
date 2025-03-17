@@ -83,7 +83,13 @@ make run
 
 ---
 
-## **Project Structure**
+## Project scenario
+
+This application compose a piece of an ambicious project named **"MultiRAG"**. This system aims to be a super modullarizable and open-source RAG system which is fully customizable piece by piece. Observe the following architecture diagram:
+
+[MultiRAG architecture](docs/assets/MultiRAG.drawio.svg)
+
+## Project Structure
 ```bash
 .
 ├── Makefile
@@ -169,12 +175,6 @@ make run
 │       └── __init__.py
 └── uv.lock
 ```
-
-## Project scenario
-
-This application compose a piece of an ambicious project named **"MultiRAG"**. This system aims to be a super modullarizable and open-source RAG system which is fully customizable piece by piece. Observe the following architecture diagram:
-
-[MultiRAG architecture](docs/assets/MultiRAG.drawio.svg)
 
 ## Contact
 
