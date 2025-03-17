@@ -1,5 +1,5 @@
 import logging
-from typing import List
+from typing import Dict, List, Optional
 
 from src.splitter.base_splitter import BaseSplitter
 from src.splitter.splitters.fixed_splitter import FixedSplitter
@@ -21,23 +21,30 @@ class SplitManager:
 
     This class utilizes a factory design pattern to instantiate the appropriate splitter based on
     the provided configuration. It then delegates the splitting of input text to the selected
-        splitter.
+    splitter.
 
     Attributes:
         config (dict): A dictionary containing configuration settings.
         splitter (BaseSplitter): An instance of the selected splitter.
     """
 
-    def __init__(self, config: dict) -> None:
+    def __init__(
+        self, config: Optional[Dict] = None, *, split_method: Optional[str] = None
+    ) -> None:
         """
-        Initializes the SplitManager with a configuration dictionary.
+        Initializes the SplitManager with a configuration dictionary or with provided arguments.
 
-        The configuration is used to select and initialize the appropriate splitter via the factory
-            method.
+        If no configuration is provided, a configuration dictionary is built using the provided
+        `split_method`. Defaults to `"auto"` if not specified.
 
         Args:
-            config (dict): A dictionary containing configuration settings.
+            config (Optional[dict]): A dictionary containing configuration settings.
+            split_method (Optional[str]): The method used for splitting the text.
         """
+        if config is None:
+            if split_method is None:
+                split_method = "auto"
+            config = {"splitter": {"method": split_method}}
         self.config = config
         self.splitter = self._create_splitter()
 
@@ -74,8 +81,8 @@ class SplitManager:
         if not splitter_class:
             raise ValueError(f"Invalid splitting method: {method}")
 
-        # Load the parameters specific to the chosen method from the configuration.
-        params = splitter_config.get(method, {})
+        # Access the parameters from the nested "methods" key in the configuration.
+        params = splitter_config.get("methods", {}).get(method, {})
         return splitter_class(**params)
 
     def split_text(self, text: str) -> List[str]:

@@ -58,7 +58,7 @@ The **Splitter** system is responsible for processing documents and dividing the
 - `chunk_path := str`.
 - `document_id := str`.
 - `document_name := str`.
-- `conversion_method := str`.
+- `split_method := str`.
 - `metadata := list[str]`.
 
 ---
