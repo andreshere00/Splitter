@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Splitter** system is responsible for processing documents and dividing them into **chunks** using various splitting strategies. The architecture consists of multiple managers and services working together to read, split, process, and save chunks.
+The **Splitter** application aims to convert documents into markdown format, and split them into **chunks** using various splitting strategies. The architecture consists of three main pieces: the `ReadManager`, the `SplitManager` and the `ChunkManager`. Observe the following diagram:
 
 ![Splitter architecture diagram](./docs/assets/splitter.drawio.svg)
 
@@ -40,8 +40,16 @@ The **Splitter** system is responsible for processing documents and dividing the
 ## Application Interfaces
 
 - The application is exposed via:
-  - **FastAPI** (REST API)
-  - **CLI** (Command Line Interface)
+  - REST API
+  - CLI
+
+### API
+
+The API is accessed through a FastAPI application. This application can be launched executing:
+
+```bash
+make serve
+```
 
 ### **API Definition**
 #### **Input**
@@ -61,6 +69,18 @@ The **Splitter** system is responsible for processing documents and dividing the
 - `split_method := str`.
 - `metadata := list[str]`.
 
+### CLI
+
+The application is accessible through Command Line Interface (CLI) using the following command:
+
+```bash
+make run
+```
+
+### Docker
+
+> Comming soon!
+
 ---
 
 ## **Project Structure**
@@ -68,11 +88,7 @@ The **Splitter** system is responsible for processing documents and dividing the
 .
 ├── Makefile
 ├── README.md
-├── assets
-│   └── splitter.drawio.svg
-├── conftest.py
 ├── data
-│   ├── input
 │   ├── output
 │   └── test
 │       ├── input
@@ -81,17 +97,35 @@ The **Splitter** system is responsible for processing documents and dividing the
 │       │   ├── test_1.pdf
 │       │   └── test_1.txt
 │       └── output
-├── main.py
+├── docs
+│   ├── assets
+│   │   └── splitter.drawio.svg
+│   ├── chunker
+│   │   └── docs.md
+│   ├── index.md
+│   ├── reader
+│   │   └── docs.md
+│   └── splitter
+│       └── docs.md
+├── mkdocs.yml
 ├── pyproject.toml
 ├── requirements.txt
+├── scripts
+│   ├── conftest.py
+│   └── validate_commit_msg.py
 ├── src
 │   ├── __init__.py
 │   ├── application
+│   │   ├── api
+│   │   │   ├── app.py
+│   │   │   ├── config.py
+│   │   │   ├── models.py
+│   │   │   └── routers
+│   │   │       └── split.py
 │   │   └── cli.py
 │   ├── chunker
 │   │   ├── __init__.py
 │   │   └── chunk_manager.py
-│   ├── config.py
 │   ├── config.yaml
 │   ├── main.py
 │   ├── reader
@@ -114,11 +148,13 @@ The **Splitter** system is responsible for processing documents and dividing the
 │   │       ├── sentence_splitter.py
 │   │       └── word_splitter.py
 │   └── utils
-│       └── splitter.py
+│       └── logging_manager.py
 ├── test
 │   ├── chunker
+│   │   ├── __init__.py
 │   │   └── test_chunk_manager.py
 │   ├── reader
+│   │   ├── __init__.py
 │   │   └── test_read_manager.py
 │   ├── splitter
 │   │   ├── __init__.py
@@ -130,8 +166,15 @@ The **Splitter** system is responsible for processing documents and dividing the
 │   │       ├── test_sentence_splitter.py
 │   │       └── test_word_splitter.py
 │   └── utils
+│       └── __init__.py
 └── uv.lock
 ```
+
+## Project scenario
+
+This application compose a piece of an ambicious project named **"MultiRAG"**. This system aims to be a super modullarizable and open-source RAG system which is fully customizable piece by piece. Observe the following architecture diagram:
+
+[MultiRAG architecture](docs/assets/MultiRAG.drawio.svg)
 
 ## Contact
 
