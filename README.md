@@ -6,42 +6,16 @@ The **Splitter** application aims to convert documents into markdown format, and
 
 ![Splitter architecture diagram](./docs/assets/splitter.drawio.svg)
 
-## Components
+## How to launch the application
 
-### **1. Read Manager**
-- Responsible for reading input documents.
-- Supports local file formats: `txt`, `md`, `docx`, `xls`, `xlsx`, `pdf`, `ppt`, `pptx`, `json`, `yaml`.
-- If required, **OCR** can be applied to extract text from scanned documents.
+### Pre-requisites
 
-### **2. Split Manager**
-- Splits text into meaningful chunks based on different strategies.
-- Includes the following methods:
-
-| Splitter Name          | Description | Parameters | Compatible Formats |
-|------------------------|-------------|------------|--------------------|
-| **Word Splitter**      | Splits text into words. | Input data, number of words in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
-| **Sentence Splitter**  | Splits text into sentences. | Input data, number of sentences in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
-| **Paragraph Splitter** | Splits text into paragraphs. | Input data, number of paragraphs in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
-| **Semantic Splitter**  | Splits text based on semantic similarity, using a language model. | Input data, language model, overlap. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
-| **Fixed Splitter**     | Splits text into a fixed number of words or characters. | Input data, number of characters in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
-| **Paged Splitter**     | Splits text into pages. | Input data, number of pages in each chunk, overlap. | `docx`, `pdf`, `xls`, `xlsx`, `ppt`, `pptx` |
-| **Recursive Splitter** | Splits based on a specified chunk size with overlap. | Input data, number of characters in each chunk, overlap parameter. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
-| **Row-Column Splitter** | Splits table content by rows or columns. | Input data, number of columns, column names, number of rows, row names. | `xlsx`, `xls`, `json`, `yaml` |
-| **Schema-based Splitter** | Splits a hierarchical schema while preserving headers. | Input data, number of registers, overlap. | `json`, `yaml`, `xml`, `xls`, `xlsx`, `ppt`, `pptx` |
-| **Auto Splitter**      | Combines multiple splitting methods based on document content. | Input data, number of characters in each chunk, overlap. | All formats |
-
-### **3. Chunk Manager**
-- Saves the generated chunks from **Chunk Manager**.
-- Features:
-  - **Aggregator**: Groups related chunks.
-  - **Markdown conversion**: Converts text into Markdown format.
-  - **Error handling**: Ensures smooth chunking.
-
-## Application Interfaces
+- [Python](https://www.python.org/) with `make` and [uv](https://astral.sh/blog/uv).
+- [Docker](https://www.docker.com/).
 
 - The application is exposed via:
-  - REST API
-  - CLI
+  - **REST API**
+  - **CLI**
 
 ### API
 
@@ -82,6 +56,37 @@ make run
 > Comming soon!
 
 ---
+
+## Architecture
+
+### **1. Read Manager**
+- Responsible for reading input documents.
+- Supports local file formats: `txt`, `md`, `docx`, `xls`, `xlsx`, `pdf`, `ppt`, `pptx`, `json`, `yaml`.
+- If required, **OCR** can be applied to extract text from scanned documents.
+
+### **2. Split Manager**
+- Splits text into meaningful chunks based on different strategies.
+- Includes the following methods:
+
+| Splitter Name          | Description | Parameters | Compatible Formats |
+|------------------------|-------------|------------|--------------------|
+| **Word Splitter**      | Splits text into words. | Input data, number of words in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
+| **Sentence Splitter**  | Splits text into sentences. | Input data, number of sentences in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
+| **Paragraph Splitter** | Splits text into paragraphs. | Input data, number of paragraphs in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
+| **Semantic Splitter**  | Splits text based on semantic similarity, using a language model. | Input data, language model, overlap. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
+| **Fixed Splitter**     | Splits text into a fixed number of words or characters. | Input data, number of characters in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
+| **Paged Splitter**     | Splits text into pages. | Input data, number of pages in each chunk, overlap. | `docx`, `pdf`, `xls`, `xlsx`, `ppt`, `pptx` |
+| **Recursive Splitter** | Splits based on a specified chunk size with overlap. | Input data, number of characters in each chunk, overlap parameter. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx` |
+| **Row-Column Splitter** | Splits table content by rows or columns. | Input data, number of columns, column names, number of rows, row names. | `xlsx`, `xls`, `json`, `yaml` |
+| **Schema-based Splitter** | Splits a hierarchical schema while preserving headers. | Input data, number of registers, overlap. | `json`, `yaml`, `xml`, `xls`, `xlsx`, `ppt`, `pptx` |
+| **Auto Splitter**      | Combines multiple splitting methods based on document content. | Input data, number of characters in each chunk, overlap. | All formats |
+
+### **3. Chunk Manager**
+- Saves the generated chunks from **Chunk Manager**.
+- Features:
+  - **Aggregator**: Groups related chunks.
+  - **Markdown conversion**: Converts text into Markdown format.
+  - **Error handling**: Ensures smooth chunking.
 
 ## Project scenario
 
