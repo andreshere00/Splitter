@@ -29,7 +29,7 @@ test:
 clean:
 	@echo "Cleaning log, output and cache files..."
 	@find . -type d \( -name '*log*' -o -name '*cache*' \) -exec rm -rf {} + & \
-	 rm -rf data/output/* data/test/output/*
+	 rm -rf data/output/* data/test/output/* *.DS_store*
 
 clean-log:
 	@echo "Cleaning cache files..."

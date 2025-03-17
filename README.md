@@ -4,7 +4,7 @@
 
 The **Splitter** system is responsible for processing documents and dividing them into **chunks** using various splitting strategies. The architecture consists of multiple managers and services working together to read, split, process, and save chunks.
 
-![Splitter architecture diagram](./data/assets/splitter.drawio.svg)
+![Splitter architecture diagram](./docs/assets/splitter.drawio.svg)
 
 ## Components
 
