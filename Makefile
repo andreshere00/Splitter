@@ -1,28 +1,35 @@
-.PHONY: install test clean run format help docs pre-commit launch
+.PHONY: install test clean clean-log clean-cache clean-data run format help docs pre-commit serve env
 
 help:
 	@echo "Available commands:"
 	@echo "  make install   - Install application dependencies using uv."
 	@echo "  make test      - Run tests using uv and pytest."
-	@echo "  make clean     - Clean cache and log files."
+	@echo "  make clean     - Clean output, cache and log files."
 	@echo "  make clean-log     -> Clean log files."
 	@echo "  make clean-cache   -> Clean cache files."
+	@echo "  make clean-data    -> Clean output data files."
 	@echo "  make run       - Execute the application using uv."
 	@echo "  make format    - Run pyupgrade, isort, black and flake8 for code style."
 	@echo "  make shell     - Run a uv shell."
 	@echo "  make docs      - Run the documentation server."
 	@echo "  make pre-commit    - Install pre-commit hooks."	
-	@echo "  make launch    - Serve and launch the FastAPI application."
+	@echo "  make serve     - Serve and serve the FastAPI application."
+	@echo "  make env       - Export .env file to the package management tool."
+	@echo "  make remove-data       - "Remove data presented in that folder."
 
 install:
-	uv sync & uv run pre-commit install & uv run pre-commit install --hook-type commit-msg
+	export UV_ENV_FILE=.env & uv sync & uv run pre-commit install & uv run pre-commit install --hook-type commit-msg
+
+env:
+	export UV_ENV_FILE=.env
 
 test:
 	uv run pytest
 
 clean:
-	@echo "Cleaning log and cache files..."
-	@find . -type d \( -name '*log*' -o -name '*cache*' \) -exec rm -rf {} +
+	@echo "Cleaning log, output and cache files..."
+	@find . -type d \( -name '*log*' -o -name '*cache*' \) -exec rm -rf {} + & \
+	 rm -rf data/output/* data/test/output/*
 
 clean-log:
 	@echo "Cleaning cache files..."
@@ -32,11 +39,15 @@ clean-cache:
 	@echo "Cleaning cache files..."
 	@find . -type d -name '*cache*' -exec rm -rf {} +
 
+clean-data:
+	@echo "Remove data presented in that folder."
+	@rm -rf data/output/* data/test/output/*
+
 run:
 	@echo "Running the application with default parameters..."
 	uv run python src/application/cli.py
 
-launch:
+serve:
 	@echo "Running the FastAPI application"
 	uv run uvicorn src.application.api.app:app --reload
 

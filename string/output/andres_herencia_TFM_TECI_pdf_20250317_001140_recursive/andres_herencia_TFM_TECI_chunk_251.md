@@ -1,1 +1,0 @@
-pointing out the fundamental role of the model’s base knowledge in the inference process.

@@ -1,1 +1,0 @@
-and fO are the activation functions of the hidden state and the output layer, respectively.

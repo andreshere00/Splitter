@@ -25,18 +25,19 @@ async def split_document(
     """
     Splits the provided document using the specified splitting method.
 
-    This endpoint handles the file upload, saves the document to the given path,
+    This endpoint handles the file upload, saves the document to the designated path,
     reads and converts the document using `ReadManager`, splits its content using
     `SplitManager`, and saves the resulting chunks using `ChunkManager`.
 
-    The following modifications are applied:
+    Modifications:
 
-    - If `document_path` is not provided, it is set to the current working directory.
-    - If `document_name` is not provided or equals the default placeholder ("string"),
-      it is inferred from the uploaded file's filename.
-    - The `document_id` is generated as `{base_filename}_{original_extension}_{date}_{time}`
-        if not provided.
+    - If `document_path` is not provided or equals "string", it is set to "data/input".
+    - If `document_name` is not provided or equals "string", it is set to the uploaded file's
+        filename.
+    - The `document_id` is generated as `{base_filename}_{original_extension}_{date}_{time}` if
+        not provided.
     - The provided `split_method` is used to execute the corresponding splitter.
+    - The output path is fixed to "data/output".
 
     Args:
         file (UploadFile): The document file to be split.
@@ -52,18 +53,18 @@ async def split_document(
     Raises:
         HTTPException: If reading the file or splitting its content fails.
     """
-    # Set document_path to current directory if not provided
-    if not document_path:
-        document_path = os.getcwd()
+    # Use "data/input" as the default folder if document_path is not provided or is "string".
+    if not document_path or document_path.lower() == "string":
+        document_path = "data/input"
 
     # Ensure the document_path directory exists
     os.makedirs(document_path, exist_ok=True)
 
-    # Infer document name if not provided or if it equals the placeholder "string"
+    # If document_name is not provided or equals "string", use the basename of file.filename.
     if not document_name or document_name.lower() == "string":
         document_name = file.filename
 
-    # Save the uploaded file
+    # Save the uploaded file to document_path
     document_save_path = os.path.join(document_path, document_name)
     with open(document_save_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
@@ -74,19 +75,21 @@ async def split_document(
     time_str = now.strftime("%H%M%S")
     base_filename, original_extension = os.path.splitext(document_name)
     document_id = (
-        document_id
+        document_id  # noqa: W503
         or f"{base_filename}_{original_extension.strip('.')}_{date_str}_{time_str}"  # noqa: W503
     )
 
-    # Instantiate managers using direct parameters instead of a config file:
-    # ReadManager: pass input_path
-    read_manager = ReadManager(input_path=document_path)
-    # SplitManager: pass the split_method
+    # Use fixed paths: input_path = document_path ("data/input") and output_path = "data/output"
+    # If document_path was provided, we ignore it in favor of these defaults for file upload.
+    input_path = document_path  # Should be "data/input" by our default logic.
+    output_path = "data/output"
+    os.makedirs(output_path, exist_ok=True)
+
+    # Instantiate managers using direct parameters:
+    read_manager = ReadManager(input_path=input_path)
     split_manager = SplitManager(split_method=split_method)
-    # ChunkManager: pass input_path and output_path (defaults to <input_path>/output)
-    output_path = os.path.join(document_path, "output")
     chunk_manager = ChunkManager(
-        input_path=document_path, output_path=output_path, split_method=split_method
+        input_path=input_path, output_path=output_path, split_method=split_method
     )
 
     # Read file content
@@ -108,7 +111,7 @@ async def split_document(
     # Generate chunk IDs for each chunk
     chunk_ids = [
         f"{base_filename}_{original_extension.strip('.')}_{date_str}_{time_str}_chunk_{i}"
-        for i in range(1, len(chunks) + 1)
+        for i in range(1, len(chunks) + 1)  #
     ]
 
     return ChunkResponse(

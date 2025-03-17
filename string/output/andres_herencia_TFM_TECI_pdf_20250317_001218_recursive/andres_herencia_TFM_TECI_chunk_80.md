@@ -1,1 +1,0 @@
-input sequence, handling long sequences effectively, and learning soft alignments.
