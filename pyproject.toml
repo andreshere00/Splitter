@@ -1,0 +1,36 @@
+[project]
+name = "splitter"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.13.3",
+    "langchain-text-splitters>=0.3.6",
+    "markdown>=3.7",
+    "markitdown>=0.0.1a5",
+    "pandas>=2.2.3",
+    "pytesseract>=0.3.13",
+    "pyyaml>=6.0.2",
+    "pytest>=8.3.5",
+    "fastapi>=0.115.11",
+    "uvicorn>=0.34.0",
+    "python-multipart>=0.0.20",
+]
+
+[dependency-groups]
+dev = [
+    "autopep8>=2.3.2",
+    "black>=25.1.0",
+    "flake8>=7.1.2",
+    "isort>=6.0.1",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.6.8",
+    "mkdocstrings-python>=1.16.5",
+    "pre-commit>=4.1.0",
+    "pytest>=8.3.5",
+    "pyupgrade>=3.19.1",
+]
+
+[tool.poetry.scripts]
+splitter = "src.application.cli:main"

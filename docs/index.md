@@ -1,63 +1,12 @@
-# Splitter
+# Splitter Documentation
 
 ## Overview
 
-The **Splitter** application aims to convert documents into markdown format, and split them into **chunks** using various splitting strategies. The architecture consists of three main pieces: the `ReadManager`, the `SplitManager` and the `ChunkManager`. Observe the following diagram:
+The **Splitter** system is responsible for processing documents and dividing them into **chunks** using various splitting strategies. The architecture consists of multiple managers and services working together to read, split, process, and save chunks.
 
-![Splitter architecture diagram](./docs/assets/splitter.drawio.svg)
+![Splitter architecture diagram](./assets/splitter.drawio.svg)
 
-## How to launch the application
-
-### Pre-requisites
-
-- [Python](https://www.python.org/) with `make` and [uv](https://astral.sh/blog/uv).
-- [Docker](https://www.docker.com/).
-
-- The application is exposed via:
-  - **REST API**
-  - **CLI**
-
-### API
-
-The API is accessed through a FastAPI application. This application can be launched executing:
-
-```bash
-make serve
-```
-
-### **API Definition**
-#### **Input**
-
-- `document_name := str`.
-- `document_path := str`.
-- `document_id := str`.
-- `split_method := str`. 
-- `metadata := list[str]`.
-
-#### **Output**
-- `chunks := list[str]`.
-- `chunk_id := str`.
-- `chunk_path := str`.
-- `document_id := str`.
-- `document_name := str`.
-- `split_method := str`.
-- `metadata := list[str]`.
-
-### CLI
-
-The application is accessible through Command Line Interface (CLI) using the following command:
-
-```bash
-make run
-```
-
-### Docker
-
-> Comming soon!
-
----
-
-## Architecture
+## Components
 
 ### **1. Read Manager**
 - Responsible for reading input documents.
@@ -88,18 +37,42 @@ make run
   - **Markdown conversion**: Converts text into Markdown format.
   - **Error handling**: Ensures smooth chunking.
 
-## Project scenario
+## Application Interfaces
 
-This application compose a piece of an ambicious project named **"MultiRAG"**. This system aims to be a super modullarizable and open-source RAG system which is fully customizable piece by piece. Observe the following architecture diagram:
+- The application is exposed via:
+  - **FastAPI** (REST API)
+  - **CLI** (Command Line Interface)
 
-[MultiRAG architecture](docs/assets/MultiRAG.drawio.svg)
+### **API Definition**
+#### **Input**
 
-## Project Structure
+- `document_name := str`.
+- `document_path := str`.
+- `document_id := str`.
+- `split_method := str`. 
+- `metadata := list[str]`.
+
+#### **Output**
+- `chunks := list[str]`.
+- `chunk_id := str`.
+- `chunk_path := str`.
+- `document_id := str`.
+- `document_name := str`.
+- `conversion_method := str`.
+- `metadata := list[str]`.
+
+---
+
+## **Project Structure**
 ```bash
 .
 ├── Makefile
 ├── README.md
+├── assets
+│   └── splitter.drawio.svg
+├── conftest.py
 ├── data
+│   ├── input
 │   ├── output
 │   └── test
 │       ├── input
@@ -108,35 +81,17 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │       │   ├── test_1.pdf
 │       │   └── test_1.txt
 │       └── output
-├── docs
-│   ├── assets
-│   │   └── splitter.drawio.svg
-│   ├── chunker
-│   │   └── docs.md
-│   ├── index.md
-│   ├── reader
-│   │   └── docs.md
-│   └── splitter
-│       └── docs.md
-├── mkdocs.yml
+├── main.py
 ├── pyproject.toml
 ├── requirements.txt
-├── scripts
-│   ├── conftest.py
-│   └── validate_commit_msg.py
 ├── src
 │   ├── __init__.py
 │   ├── application
-│   │   ├── api
-│   │   │   ├── app.py
-│   │   │   ├── config.py
-│   │   │   ├── models.py
-│   │   │   └── routers
-│   │   │       └── split.py
 │   │   └── cli.py
 │   ├── chunker
 │   │   ├── __init__.py
 │   │   └── chunk_manager.py
+│   ├── config.py
 │   ├── config.yaml
 │   ├── main.py
 │   ├── reader
@@ -159,13 +114,11 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │   │       ├── sentence_splitter.py
 │   │       └── word_splitter.py
 │   └── utils
-│       └── logging_manager.py
+│       └── splitter.py
 ├── test
 │   ├── chunker
-│   │   ├── __init__.py
 │   │   └── test_chunk_manager.py
 │   ├── reader
-│   │   ├── __init__.py
 │   │   └── test_read_manager.py
 │   ├── splitter
 │   │   ├── __init__.py
@@ -177,7 +130,6 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │   │       ├── test_sentence_splitter.py
 │   │       └── test_word_splitter.py
 │   └── utils
-│       └── __init__.py
 └── uv.lock
 ```
 
