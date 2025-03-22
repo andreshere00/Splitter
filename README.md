@@ -53,7 +53,17 @@ make run
 
 ### Docker
 
-> Comming soon!
+The API-interface can be launched using Docker with the following Make commands:
+
+```sh
+make docker-api-build # build the image
+```
+
+```sh
+make docker-api-run # run the image
+```
+
+Application will be accessible through the browser at the host `0.0.0.0:8080/docs`.
 
 ---
 
@@ -97,9 +107,13 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 ## Project Structure
 ```bash
 .
+├── CHANGELOG.md
+├── Dockerfile.api
 ├── Makefile
 ├── README.md
 ├── data
+│   ├── input
+│   │   └── andres_herencia_TFM_TECI.pdf
 │   ├── output
 │   └── test
 │       ├── input
@@ -108,9 +122,12 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │       │   ├── test_1.pdf
 │       │   └── test_1.txt
 │       └── output
+├── docker-compose.yaml
 ├── docs
 │   ├── assets
-│   │   └── splitter.drawio.svg
+│   │   ├── MultiRAG.drawio.svg
+│   │   ├── splitter.drawio.svg
+│   │   └── splitter.drawio_v0.1.0.svg
 │   ├── chunker
 │   │   └── docs.md
 │   ├── index.md
@@ -126,28 +143,52 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │   └── validate_commit_msg.py
 ├── src
 │   ├── __init__.py
+│   ├── __pycache__
+│   │   └── __init__.cpython-312.pyc
 │   ├── application
 │   │   ├── api
+│   │   │   ├── __pycache__
+│   │   │   │   ├── app.cpython-312.pyc
+│   │   │   │   └── models.cpython-312.pyc
 │   │   │   ├── app.py
 │   │   │   ├── config.py
 │   │   │   ├── models.py
 │   │   │   └── routers
+│   │   │       ├── __pycache__
+│   │   │       │   └── split.cpython-312.pyc
 │   │   │       └── split.py
 │   │   └── cli.py
 │   ├── chunker
 │   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   └── chunk_manager.cpython-312.pyc
 │   │   └── chunk_manager.py
 │   ├── config.yaml
 │   ├── main.py
 │   ├── reader
 │   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   └── read_manager.cpython-312.pyc
 │   │   └── read_manager.py
 │   ├── splitter
 │   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── base_splitter.cpython-312.pyc
+│   │   │   └── split_manager.cpython-312.pyc
 │   │   ├── base_splitter.py
 │   │   ├── split_manager.py
 │   │   └── splitters
 │   │       ├── __init__.py
+│   │       ├── __pycache__
+│   │       │   ├── __init__.cpython-312.pyc
+│   │       │   ├── fixed_splitter.cpython-312.pyc
+│   │       │   ├── paragraph_splitter.cpython-312.pyc
+│   │       │   ├── recursive_splitter.cpython-312.pyc
+│   │       │   ├── sentence_splitter.cpython-312.pyc
+│   │       │   └── word_splitter.cpython-312.pyc
 │   │       ├── auto_splitter.py
 │   │       ├── fixed_splitter.py
 │   │       ├── paged_splitter.py
@@ -159,6 +200,8 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │   │       ├── sentence_splitter.py
 │   │       └── word_splitter.py
 │   └── utils
+│       ├── __pycache__
+│       │   └── logging_manager.cpython-312.pyc
 │       └── logging_manager.py
 ├── test
 │   ├── chunker
