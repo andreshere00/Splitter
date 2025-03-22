@@ -8,14 +8,28 @@ The **Splitter** application aims to convert documents into markdown format, and
 
 ## How to launch the application
 
+The application is exposed via:
+- **REST API**
+- **CLI**
+
 ### Pre-requisites
 
-- [Python](https://www.python.org/) with `make` and [uv](https://astral.sh/blog/uv).
+The following tools and packages are needed to execute the application:
+
+- [Python](https://www.python.org/) with `make`. `$PYTHONPATH` may be set in the `.env` file.
 - [Docker](https://www.docker.com/).
 
-- The application is exposed via:
-  - **REST API**
-  - **CLI**
+To install all the dependencies, you can use `make install`.
+
+```bash
+make install
+```
+
+This application uses `uv` as dependency management tool, if not installed, use the following command:
+
+```sh
+make install-uv
+```
 
 ### API
 
@@ -26,6 +40,7 @@ make serve
 ```
 
 ### **API Definition**
+
 #### **Input**
 
 - `document_name := str`.
@@ -35,6 +50,7 @@ make serve
 - `metadata := list[str]`.
 
 #### **Output**
+
 - `chunks := list[str]`.
 - `chunk_id := str`.
 - `chunk_path := str`.
@@ -55,15 +71,27 @@ make run
 
 The API-interface can be launched using Docker with the following Make commands:
 
+Build the image:
+
 ```sh
 make docker-api-build # build the image
 ```
+
+Run the image:
 
 ```sh
 make docker-api-run # run the image
 ```
 
-Application will be accessible through the browser at the host `0.0.0.0:8080/docs`.
+Application will be accessible through the browser at the host `0.0.0.0:8080/docs`. 
+
+These values are configurable through the following environment variables:
+
+```sh
+PORT=8080
+HOST=0.0.0.0
+LOG_LEVEL=info
+```
 
 ---
 
