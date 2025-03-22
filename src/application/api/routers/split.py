@@ -15,43 +15,42 @@ router = APIRouter(prefix="/documents", tags=["Documents"])
 
 @router.post("/split", response_model=ChunkResponse)
 async def split_document(
-    file: UploadFile = File(...),
+    file: Optional[UploadFile] = File(None),
     document_path: Optional[str] = Form(None),
     document_name: Optional[str] = Form(None),
     document_id: Optional[str] = Form(None),
-    split_method: Optional[str] = Form(...),
+    split_method: str = Form(...),
     metadata: Optional[List[str]] = Form([]),
 ):
     """
-    Splits the provided document using the specified splitting method.
+    **Splits the provided document using the specified splitting method.**
 
     This endpoint handles the file upload, saves the document to the designated path,
     reads and converts the document using `ReadManager`, splits its content using
     `SplitManager`, and saves the resulting chunks using `ChunkManager`.
 
-    Modifications:
+    **Args:**
+    - `file (UploadFile)`: The document file to be split.
+    - `document_path (Optional[str])`: The directory path where the document is located.
+    - `document_name (Optional[str])`: The name of the document.
+    - `document_id (Optional[str])`: A unique identifier for the document.
+    - `split_method (str)`: The method used to split the document.
+    - `metadata (Optional[List[str]])`: Additional metadata for the document.
 
-    - If `document_path` is not provided or equals "string", it is set to "data/input".
-    - If `document_name` is not provided or equals "string", it is set to the uploaded file's
+    **Defaults:**
+
+    - If `document_path` is not provided or equals to `string`, it is set to `data/input`.
+    - If `document_name` is not provided or equals to `string`, it is set to the uploaded file's
         filename.
     - The `document_id` is generated as `{base_filename}_{original_extension}_{date}_{time}` if
         not provided.
-    - The provided `split_method` is used to execute the corresponding splitter.
-    - The output path is fixed to "data/output".
-
-    Args:
-        file (UploadFile): The document file to be split.
-        document_path (Optional[str]): The directory path where the document is located.
-        document_name (Optional[str]): The name of the document.
-        document_id (Optional[str]): A unique identifier for the document.
-        split_method (Optional[str]): The method used to split the document.
-        metadata (Optional[List[str]]): Additional metadata for the document.
+    - By default, the output path is fixed to `data/output`.
 
     Returns:
-        ChunkResponse: A response containing the document chunks and associated metadata.
+        `ChunkResponse`: A response containing the document chunks and associated metadata.
 
     Raises:
-        HTTPException: If reading the file or splitting its content fails.
+        `HTTPException`: If reading the file or splitting its content fails.
     """
     # Use "data/input" as the default folder if document_path is not provided or is "string".
     if not document_path or document_path.lower() == "string":
