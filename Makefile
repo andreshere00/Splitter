@@ -1,40 +1,55 @@
+# OS detection: define uv install command.
+ifeq ($(OS),Windows_NT)
+	UV_INSTALL_CMD = powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+else
+	UV_INSTALL_CMD = curl -LsSf https://astral.sh/uv/install.sh | sh
+endif
+
+# Load environment variables from .env if it exists.
+ifneq (,$(wildcard .env))
+	include .env
+	export
+endif
+
 .PHONY: help
 help:
 	@echo "Available commands:"
-	@echo "  make install          - Install application dependencies using uv."
-	@echo "  make test             - Run tests using uv and pytest."
-	@echo "  make clean            - Clean output, cache and log files."
-	@echo "  make clean-log        - Clean log files."
-	@echo "  make clean-cache      - Clean cache files."
-	@echo "  make clean-data       - Clean output data files."
-	@echo "  make run              - Execute the application using uv."
-	@echo "  make format           - Run pyupgrade, isort, black and flake8 for code style."
-	@echo "  make shell            - Run a uv shell."
 	@echo "  make docs             - Run the documentation server."
-	@echo "  make pre-commit       - Install pre-commit hooks."
+	@echo "  make install          - Install application dependencies using uv."
+	@echo "  make install-uv       - Install uv CLI (OS-specific)."
+	@echo "  make run              - Execute the application using uv."
 	@echo "  make serve            - Serve the FastAPI application."
-	@echo "  make env              - Export .env file to the package management tool."
-	@echo "  make remove-data      - Remove data presented in that folder."
 	@echo "  make docker-api-build - Build the API dockerized application."
 	@echo "  make docker-api-run   - Run the API dockerized application."
+	@echo "  make test             - Run tests using uv and pytest."
+	@echo "  make shell            - Run a uv shell."
+	@echo "  make pre-commit       - Install pre-commit hooks."
+	@echo "  make format           - Run pyupgrade, isort, black and flake8 for code style."
+	@echo "  make clean            - Clean output, cache and log files."
+	@echo "  make clean-cache      - Clean cache files."
+	@echo "  make clean-data       - Clean output data files."
+	@echo "  make clean-log        - Clean log files."
+	@echo "  make remove-data      - Remove data presented in that folder."
 
 .PHONY: install
 install:
-	export UV_ENV_FILE=.env & uv sync & uv run pre-commit install & uv run pre-commit install --hook-type commit-msg
+	@echo "Installing application dependencies and pre-commit hooks..."
+	uv sync && uv run pre-commit install && uv run pre-commit install --hook-type commit-msg
 
-.PHONY: env
-env:
-	export UV_ENV_FILE=.env
+.PHONY: install-uv
+install-uv:
+	@echo "Installing uv CLI (OS-specific)..."
+	$(UV_INSTALL_CMD)
 
 .PHONY: test
 test:
+	@echo "Running tests using uv and pytest..."
 	uv run pytest
 
 .PHONY: clean
 clean:
-	@echo "Cleaning log, output and cache files..."
-	@find . -type d \( -name '*log*' -o -name '*cache*' \) -exec rm -rf {} + & \
-	rm -rf data/output/* data/test/output/* *.DS_store*
+	@echo "Cleaning output, cache, and log files..."
+	@find . -type d \( -name '*log*' -o -name '*cache*' \) -exec rm -rf {} + && rm -rf data/output/* data/test/output/* *.DS_store*
 
 .PHONY: clean-log
 clean-log:
@@ -48,7 +63,12 @@ clean-cache:
 
 .PHONY: clean-data
 clean-data:
-	@echo "Remove data presented in that folder."
+	@echo "Cleaning output data files..."
+	@rm -rf data/output/* data/test/output/*
+
+.PHONY: remove-data
+remove-data:
+	@echo "Removing data presented in that folder..."
 	@rm -rf data/output/* data/test/output/*
 
 .PHONY: run
@@ -58,17 +78,17 @@ run:
 
 .PHONY: serve
 serve:
-	@echo "Running the FastAPI application"
+	@echo "Running the FastAPI application..."
 	uv run uvicorn src.application.api.app:app --reload
 
 .PHONY: docker-api-build
 docker-api-build:
-	@echo "Building the API dockerized application"
+	@echo "Building the API dockerized application..."
 	docker build -t splitter_api -f Dockerfile.api .
 
 .PHONY: docker-api-run
 docker-api-run:
-	@echo "Running the API dockerized application"
+	@echo "Running the API dockerized application..."
 	docker run -p 8080:8080 --env-file .env splitter_api
 
 .PHONY: format
@@ -84,9 +104,15 @@ format:
 
 .PHONY: docs
 docs:
-	@echo "Running the Documentation server."
+	@echo "Running the Documentation server..."
 	uv run mkdocs serve
 
 .PHONY: pre-commit
 pre-commit:
+	@echo "Installing pre-commit hooks..."
 	uv run pre-commit
+
+.PHONY: shell
+shell:
+	@echo "Starting a uv shell..."
+	uv run shell

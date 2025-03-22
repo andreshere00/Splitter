@@ -20,10 +20,10 @@ from src.splitter.splitters.word_splitter import WordSplitter
 # Splitter implementation
 
 __all__ = [
-    "BaseSplitter",
-    "WordSplitter",
-    "SentenceSplitter",
-    "ParagraphSplitter",
+    BaseSplitter,
+    WordSplitter,
+    SentenceSplitter,
+    ParagraphSplitter,
     # SemanticSplitter, TODO: Semantic Splitter implementation
     FixedSplitter,
     # PagedSplitter, TODO: Paged Splitter implementation
