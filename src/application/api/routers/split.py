@@ -7,10 +7,11 @@ from typing import List, Optional, Union
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
-from src.application.api.models import ChunkResponse  # TODO: add Download Chunks endpoint
+from src.application.api.models import ChunkResponse, SplitMethodEnum
 from src.chunker.chunk_manager import ChunkManager
 from src.reader.read_manager import ReadManager
 from src.splitter.split_manager import SplitManager
+
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
 
@@ -21,11 +22,43 @@ async def split_document(
     document_path: str = Form("data/input"),
     document_name: str = Form(""),  # Allow empty value from UI
     document_id: str = Form(""),    # Allow empty value from UI
-    split_method: str = Form(...),
+    split_method: SplitMethodEnum = Form(...),
     metadata: Optional[List[str]] = Form([]),
     split_params: Optional[str] = Form(""),  # Use defaults if empty or "string"
     chunk_path: str = Form("data/output"),
-):
+) -> ChunkResponse:
+    """
+    **Splits the provided document using the specified splitting method.**
+
+    This endpoint handles the file upload, saves the document to the designated path,
+    reads and converts the document using `ReadManager`, splits its content using
+    `SplitManager`, and saves the resulting chunks using `ChunkManager`.
+
+    **Args:**
+    - `file (UploadFile)`: The document file to be split.
+    - `document_path (Optional[str])`: The directory path where the document is located.
+    - `document_name (Optional[str])`: The name of the document.
+    - `document_id (Optional[str])`: A unique identifier for the document.
+    - `split_params: Optional[str]`: The parameters for the specific splitting method.
+    - `split_method (str)`: The method used to split the document.
+    - `metadata (Optional[List[str]])`: Additional metadata for the document.
+
+    **Defaults:**
+
+    - If `document_path` is not provided, it is set to `data/input`.
+    - If `document_name` is not provided, it is set to the uploaded file's filename.
+    - If `document_id` is not provided, it is set to 
+        `{base_filename}_{original_extension}_{date}_{time}` if not provided.
+    - If `split_params` are not provided, it is set to specific splitter default params.
+    - If `chunk_path`is not provided, it is set to `data/output`.
+
+    **Returns:**
+        `ChunkResponse`: A response containing the document chunks and associated metadata.
+
+    **Raises:**
+        `HTTPException`: If reading the file or splitting its content fails.
+    """
+
     # Convert file empty string to None.
     if isinstance(file, str) and file.strip() == "":
         file = None
@@ -33,16 +66,13 @@ async def split_document(
     # Branch based on file upload vs file path.
     if file is not None:
         # === File upload scenario ===
-        # Ensure document_path is treated as a directory.
         if not document_path or document_path.lower() == "string":
             document_path = "data/input"
         os.makedirs(document_path, exist_ok=True)
 
-        # If document_name is empty, default to the file's original filename.
         if not document_name or document_name.strip() == "":
             document_name = file.filename
 
-        # Save the uploaded file.
         document_save_path = os.path.join(document_path, document_name)
         with open(document_save_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
@@ -50,34 +80,28 @@ async def split_document(
         file_name = document_name
     else:
         # === File path scenario ===
-        # Here, document_path is assumed to be the full path to an existing file.
         if not os.path.exists(document_path):
             raise HTTPException(
                 status_code=400,
                 detail="No file provided and document_path does not exist.",
             )
-        # Get directory and filename.
         file_dir = os.path.dirname(document_path)
         file_name = os.path.basename(document_path)
-        # If document_name is provided and not empty, override the extracted name.
         if document_name.strip() != "":
             file_name = document_name
 
-    # Generate document_id if not provided or is empty.
     if not document_id or document_id.strip() == "":
         now = datetime.datetime.now()
         date_str = now.strftime("%Y%m%d")
         time_str = now.strftime("%H%M%S")
-        uuid_str = uuid.uuid4().hex[:16]  # 16-character UUID.
+        uuid_str = uuid.uuid4().hex[:16]
         _, extension = os.path.splitext(file_name)
         document_id = f"{uuid_str}_{date_str}_{time_str}{extension}"
 
-    # Ensure chunk_path (the output directory) exists.
     if not chunk_path or chunk_path.lower() == "string":
         chunk_path = "data/output"
     os.makedirs(chunk_path, exist_ok=True)
 
-    # Parse custom splitter parameters if provided.
     custom_split_params = {}
     if split_params and split_params.lower() != "string":
         try:
@@ -87,33 +111,27 @@ async def split_document(
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Invalid split_params: {str(e)}")
 
-    # Build configuration for the SplitManager.
-    base_config = {"splitter": {"method": split_method}}
+    base_config = {"splitter": {"method": split_method.value}}
     if custom_split_params:
-        base_config["splitter"]["methods"] = {split_method: custom_split_params}
+        base_config["splitter"]["methods"] = {split_method.value: custom_split_params}
 
-    # Instantiate managers using file_dir as the input directory.
     read_manager = ReadManager(input_path=file_dir)
     split_manager = SplitManager(config=base_config)
     chunk_manager = ChunkManager(
-        input_path=file_dir, output_path=chunk_path, split_method=split_method
+        input_path=file_dir, output_path=chunk_path, split_method=split_method.value
     )
 
-    # Read file content (using file_name).
     try:
         markdown_text = read_manager.read_file(file_name)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error reading file: {str(e)}")
 
-    # Split the text.
     chunks = split_manager.split_text(markdown_text)
     if not chunks:
         raise HTTPException(status_code=400, detail="No chunks generated from the document.")
 
-    # Save the chunks.
-    chunk_manager.save_chunks(chunks, file_name, os.path.splitext(file_name)[1], split_method)
+    chunk_manager.save_chunks(chunks, file_name, os.path.splitext(file_name)[1], split_method.value)
 
-    # Generate chunk IDs for each chunk.
     chunk_ids = [
         f"{file_name}_{date_str}_{time_str}_chunk_{i}"
         for i in range(1, len(chunks) + 1)
@@ -125,7 +143,7 @@ async def split_document(
         chunk_path=chunk_path,
         document_id=document_id,
         document_name=file_name,
-        split_method=split_method,
+        split_method=split_method.value,
         metadata=metadata,
         split_params=custom_split_params,
     )

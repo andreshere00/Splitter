@@ -68,7 +68,7 @@ clean-data:
 
 .PHONY: remove-data
 remove-data:
-	@echo "Removing data presented in that folder..."
+	@echo "Removing data presented in output folder..."
 	@rm -rf data/output/* data/test/output/*
 
 .PHONY: run

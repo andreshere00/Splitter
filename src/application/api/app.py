@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
-from src.application.api.routers import split
+from src.application.api.routers import (split, health)
+
 
 app = FastAPI(
     title="Document Splitter API",
@@ -17,6 +18,7 @@ app = FastAPI(
 
 # Include the document splitting router with the prefix /documents
 app.include_router(split.router, prefix="/documents", tags=["Documents"])
+app.include_router(health.router, prefix="/health-check", tags=["System"])
 
 
 @app.get("/")

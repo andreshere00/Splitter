@@ -1,5 +1,19 @@
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
+from enum import Enum
+
+
+class SplitMethodEnum(str, Enum):
+    word = "word"
+    sentence = "sentence"
+    paragraph = "paragraph"
+    semantic = "semantic"
+    fixed = "fixed"
+    paged = "paged"
+    recursive = "recursive"
+    row_column = "row-column"
+    schema_based = "schema-based"
+    auto = "auto"
 
 
 class DocumentRequest(BaseModel):
