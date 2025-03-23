@@ -15,7 +15,7 @@ from src.chunker.chunk_manager import ChunkManager
 from src.reader.read_manager import ReadManager
 from src.splitter.split_manager import SplitManager
 
-router = APIRouter(prefix="/documents", tags=["Documents"])
+router = APIRouter()
 
 
 @router.post("/split", response_model=ChunkResponse)
