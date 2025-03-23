@@ -2,10 +2,10 @@ import datetime
 from fastapi import APIRouter
 
 
-router = APIRouter(tags=["Health"])
+router = APIRouter(prefix="/health", tags=["System"])
 
 
-@router.get("/health")
+@router.get("/health-check")
 async def health_check():
     """
     Health check endpoint.

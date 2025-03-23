@@ -3,15 +3,17 @@ import os
 import shutil
 import json
 import uuid
+import io
+import zipfile
 from typing import List, Optional, Union
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from fastapi.responses import StreamingResponse
 
 from src.application.api.models import ChunkResponse, SplitMethodEnum
 from src.chunker.chunk_manager import ChunkManager
 from src.reader.read_manager import ReadManager
 from src.splitter.split_manager import SplitManager
-
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
 
@@ -26,7 +28,8 @@ async def split_document(
     metadata: Optional[List[str]] = Form([]),
     split_params: Optional[str] = Form(""),  # Use defaults if empty or "string"
     chunk_path: str = Form("data/output"),
-) -> ChunkResponse:
+    download_zip: bool = Form(False),  # New parameter: when True, return ZIP instead of JSON
+) -> Union[ChunkResponse, StreamingResponse]:
     """
     **Splits the provided document using the specified splitting method.**
 
@@ -137,6 +140,21 @@ async def split_document(
         for i in range(1, len(chunks) + 1)
     ]
 
+    # If the user wants to download the output as a ZIP file...
+    if download_zip:
+        # Create an in-memory ZIP archive.
+        zip_io = io.BytesIO()
+        with zipfile.ZipFile(zip_io, mode="w", compression=zipfile.ZIP_DEFLATED) as zip_file:
+            # Add each chunk as a text file.
+            for i, chunk in enumerate(chunks, start=1):
+                chunk_filename = f"{os.path.splitext(file_name)[0]}_chunk_{i}.txt"
+                zip_file.writestr(chunk_filename, chunk)
+        zip_io.seek(0)
+        headers = {"Content-Disposition": f"attachment; \
+                   filename={os.path.splitext(file_name)[0]}_chunks.zip"}
+        return StreamingResponse(zip_io, media_type="application/zip", headers=headers)
+
+    # Otherwise, return the standard JSON response.
     return ChunkResponse(
         chunks=chunks,
         chunk_id=chunk_ids,

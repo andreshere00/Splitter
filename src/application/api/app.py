@@ -17,8 +17,8 @@ app = FastAPI(
 )
 
 # Include the document splitting router with the prefix /documents
-app.include_router(split.router, prefix="/documents", tags=["Documents"])
-app.include_router(health.router, prefix="/health-check", tags=["System"])
+app.include_router(split.router, tags=["Documents"])
+app.include_router(health.router, tags=["System"])
 
 
 @app.get("/")
