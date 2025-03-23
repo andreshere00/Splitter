@@ -1,6 +1,7 @@
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel
 
 
 class SplitMethodEnum(str, Enum):
@@ -31,6 +32,7 @@ class DocumentRequest(BaseModel):
             default configuration for the splitting method.
         metadata (Optional[List[str]]): Additional metadata for the document.
     """
+
     document_name: Optional[str] = None
     document_path: str
     document_id: Optional[str] = None
@@ -53,6 +55,7 @@ class ChunkResponse(BaseModel):
         split_params (Optional[Dict[str, Any]]): The custom splitting parameters applied.
         metadata (Optional[List[str]]): Additional metadata for the document.
     """
+
     chunks: List[str]
     chunk_id: List[str]
     chunk_path: str

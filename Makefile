@@ -100,7 +100,7 @@ format:
 	@echo "Running black..."
 	uv run black .
 	@echo "Running flake8..."
-	uv run flake8 --max-line-length=101 --ignore=E203 src/
+	uv run flake8 --max-line-length=101 --ignore=E203,W291 src/
 
 .PHONY: docs
 docs:

@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
-from src.application.api.routers import (split, health)
-
+from src.application.api.routers import health, split
 
 app = FastAPI(
     title="Document Splitter API",
