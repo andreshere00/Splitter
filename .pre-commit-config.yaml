@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: flake8
         name: Check for code best-practices compliance
-        entry: uv run flake8 --max-line-length=101 --ignore=E203 src/
+        entry: uv run flake8 --max-line-length=101 --ignore=E203,W291 src/
         language: system
         types: [python]
 

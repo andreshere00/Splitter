@@ -29,7 +29,7 @@ help:
 	@echo "  make clean-cache      - Clean cache files."
 	@echo "  make clean-data       - Clean output data files."
 	@echo "  make clean-log        - Clean log files."
-	@echo "  make remove-data      - Remove data presented in that folder."
+	@echo "  make remove-data      - Remove data presented in the output folder."
 
 .PHONY: install
 install:
@@ -68,7 +68,7 @@ clean-data:
 
 .PHONY: remove-data
 remove-data:
-	@echo "Removing data presented in that folder..."
+	@echo "Removing data presented in output folder..."
 	@rm -rf data/output/* data/test/output/*
 
 .PHONY: run
@@ -100,7 +100,7 @@ format:
 	@echo "Running black..."
 	uv run black .
 	@echo "Running flake8..."
-	uv run flake8 --max-line-length=101 --ignore=E203 src/
+	uv run flake8 --max-line-length=101 --ignore=E203,W291 src/
 
 .PHONY: docs
 docs:

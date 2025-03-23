@@ -43,21 +43,32 @@ make serve
 
 #### **Input**
 
-- `document_name := str`.
-- `document_path := str`.
-- `document_id := str`.
-- `split_method := str`. 
-- `metadata := list[str]`.
+Object: `class <ChunkRequest>`
+
+```python
+document_name: Optional[str] = None
+document_path: str
+document_id: Optional[str] = None
+split_method: str
+split_params: Optional[Dict[str, Any]] = None
+metadata: Optional[List[str]] = []
+```
+
 
 #### **Output**
 
-- `chunks := list[str]`.
-- `chunk_id := str`.
-- `chunk_path := str`.
-- `document_id := str`.
-- `document_name := str`.
-- `split_method := str`.
-- `metadata := list[str]`.
+Object: `class <ChunkResponse>`
+
+```python
+chunks: List[str]
+chunk_id: List[str]
+chunk_path: str
+document_id: str
+document_name: Optional[str] = None
+split_method: str
+split_params: Optional[Dict[str, Any]] = None
+metadata: Optional[List[str]] = []
+```
 
 ### CLI
 
@@ -91,6 +102,72 @@ These values are configurable through the following environment variables:
 PORT=8080
 HOST=0.0.0.0
 LOG_LEVEL=info
+```
+
+## Configuration 
+
+File handling, splitting methods and application settings can be modified using a [configuration file](src/config.yaml). This file is provided in `src/config.yaml` file. Otherwise, parameters can be passed as API parameters. The config file has the following structure by default:
+
+```yaml
+# 1. File I/O Configuration
+file_io:
+  input_path: "data/input"     # Where the application reads files from
+  output_path: "data/output"   # Where the application saves the results
+
+# 2. Logging Configuration
+logging:
+  enabled: true                # Set to false to disable logging
+  level: "INFO"                # Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(levelname)s - %(message)s"
+  handlers:
+    - type: "stream"
+    - type: "file"
+      filename: "logs/app.log"
+      mode: "a"
+
+# 3. Splitting Methods Configuration
+splitter:
+  method: "recursive"
+
+  methods:
+    word:
+      num_words: 100  # Number of words in each chunk
+
+    sentence:
+      num_sentences: 5  # Number of sentences in each chunk
+
+    paragraph:
+      num_paragraphs: 3  # Number of paragraphs in each chunk
+
+    semantic:
+      language_model: "bert-base-uncased"  # For semantic similarity
+      overlap: 0.2                         # Overlap ratio between chunks
+
+    fixed:
+      size: 100  # Number of characters per chunk
+
+    paged:
+      num_pages: 1  # Number of pages in each chunk
+      overlap: 0.1  # Overlap (in pages) between chunks
+
+    recursive:
+      size: 10000     # Characters per chunk
+      overlap: 1000   # Overlapping characters
+
+    row-column:
+      num_columns: 2
+      column_names: ["Column1", "Column2"]
+      num_rows: 5
+      row_names: ["Row1", "Row2"]
+
+    schema-based:
+      num_registers: 50  # Number of registers (or rows) per chunk
+      overlap: 5         # Overlapping registers
+
+    auto:
+      fallback_method: "paragraph"
+      chunk_size: 500
+      overlap: 100
 ```
 
 ---
@@ -155,7 +232,7 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │   ├── assets
 │   │   ├── MultiRAG.drawio.svg
 │   │   ├── splitter.drawio.svg
-│   │   └── splitter.drawio_v0.1.0.svg
+│   │   └── splitter.drawio_v0.1.0.drawio.svg
 │   ├── chunker
 │   │   └── docs.md
 │   ├── index.md
