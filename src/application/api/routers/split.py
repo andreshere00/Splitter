@@ -1,11 +1,13 @@
 import datetime
 import os
 import shutil
-from typing import List, Optional
+import json
+import uuid
+from typing import List, Optional, Union
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
-from src.application.api.models import ChunkResponse
+from src.application.api.models import ChunkResponse  # TODO: Implement ChunkDownloader API
 from src.chunker.chunk_manager import ChunkManager
 from src.reader.read_manager import ReadManager
 from src.splitter.split_manager import SplitManager
@@ -15,110 +17,115 @@ router = APIRouter(prefix="/documents", tags=["Documents"])
 
 @router.post("/split", response_model=ChunkResponse)
 async def split_document(
-    file: Optional[UploadFile] = File(None),
-    document_path: Optional[str] = Form(None),
+    file: Optional[Union[UploadFile, str]] = File(None),
+    document_path: str = Form("data/input"),
     document_name: Optional[str] = Form(None),
     document_id: Optional[str] = Form(None),
     split_method: str = Form(...),
     metadata: Optional[List[str]] = Form([]),
+    split_params: Optional[str] = Form(""),  # Use defaults if empty or "string"
+    chunk_path: str = Form("data/output"),
 ):
-    """
-    **Splits the provided document using the specified splitting method.**
+    # If file is an empty string, treat it as if no file was provided.
+    if isinstance(file, str) and file.strip() == "":
+        file = None
 
-    This endpoint handles the file upload, saves the document to the designated path,
-    reads and converts the document using `ReadManager`, splits its content using
-    `SplitManager`, and saves the resulting chunks using `ChunkManager`.
+    # Branch depending on whether a file was uploaded.
+    if file is not None:
+        # === File upload scenario ===
+        # Ensure document_path is treated as a directory.
+        if not document_path or document_path.lower() == "string":
+            document_path = "data/input"
+        os.makedirs(document_path, exist_ok=True)
 
-    **Args:**
-    - `file (UploadFile)`: The document file to be split.
-    - `document_path (Optional[str])`: The directory path where the document is located.
-    - `document_name (Optional[str])`: The name of the document.
-    - `document_id (Optional[str])`: A unique identifier for the document.
-    - `split_method (str)`: The method used to split the document.
-    - `metadata (Optional[List[str]])`: Additional metadata for the document.
+        # If document_name is empty, default to the file's original filename.
+        if not document_name or document_name.lower() == "string":
+            document_name = file.filename
 
-    **Defaults:**
+        # Save the uploaded file.
+        document_save_path = os.path.join(document_path, document_name)
+        with open(document_save_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        file_dir = document_path
+        file_name = document_name
+    else:
+        # === File path scenario ===
+        # Here, document_path is assumed to be the full path to an existing file.
+        if not os.path.exists(document_path):
+            raise HTTPException(
+                status_code=400,
+                detail="No file provided and document_path does not exist.",
+            )
+        # Get directory and filename.
+        file_dir = os.path.dirname(document_path)
+        file_name = os.path.basename(document_path)
+        # If document_name is provided and not "string", override the extracted name.
+        if document_name and document_name.lower() != "string":
+            file_name = document_name
 
-    - If `document_path` is not provided or equals to `string`, it is set to `data/input`.
-    - If `document_name` is not provided or equals to `string`, it is set to the uploaded file's
-        filename.
-    - The `document_id` is generated as `{base_filename}_{original_extension}_{date}_{time}` if
-        not provided.
-    - By default, the output path is fixed to `data/output`.
-
-    Returns:
-        `ChunkResponse`: A response containing the document chunks and associated metadata.
-
-    Raises:
-        `HTTPException`: If reading the file or splitting its content fails.
-    """
-    # Use "data/input" as the default folder if document_path is not provided or is "string".
-    if not document_path or document_path.lower() == "string":
-        document_path = "data/input"
-
-    # Ensure the document_path directory exists
-    os.makedirs(document_path, exist_ok=True)
-
-    # If document_name is not provided or equals "string", use the basename of file.filename.
-    if not document_name or document_name.lower() == "string":
-        document_name = file.filename
-
-    # Save the uploaded file to document_path
-    document_save_path = os.path.join(document_path, document_name)
-    with open(document_save_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-
-    # Generate document_id if not provided
+    # Generate document_id if not provided.
     now = datetime.datetime.now()
     date_str = now.strftime("%Y%m%d")
     time_str = now.strftime("%H%M%S")
-    base_filename, original_extension = os.path.splitext(document_name)
-    document_id = (
-        document_id  # noqa: W503
-        or f"{base_filename}_{original_extension.strip('.')}_{date_str}_{time_str}"  # noqa: W503
-    )
+    if not document_id or document_id.lower() == "string":
+        uuid_str = uuid.uuid4().hex[:16]  # 16-character UUID.
+        _, extension = os.path.splitext(file_name)
+        document_id = f"{uuid_str}_{date_str}_{time_str}{extension}"
 
-    # Use fixed paths: input_path = document_path ("data/input") and output_path = "data/output"
-    # If document_path was provided, we ignore it in favor of these defaults for file upload.
-    input_path = document_path  # Should be "data/input" by our default logic.
-    output_path = "data/output"
-    os.makedirs(output_path, exist_ok=True)
+    # Ensure chunk_path (the output directory) exists.
+    if not chunk_path or chunk_path.lower() == "string":
+        chunk_path = "data/output"
+    os.makedirs(chunk_path, exist_ok=True)
 
-    # Instantiate managers using direct parameters:
-    read_manager = ReadManager(input_path=input_path)
-    split_manager = SplitManager(split_method=split_method)
+    # Parse custom splitter parameters if provided.
+    custom_split_params = {}
+    if split_params and split_params.lower() != "string":
+        try:
+            custom_split_params = json.loads(split_params)
+            if not isinstance(custom_split_params, dict):
+                raise ValueError("split_params must be a JSON object")
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Invalid split_params: {str(e)}")
+
+    # Build configuration for the SplitManager.
+    base_config = {"splitter": {"method": split_method}}
+    if custom_split_params:
+        base_config["splitter"]["methods"] = {split_method: custom_split_params}
+
+    # Instantiate managers using file_dir as the input directory.
+    read_manager = ReadManager(input_path=file_dir)
+    split_manager = SplitManager(config=base_config)
     chunk_manager = ChunkManager(
-        input_path=input_path, output_path=output_path, split_method=split_method
+        input_path=file_dir, output_path=chunk_path, split_method=split_method
     )
 
-    # Read file content
+    # Read file content (using the file_name).
     try:
-        markdown_text = read_manager.read_file(document_name)
+        markdown_text = read_manager.read_file(file_name)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error reading file: {str(e)}")
 
-    # Split the text content using the specified split_method
+    # Split the text.
     chunks = split_manager.split_text(markdown_text)
     if not chunks:
-        raise HTTPException(
-            status_code=400, detail="No chunks generated from the document."
-        )
+        raise HTTPException(status_code=400, detail="No chunks generated from the document.")
 
-    # Save the chunks
-    chunk_manager.save_chunks(chunks, base_filename, original_extension, split_method)
+    # Save the chunks.
+    chunk_manager.save_chunks(chunks, file_name, os.path.splitext(file_name)[1], split_method)
 
-    # Generate chunk IDs for each chunk
+    # Generate chunk IDs for each chunk.
     chunk_ids = [
-        f"{base_filename}_{original_extension.strip('.')}_{date_str}_{time_str}_chunk_{i}"
-        for i in range(1, len(chunks) + 1)  #
+        f"{file_name}_{date_str}_{time_str}_chunk_{i}"
+        for i in range(1, len(chunks) + 1)
     ]
 
     return ChunkResponse(
         chunks=chunks,
         chunk_id=chunk_ids,
-        chunk_path=output_path,
+        chunk_path=chunk_path,
         document_id=document_id,
-        document_name=document_name,
+        document_name=file_name,
         split_method=split_method,
         metadata=metadata,
+        split_params=custom_split_params,
     )
