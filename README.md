@@ -43,21 +43,32 @@ make serve
 
 #### **Input**
 
-- `document_name := str`.
-- `document_path := str`.
-- `document_id := str`.
-- `split_method := str`. 
-- `metadata := list[str]`.
+Object: `class <ChunkRequest>`
+
+```python
+document_name: Optional[str] = None
+document_path: str
+document_id: Optional[str] = None
+split_method: str
+split_params: Optional[Dict[str, Any]] = None
+metadata: Optional[List[str]] = []
+```
+
 
 #### **Output**
 
-- `chunks := list[str]`.
-- `chunk_id := str`.
-- `chunk_path := str`.
-- `document_id := str`.
-- `document_name := str`.
-- `split_method := str`.
-- `metadata := list[str]`.
+Object: `class <ChunkResponse>`
+
+```python
+chunks: List[str]
+chunk_id: List[str]
+chunk_path: str
+document_id: str
+document_name: Optional[str] = None
+split_method: str
+split_params: Optional[Dict[str, Any]] = None
+metadata: Optional[List[str]] = []
+```
 
 ### CLI
 
@@ -155,7 +166,7 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │   ├── assets
 │   │   ├── MultiRAG.drawio.svg
 │   │   ├── splitter.drawio.svg
-│   │   └── splitter.drawio_v0.1.0.svg
+│   │   └── splitter.drawio_v0.1.0.drawio.svg
 │   ├── chunker
 │   │   └── docs.md
 │   ├── index.md

@@ -7,7 +7,7 @@ from typing import List, Optional, Union
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
-from src.application.api.models import ChunkResponse  # TODO: Implement ChunkDownloader API
+from src.application.api.models import ChunkResponse  # TODO: add Download Chunks endpoint
 from src.chunker.chunk_manager import ChunkManager
 from src.reader.read_manager import ReadManager
 from src.splitter.split_manager import SplitManager
@@ -19,18 +19,18 @@ router = APIRouter(prefix="/documents", tags=["Documents"])
 async def split_document(
     file: Optional[Union[UploadFile, str]] = File(None),
     document_path: str = Form("data/input"),
-    document_name: Optional[str] = Form(None),
-    document_id: Optional[str] = Form(None),
+    document_name: str = Form(""),  # Allow empty value from UI
+    document_id: str = Form(""),    # Allow empty value from UI
     split_method: str = Form(...),
     metadata: Optional[List[str]] = Form([]),
     split_params: Optional[str] = Form(""),  # Use defaults if empty or "string"
     chunk_path: str = Form("data/output"),
 ):
-    # If file is an empty string, treat it as if no file was provided.
+    # Convert file empty string to None.
     if isinstance(file, str) and file.strip() == "":
         file = None
 
-    # Branch depending on whether a file was uploaded.
+    # Branch based on file upload vs file path.
     if file is not None:
         # === File upload scenario ===
         # Ensure document_path is treated as a directory.
@@ -39,7 +39,7 @@ async def split_document(
         os.makedirs(document_path, exist_ok=True)
 
         # If document_name is empty, default to the file's original filename.
-        if not document_name or document_name.lower() == "string":
+        if not document_name or document_name.strip() == "":
             document_name = file.filename
 
         # Save the uploaded file.
@@ -59,15 +59,15 @@ async def split_document(
         # Get directory and filename.
         file_dir = os.path.dirname(document_path)
         file_name = os.path.basename(document_path)
-        # If document_name is provided and not "string", override the extracted name.
-        if document_name and document_name.lower() != "string":
+        # If document_name is provided and not empty, override the extracted name.
+        if document_name.strip() != "":
             file_name = document_name
 
-    # Generate document_id if not provided.
-    now = datetime.datetime.now()
-    date_str = now.strftime("%Y%m%d")
-    time_str = now.strftime("%H%M%S")
-    if not document_id or document_id.lower() == "string":
+    # Generate document_id if not provided or is empty.
+    if not document_id or document_id.strip() == "":
+        now = datetime.datetime.now()
+        date_str = now.strftime("%Y%m%d")
+        time_str = now.strftime("%H%M%S")
         uuid_str = uuid.uuid4().hex[:16]  # 16-character UUID.
         _, extension = os.path.splitext(file_name)
         document_id = f"{uuid_str}_{date_str}_{time_str}{extension}"
@@ -99,7 +99,7 @@ async def split_document(
         input_path=file_dir, output_path=chunk_path, split_method=split_method
     )
 
-    # Read file content (using the file_name).
+    # Read file content (using file_name).
     try:
         markdown_text = read_manager.read_file(file_name)
     except Exception as e:

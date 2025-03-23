@@ -29,7 +29,7 @@ help:
 	@echo "  make clean-cache      - Clean cache files."
 	@echo "  make clean-data       - Clean output data files."
 	@echo "  make clean-log        - Clean log files."
-	@echo "  make remove-data      - Remove data presented in that folder."
+	@echo "  make remove-data      - Remove data presented in the output folder."
 
 .PHONY: install
 install:
