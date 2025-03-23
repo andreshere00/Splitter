@@ -9,6 +9,7 @@ The **Splitter** application aims to convert documents into markdown format, and
 ## How to launch the application
 
 The application is exposed via:
+
 - **REST API**
 - **CLI**
 
