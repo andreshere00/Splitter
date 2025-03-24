@@ -79,7 +79,7 @@ class ReadManager:
         if os.path.getsize(file_path) == 0:
             raise ValueError("File is empty")
 
-        if not file_name.lower().endswith((".txt", ".md", ".docx", ".pdf")):
+        if not file_name.lower().endswith((".txt", ".md", ".docx", ".pdf", ".xlsx", ".pptx")):
             raise ValueError("Invalid file extension")
 
         try:
