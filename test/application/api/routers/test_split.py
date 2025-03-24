@@ -1,51 +1,51 @@
-import io
 import json
-
+import pytest
 from fastapi.testclient import TestClient
-
 from src.application.api.app import app
 
-client = TestClient(app)
+
+# Use a fixture to initialize the FastAPI server and ensure startup/shutdown events are triggered.
+@pytest.fixture(scope="module")
+def client():
+    with TestClient(app) as client:
+        yield client
 
 
 # 1. Test successful response using file upload (download_zip=true)
-def test_split_valid_file_upload_zip():
-    # Simulate a file upload using a TXT file.
-    file_content = b"This is a test document. " * 50
-    file = io.BytesIO(file_content)
-    file.name = "test_1.txt"
-
-    response = client.post(
-        "/documents/split",
-        data={
-            "document_path": "data/test/input",
-            "split_method": "word",
-            "download_zip": "true",
-            "split_params": json.dumps({"num_words": 1000}),
-            "document_name": "",
-            "metadata": "",
-            "chunk_path": "data/test/output",
-            "document_id": "",
-        },
-        files={"file": ("test_1.txt", file, "text/plain")},
-    )
+def test_split_valid_file_upload_zip(client):
+    # Load the PDF file from the folder "data/test/input"
+    with open("data/test/input/test_1.pdf", "rb") as file:
+        response = client.post(
+            "/split",
+            data={
+                "document_path": "data/test/input",
+                "split_method": "word",
+                "download_zip": "true",
+                "split_params": json.dumps({"num_words": 1000}),
+                "document_name": "",
+                "metadata": "",
+                "chunk_path": "data/test/output",
+                "document_id": "",
+            },
+            files={"file": ("test_1.pdf", file, "application/pdf")},
+        )
     # Expect a ZIP response
     assert response.status_code == 200
     assert "application/zip" in response.headers.get("content-type", "")
 
 
 # 2. Test successful response using file path (download_zip=false)
-def test_split_valid_file_path_no_zip():
-    test_file_path = "data/test/input/test_1.txt"
+def test_split_valid_file_path_no_zip(client):
+    test_file_path = "data/test/input/test_1.pdf"
 
     response = client.post(
-        "/documents/split",
+        "/split",
         data={
             "document_path": test_file_path,
             "split_method": "word",
             "download_zip": "false",
             "split_params": json.dumps({"num_words": 1000}),
-            "document_name": "test_1.txt",
+            "document_name": "test_1.pdf",
             "metadata": "",
             "chunk_path": "data/test/output",
             "document_id": "3739202c838a3831_20250323_141321_test_1",
@@ -58,25 +58,22 @@ def test_split_valid_file_path_no_zip():
 
 
 # 3. Test that default parameters are used when split_params is an empty JSON object
-def test_split_default_params():
-    file_content = b"This is a test document. " * 50
-    file = io.BytesIO(file_content)
-    file.name = "test_1.txt"
-
-    response = client.post(
-        "/documents/split",
-        data={
-            "document_path": "data/test/input",
-            "split_method": "word",
-            "download_zip": "false",
-            "split_params": json.dumps({}),  # empty JSON
-            "document_name": "",
-            "metadata": "",
-            "chunk_path": "data/test/output",
-            "document_id": "",
-        },
-        files={"file": ("test_1.txt", file, "text/plain")},
-    )
+def test_split_default_params(client):
+    with open("data/test/input/test_1.pdf", "rb") as file:
+        response = client.post(
+            "/split",
+            data={
+                "document_path": "data/test/input",
+                "split_method": "word",
+                "download_zip": "false",
+                "split_params": json.dumps({}),  # empty JSON
+                "document_name": "",
+                "metadata": "",
+                "chunk_path": "data/test/output",
+                "document_id": "",
+            },
+            files={"file": ("test_1.pdf", file, "application/pdf")},
+        )
     assert response.status_code == 200
     data = response.json()
     # When empty JSON is provided, our code sets custom_split_params to None.
@@ -84,55 +81,44 @@ def test_split_default_params():
 
 
 # 4. Test that non-default parameters are applied
-def test_split_custom_params():
-    file_content = b"This is a test document. " * 50
-    file = io.BytesIO(file_content)
-    file.name = "test_1.txt"
-
-    response = client.post(
-        "/documents/split",
-        data={
-            "document_path": "data/test/input",
-            "split_method": "word",
-            "download_zip": "false",
-            "split_params": json.dumps({"num_words": 1000}),
-            "document_name": "",
-            "metadata": "",
-            "chunk_path": "data/test/output",
-            "document_id": "",
-        },
-        files={"file": ("test_1.txt", file, "text/plain")},
-    )
-
-    print("=" * 80)
-    print(response.status_code)
-    print("=" * 80)
+def test_split_custom_params(client):
+    with open("data/test/input/test_1.pdf", "rb") as file:
+        response = client.post(
+            "/split",
+            data={
+                "document_path": "data/test/input",
+                "split_method": "word",
+                "download_zip": "false",
+                "split_params": json.dumps({"num_words": 1000}),
+                "document_name": "",
+                "metadata": "",
+                "chunk_path": "data/test/output",
+                "document_id": "",
+            },
+            files={"file": ("test_1.pdf", file, "application/pdf")},
+        )
     assert response.status_code == 200
     data = response.json()
     assert data["split_params"] == {"num_words": 1000}
 
 
 # 5. Test unsuccessful response with invalid parameters (e.g., negative num_words)
-def test_split_invalid_params():
-    file_content = b"This is a test document. " * 50
-    file = io.BytesIO(file_content)
-    file.name = "test_1.txt"
-
-    response = client.post(
-        "/documents/split",
-        data={
-            "document_path": "data/test/input",
-            "split_method": "word",
-            "download_zip": "false",
-            "split_params": json.dumps({"num_words": -58}),
-            "document_name": "",
-            "metadata": "",
-            "chunk_path": "data/test/output",
-            "document_id": "",
-        },
-        files={"file": ("test_1.txt", file, "text/plain")},
-    )
-
+def test_split_invalid_params(client):
+    with open("data/test/input/test_1.pdf", "rb") as file:
+        response = client.post(
+            "/split",
+            data={
+                "document_path": "data/test/input",
+                "split_method": "word",
+                "download_zip": "false",
+                "split_params": json.dumps({"num_words": -58}),
+                "document_name": "",
+                "metadata": "",
+                "chunk_path": "data/test/output",
+                "document_id": "",
+            },
+            files={"file": ("test_1.pdf", file, "application/pdf")},
+        )
     # Assuming your splitting logic validates and rejects negative num_words,
     # expect a 400 error.
     assert response.status_code == 400
