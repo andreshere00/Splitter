@@ -28,39 +28,38 @@ splitter:
     paragraph:
       num_paragraphs: 3  # Number of paragraphs in each chunk
 
-    semantic:
-      language_model: "bert-base-uncased"  # For semantic similarity
-      overlap: 0.2                         # Overlap ratio between chunks
+    # semantic:
+    #   language_model: "bert-base-uncased"  # For semantic similarity
+    #   overlap: 0.2                         # Overlap ratio between chunks
 
     fixed:
       size: 100  # Number of characters per chunk
 
-    paged:
-      num_pages: 1  # Number of pages in each chunk
-      overlap: 0.1  # Overlap (in pages) between chunks
+    # paged:
+    #   num_pages: 1  # Number of pages in each chunk
+    #   overlap: 0.1  # Overlap (in pages) between chunks
 
     recursive:
       size: 10000     # Characters per chunk
       overlap: 1000   # Overlapping characters
 
-    row-column:
-      num_columns: 2
-      column_names: ["Column1", "Column2"]
-      num_rows: 5
-      row_names: ["Row1", "Row2"]
+    # row-column:
+    #   num_columns: 2
+    #   column_names: ["Column1", "Column2"]
+    #   num_rows: 5
+    #   row_names: ["Row1", "Row2"]
 
-    schema-based:
-      num_registers: 50  # Number of registers (or rows) per chunk
-      overlap: 5         # Overlapping registers
+    # schema-based:
+    #   num_registers: 50  # Number of registers (or rows) per chunk
+    #   overlap: 5         # Overlapping registers
 
-    auto:
-      fallback_method: "paragraph"
-      chunk_size: 500
-      overlap: 100
+    # auto:
+    #   fallback_method: "paragraph"
+    #   chunk_size: 500
+    #   overlap: 100
 
 # 4. OCR configuration
 ocr:
   method: "azure"  # Options: openai, textract, huggingface, none
   include_image_blobs: false
   include_json_structure: false
-
