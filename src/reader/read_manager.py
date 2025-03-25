@@ -1,6 +1,9 @@
 import logging
 import os
+import tempfile
 from typing import Dict, Optional
+
+from fastapi import UploadFile
 
 from src.model.llm_client import LLMClient
 from src.reader.readers.markitdown_reader import MarkItDownConverter
@@ -32,32 +35,27 @@ class ReadManager:
             self.config.get("ocr", {}).get("method", "none")
         )
 
-    def read_file(self, file_name: str) -> str:
+    def read_file(self, file_path: str) -> str:
         """
-        Reads and converts a file to text based on its extension.
+        Reads and converts a file from the given file path to Markdown text.
 
         Args:
-            file_name (str): Name of the file to read.
+            file_path (str): Path to the file.
 
         Returns:
-            str: Converted text content.
+            str: Converted Markdown text.
 
         Raises:
-            FileNotFoundError: If the file doesn't exist.
-            ValueError: If the file is empty or unsupported.
-            RuntimeError: If conversion fails.
+            FileNotFoundError, ValueError, RuntimeError
         """
-        file_path: str = os.path.join(self.input_path, file_name)
-
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File not found: {file_path}")
         if os.path.getsize(file_path) == 0:
             raise ValueError("File is empty")
 
-        ext: str = file_name.lower().split(".")[-1]
-        converter: Optional[MarkItDownConverter] = self._get_converter_for_extension(
-            ext
-        )
+        ext = file_path.lower().split(".")[-1]
+        converter = self._get_converter_for_extension(ext)
+        print(converter)
         if converter is None:
             raise ValueError("Unsupported file extension")
 
@@ -68,6 +66,30 @@ class ReadManager:
                 f"Error converting file {file_path} using {converter.__class__.__name__}: {e}"
             )
             raise RuntimeError("Failed to convert file")
+
+    def read_file_object(self, file: UploadFile) -> str:
+        """
+        Reads and converts an uploaded file object to Markdown text.
+        The file is temporarily saved to disk, processed, and then deleted.
+
+        Args:
+            file (UploadFile): The uploaded file object.
+
+        Returns:
+            str: Converted Markdown text.
+        """
+        tmp_path = ""
+        try:
+            with tempfile.NamedTemporaryFile(
+                delete=False, suffix="." + file.filename.split(".")[-1]
+            ) as tmp:
+                tmp.write(file.file.read())
+                tmp_path = tmp.name
+            print(tmp_path)
+            return self.read_file(tmp_path)
+        finally:
+            if tmp_path and os.path.exists(tmp_path):
+                os.remove(tmp_path)
 
     def _get_converter_for_extension(self, ext: str) -> Optional[MarkItDownConverter]:
         """
@@ -83,13 +105,13 @@ class ReadManager:
         model = self.llm.get_model()
 
         mapping: Dict[str, MarkItDownConverter] = {
-            "txt": MarkItDownConverter(),
-            "md": MarkItDownConverter(),
+            "txt": MarkItDownConverter(client, model),
+            "md": MarkItDownConverter(client, model),
             "docx": MarkItDownConverter(client, model),
-            "xlsx": MarkItDownConverter(),
+            "xlsx": MarkItDownConverter(client, model),
             "pptx": MarkItDownConverter(client, model),
             "pdf": MarkItDownConverter(client, model),
-            "png": MarkItDownConverter(client, model),
             "jpg": MarkItDownConverter(client, model),
+            "png": MarkItDownConverter(client, model),
         }
         return mapping.get(ext)

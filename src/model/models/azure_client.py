@@ -1,12 +1,7 @@
-import os
-from typing import Optional
-
 import openai
-from dotenv import load_dotenv
 
+from src.application.api.config import settings
 from src.model.base_client import BaseLLMClient
-
-load_dotenv()
 
 
 class AzureOpenAIClient(BaseLLMClient):
@@ -16,14 +11,14 @@ class AzureOpenAIClient(BaseLLMClient):
 
     def __init__(self):
         self.client = openai.AzureOpenAI(
-            api_key=os.environ.get("AZURE_OPENAI_API_KEY"),
-            api_version=os.environ.get("AZURE_OPENAI_API_VERSION"),
-            azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT"),
+            api_key=settings.azure_openai_api_key,
+            api_version=settings.azure_openai_api_version,
+            azure_endpoint=settings.azure_openai_endpoint,
         )
-        self.model = os.environ.get("AZURE_OPENAI_DEPLOYMENT")
+        self.model = settings.azure_openai_deployment
 
     def get_client(self) -> object:
         return self.client
 
-    def get_model(self) -> Optional[str]:
+    def get_model(self) -> str:
         return self.model

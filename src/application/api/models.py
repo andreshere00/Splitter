@@ -17,6 +17,12 @@ class SplitMethodEnum(str, Enum):
     auto = "auto"
 
 
+class OCRMethodEnum(str, Enum):
+    none = "none"
+    openai = "openai"
+    azure = "azure"
+
+
 class DocumentRequest(BaseModel):
     """
     Request model for splitting a document.
