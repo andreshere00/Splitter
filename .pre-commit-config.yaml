@@ -9,8 +9,7 @@ repos:
 
       - id: run-tests
         name: Run tests with Coverage
-        # This hook runs pytest; adjust options (or add coverage checking)
-        entry: uv run pytest --maxfail=1 --disable-warnings -q
+        entry: bash -c "uv run coverage run --source=src -m pytest --maxfail=1 --disable-warnings -q && uv run coverage report --fail-under=70"
         language: system
         types: [bash]
       

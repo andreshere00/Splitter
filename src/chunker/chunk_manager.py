@@ -92,8 +92,7 @@ class ChunkManager:
         now = datetime.datetime.now()
         date_str = now.strftime("%Y%m%d")
         time_str = now.strftime("%H%M%S")
-        folder_name = f"{base_filename}_{original_extension.strip('.')}_{date_str}_{time_str}_\
-            {splitter_method}"
+        folder_name = f"{base_filename}_{original_extension.strip('.')}_{date_str}_{time_str}_{splitter_method}"  # noqa: E501
         folder_path = os.path.join(self.output_path, folder_name)
         os.makedirs(folder_path, exist_ok=True)
 
