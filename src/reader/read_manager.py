@@ -1,90 +1,95 @@
 import logging
 import os
-from typing import Any, Dict, Optional
+from typing import Dict, Optional
 
-from markitdown import MarkItDown
-
-from src.utils.logging_manager import LoggingManager
+from src.model.llm_client import LLMClient
+from src.reader.readers.markitdown_reader import MarkItDownConverter
 
 
 class ReadManager:
     """
-    Manages the process of reading files from a specified input directory
-    and converting them into Markdown format.
-
-    This class is responsible for:
-    - Configuring logging based on the provided configuration.
-    - Reading files from a configured input directory.
-    - Converting files (TXT, MD, DOCX, PDF) into Markdown format.
-
-    Attributes:
-        config (Dict[str, Any]): A dictionary containing configuration settings.
-        input_path (str): The directory path where input files are stored.
-        md (Any): The Markdown converter instance used for file conversion.
+    Manages reading and converting files into text using format-specific converters.
     """
 
     def __init__(
-        self,
-        config: Optional[Dict[str, Any]] = None,
-        *,
-        input_path: Optional[str] = None,
-        markdown_converter: Any = None,
+        self, config: Optional[Dict] = None, *, input_path: Optional[str] = None
     ) -> None:
         """
-        Initializes the ReadManager with a configuration dictionary or with provided arguments.
-
-        If no configuration dictionary is provided, it builds one using the provided arguments.
+        Initializes ReadManager with a configuration or a default input path.
 
         Args:
-            config (Optional[Dict[str, Any]]): A dictionary containing configuration settings.
-            input_path (Optional[str]): The directory path where input files are stored.
-            markdown_converter (Any, optional): An instance of a Markdown converter.
-                                                Defaults to `MarkItDown`.
+            config (dict, optional): Configuration dictionary.
+            input_path (str, optional): Path to the input directory.
         """
         if config is None:
-            if input_path is None:
-                input_path = "data/input"
+            input_path = input_path or "data/input"
             config = {"file_io": {"input_path": input_path}}
-        self.config = config
-        self.logging = LoggingManager.configure_logging(self.config)
-        file_io_config = self.config.get("file_io", {})
-        self.input_path = file_io_config.get("input_path", "data/input")
-        # Use dependency injection for the Markdown converter.
-        self.md = markdown_converter if markdown_converter is not None else MarkItDown()
+        self.config: Dict = config
+        self.input_path: str = self.config.get("file_io", {}).get(
+            "input_path", "data/input"
+        )
+        self.llm: LLMClient = LLMClient(
+            self.config.get("ocr", {}).get("method", "none")
+        )
 
     def read_file(self, file_name: str) -> str:
         """
-        Reads and converts a file to Markdown format.
-
-        The file is retrieved from the configured input directory.
-        Only files with extensions `.txt`, `.md`, `.docx`, and `.pdf` are supported.
-        The converted text is returned as a Markdown string.
+        Reads and converts a file to text based on its extension.
 
         Args:
-            file_name (str): The name of the file to be read and converted.
+            file_name (str): Name of the file to read.
 
         Returns:
-            str: The Markdown text content of the converted file.
+            str: Converted text content.
 
         Raises:
-            FileNotFoundError: If the file does not exist.
-            ValueError: If the file is empty or has an unsupported extension.
-            RuntimeError: If an error occurs during file conversion.
+            FileNotFoundError: If the file doesn't exist.
+            ValueError: If the file is empty or unsupported.
+            RuntimeError: If conversion fails.
         """
-        file_path = os.path.join(self.input_path, file_name)
+        file_path: str = os.path.join(self.input_path, file_name)
 
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File not found: {file_path}")
-
         if os.path.getsize(file_path) == 0:
             raise ValueError("File is empty")
 
-        if not file_name.lower().endswith((".txt", ".md", ".docx", ".pdf", ".xlsx", ".pptx")):
-            raise ValueError("Invalid file extension")
+        ext: str = file_name.lower().split(".")[-1]
+        converter: Optional[MarkItDownConverter] = self._get_converter_for_extension(
+            ext
+        )
+        if converter is None:
+            raise ValueError("Unsupported file extension")
 
         try:
-            markdown_text = self.md.convert(file_path)
-            return markdown_text.text_content
+            return converter.convert(file_path)
         except Exception as e:
-            logging.error(f"Error converting file {file_path} using markitdown: {e}")
+            logging.error(
+                f"Error converting file {file_path} using {converter.__class__.__name__}: {e}"
+            )
             raise RuntimeError("Failed to convert file")
+
+    def _get_converter_for_extension(self, ext: str) -> Optional[MarkItDownConverter]:
+        """
+        Returns the appropriate converter based on file extension.
+
+        Args:
+            ext (str): File extension.
+
+        Returns:
+            Optional[MarkItDownConverter]: Converter instance or None if unsupported.
+        """
+        client = self.llm.get_client()
+        model = self.llm.get_model()
+
+        mapping: Dict[str, MarkItDownConverter] = {
+            "txt": MarkItDownConverter(),
+            "md": MarkItDownConverter(),
+            "docx": MarkItDownConverter(client, model),
+            "xlsx": MarkItDownConverter(),
+            "pptx": MarkItDownConverter(client, model),
+            "pdf": MarkItDownConverter(client, model),
+            "png": MarkItDownConverter(client, model),
+            "jpg": MarkItDownConverter(client, model),
+        }
+        return mapping.get(ext)

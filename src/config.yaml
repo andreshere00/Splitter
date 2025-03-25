@@ -58,3 +58,9 @@ splitter:
       chunk_size: 500
       overlap: 100
 
+# 4. OCR configuration
+ocr:
+  method: "azure"  # Options: openai, textract, huggingface, none
+  include_image_blobs: false
+  include_json_structure: false
+
