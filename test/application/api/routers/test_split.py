@@ -38,22 +38,21 @@ def test_split_valid_file_upload_zip(client):
 
 # 2. Test successful response using file path (download_zip=false)
 def test_split_valid_file_path_no_zip(client):
-    test_file_path = "data/test/input/test_1.pdf"
-
-    response = client.post(
-        "/split",
-        data={
-            "document_path": test_file_path,
-            "split_method": "word",
-            "download_zip": "false",
-            "split_params": json.dumps({"num_words": 1000}),
-            "document_name": "test_1.pdf",
-            "metadata": "",
-            "chunk_path": "data/test/output",
-            "document_id": "3739202c838a3831_20250323_141321_test_1",
-        },
-        files={"file": ("", "", "application/octet-stream")},
-    )
+    with open("data/test/input/test_1.pdf", "rb") as file:
+        response = client.post(
+            "/split",
+            data={
+                "document_path": "data/test/input",
+                "split_method": "word",
+                "download_zip": "false",
+                "split_params": json.dumps({"num_words": 1000}),
+                "document_name": "",
+                "metadata": "",
+                "chunk_path": "data/test/output",
+                "document_id": "",
+            },
+            files={"file": ("test_1.pdf", file, "application/pdf")},
+        )
     assert response.status_code == 200
     data = response.json()
     assert "chunks" in data

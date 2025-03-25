@@ -44,7 +44,7 @@ install-uv:
 .PHONY: test
 test:
 	@echo "Running tests using uv and pytest..."
-	uv run pytest
+	uv run coverage report -m && uv run pytest 
 
 .PHONY: clean
 clean:

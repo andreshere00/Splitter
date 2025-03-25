@@ -44,9 +44,6 @@ class ReadManager:
 
         Returns:
             str: Converted Markdown text.
-
-        Raises:
-            FileNotFoundError, ValueError, RuntimeError
         """
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File not found: {file_path}")
@@ -55,7 +52,6 @@ class ReadManager:
 
         ext = file_path.lower().split(".")[-1]
         converter = self._get_converter_for_extension(ext)
-        print(converter)
         if converter is None:
             raise ValueError("Unsupported file extension")
 
@@ -85,7 +81,6 @@ class ReadManager:
             ) as tmp:
                 tmp.write(file.file.read())
                 tmp_path = tmp.name
-            print(tmp_path)
             return self.read_file(tmp_path)
         finally:
             if tmp_path and os.path.exists(tmp_path):

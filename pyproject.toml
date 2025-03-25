@@ -24,6 +24,7 @@ dependencies = [
 dev = [
     "autopep8>=2.3.2",
     "black>=25.1.0",
+    "coverage>=7.7.1",
     "flake8>=7.1.2",
     "isort>=6.0.1",
     "mkdocs>=1.6.1",
