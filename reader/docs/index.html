@@ -350,9 +350,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#src.reader.read_manager.ReadManager._get_converter_for_extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      _get_converter_for_extension
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#src.reader.read_manager.ReadManager.read_file" class="md-nav__link">
     <span class="md-ellipsis">
       read_file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.reader.read_manager.ReadManager.read_file_object" class="md-nav__link">
+    <span class="md-ellipsis">
+      read_file_object
     </span>
   </a>
   
@@ -456,9 +474,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#src.reader.read_manager.ReadManager._get_converter_for_extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      _get_converter_for_extension
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#src.reader.read_manager.ReadManager.read_file" class="md-nav__link">
     <span class="md-ellipsis">
       read_file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.reader.read_manager.ReadManager.read_file_object" class="md-nav__link">
+    <span class="md-ellipsis">
+      read_file_object
     </span>
   </a>
   
@@ -527,59 +563,7 @@
     <div class="doc doc-contents ">
 
 
-        <p>Manages the process of reading files from a specified input directory
-and converting them into Markdown format.</p>
-<p>This class is responsible for:
-- Configuring logging based on the provided configuration.
-- Reading files from a configured input directory.
-- Converting files (TXT, MD, DOCX, PDF) into Markdown format.</p>
-
-
-<p><span class="doc-section-title">Attributes:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td><code><span title="src.reader.read_manager.ReadManager.config">config</span></code></td>
-            <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A dictionary containing configuration settings.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="src.reader.read_manager.ReadManager.input_path">input_path</span></code></td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The directory path where input files are stored.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="src.reader.read_manager.ReadManager.md">md</span></code></td>
-            <td>
-                  <code><span title="typing.Any">Any</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The Markdown converter instance used for file conversion.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Manages reading and converting files into text using format-specific converters.</p>
 
 
 
@@ -604,15 +588,14 @@ and converting them into Markdown format.</p>
 
 
 <h3 id="src.reader.read_manager.ReadManager.__init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">input_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">markdown_converter</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">input_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
 
     <div class="doc doc-contents ">
 
-        <p>Initializes the ReadManager with a configuration dictionary or with provided arguments.</p>
-<p>If no configuration dictionary is provided, it builds one using the provided arguments.</p>
+        <p>Initializes ReadManager with a configuration or a default input path.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -631,11 +614,11 @@ and converting them into Markdown format.</p>
                 <code>config</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="dict">dict</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A dictionary containing configuration settings.</p>
+                <p>Configuration dictionary.</p>
               </div>
             </td>
             <td>
@@ -647,28 +630,11 @@ and converting them into Markdown format.</p>
                 <code>input_path</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The directory path where input files are stored.</p>
-              </div>
-            </td>
-            <td>
-                  <code>None</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>markdown_converter</code>
-            </td>
-            <td>
-                  <code><span title="typing.Any">Any</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>An instance of a Markdown converter.
-                                Defaults to <code>MarkItDown</code>.</p>
+                <p>Path to the input directory.</p>
               </div>
             </td>
             <td>
@@ -686,18 +652,15 @@ and converting them into Markdown format.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="src.reader.read_manager.ReadManager.read_file" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">read_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span></code>
+<h3 id="src.reader.read_manager.ReadManager._get_converter_for_extension" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">_get_converter_for_extension</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span></code>
 
 </h3>
 
 
     <div class="doc doc-contents ">
 
-        <p>Reads and converts a file to Markdown format.</p>
-<p>The file is retrieved from the configured input directory.
-Only files with extensions <code>.txt</code>, <code>.md</code>, <code>.docx</code>, and <code>.pdf</code> are supported.
-The converted text is returned as a Markdown string.</p>
+        <p>Returns the appropriate converter based on file extension.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -713,14 +676,86 @@ The converted text is returned as a Markdown string.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>file_name</code>
+                <code>ext</code>
             </td>
             <td>
                   <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The name of the file to be read and converted.</p>
+                <p>File extension.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="src.reader.readers.markitdown_reader.MarkItDownConverter">MarkItDownConverter</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional[MarkItDownConverter]: Converter instance or None if unsupported.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="src.reader.read_manager.ReadManager.read_file" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">read_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Reads and converts a file from the given file path to Markdown text.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_path</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Path to the file.</p>
               </div>
             </td>
             <td>
@@ -746,7 +781,7 @@ The converted text is returned as a Markdown string.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The Markdown text content of the converted file.</p>
+                <p>Converted Markdown text.</p>
               </div>
             </td>
           </tr>
@@ -754,42 +789,72 @@ The converted text is returned as a Markdown string.</p>
     </table>
 
 
-<p><span class="doc-section-title">Raises:</span></p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="src.reader.read_manager.ReadManager.read_file_object" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">read_file_object</span><span class="p">(</span><span class="n">file</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Reads and converts an uploaded file object to Markdown text.
+The file is temporarily saved to disk, processed, and then deleted.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
         <tr>
+          <th>Name</th>
           <th>Type</th>
           <th>Description</th>
+          <th>Default</th>
         </tr>
       </thead>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
+                <code>file</code>
+            </td>
+            <td>
+                  <code><span title="fastapi.UploadFile">UploadFile</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If the file does not exist.</p>
+                <p>The uploaded file object.</p>
               </div>
             </td>
-          </tr>
-          <tr class="doc-section-item">
             <td>
-                  <code><span title="ValueError">ValueError</span></code>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>str</code></td>            <td>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If the file is empty or has an unsupported extension.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="RuntimeError">RuntimeError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If an error occurs during file conversion.</p>
+                <p>Converted Markdown text.</p>
               </div>
             </td>
           </tr>
