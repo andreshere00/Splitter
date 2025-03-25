@@ -2,7 +2,6 @@ import datetime
 import io
 import json
 import os
-import shutil
 import uuid
 import zipfile
 from typing import List, Optional, Union
@@ -10,7 +9,7 @@ from typing import List, Optional, Union
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
 
-from src.application.api.models import ChunkResponse, SplitMethodEnum
+from src.application.api.models import ChunkResponse, OCRMethodEnum, SplitMethodEnum
 from src.chunker.chunk_manager import ChunkManager
 from src.reader.read_manager import ReadManager
 from src.splitter.split_manager import SplitManager
@@ -18,57 +17,81 @@ from src.splitter.split_manager import SplitManager
 router = APIRouter()
 
 
-@router.post("/split", response_model=ChunkResponse)
+@router.post(
+    "/split",
+    response_model=ChunkResponse,
+    summary="Split Document",
+    description=(
+        "Splits a document into chunks using the specified split method. "
+        "You can either upload a file or specify a file path. "
+        "It has an OCR feature to analyze images from the documents."
+        "Optionally, the result can be returned as a ZIP file."
+    ),
+)
 async def split_document(
-    file: Optional[Union[UploadFile, str]] = File(None),
-    document_path: str = Form("data/input"),
-    document_name: str = Form(""),  # Allow empty value from UI
-    document_id: str = Form(""),  # Allow empty value from UI
-    split_method: SplitMethodEnum = Form(...),
-    metadata: Optional[List[str]] = Form([]),
-    split_params: str = Form("{}"),
-    chunk_path: str = Form("data/output"),
-    download_zip: bool = Form(False),  # When True, return ZIP instead of JSON
+    file: Optional[Union[UploadFile, str]] = File(
+        None, description="Uploaded file. Leave empty if using a file path."
+    ),
+    document_path: str = Form(
+        "data/input",
+        description="Absolute or relative path where the document is located.",
+    ),
+    document_name: str = Form(
+        "",
+        description="Name for the document; if empty, the uploaded file's name is used.",
+    ),
+    document_id: str = Form(
+        "", description="Optional document identifier. If empty, one will be generated."
+    ),
+    split_method: SplitMethodEnum = Form(
+        ..., description="Method to split the document text."
+    ),
+    ocr_method: OCRMethodEnum = Form(
+        ..., description="OCR client to use for image processing: 'none', 'openai', or 'azure'.",
+    ),
+    metadata: Optional[List[str]] = Form([], description="Optional metadata tags."),
+    split_params: str = Form(
+        "{}",
+        description="JSON string of custom parameters for splitting (must be a JSON object).",
+    ),
+    chunk_path: str = Form(
+        "data/output", description="Path where the output chunks will be stored."
+    ),
+    download_zip: bool = Form(
+        False,
+        description="If true, returns the chunks in a ZIP archive instead of JSON.",
+    ),
 ) -> Union[ChunkResponse, StreamingResponse]:
     try:
-        # Convert provided paths to absolute paths
+        # Normalize paths.
         document_path = os.path.abspath(document_path)
         chunk_path = os.path.abspath(chunk_path)
 
-        # Convert file empty string to None.
-        if isinstance(file, str) and file.strip() == "":
+        if isinstance(file, str) and not file.strip():
             file = None
 
+        # Create unique identifiers.
         now = datetime.datetime.now()
         date_str = now.strftime("%Y%m%d")
         time_str = now.strftime("%H%M%S")
         uuid_str = uuid.uuid4().hex[:16]
 
-        # Branch based on file upload vs file path.
+        # Determine file name and directory.
         if file is not None:
-            # Ensure document_path is treated as a directory.
-            if not document_path or document_path.lower() == "string":
-                document_path = os.path.abspath("data/input")
-            os.makedirs(document_path, exist_ok=True)
-            if not document_name or document_name.strip() == "":
-                document_name = file.filename
-            document_save_path = os.path.join(document_path, document_name)
-            with open(document_save_path, "wb") as buffer:
-                shutil.copyfileobj(file.file, buffer)
+            file_name = document_name.strip() or file.filename
+            # Use document_path as base folder for uploads.
             file_dir = document_path
-            file_name = document_name
         else:
             if not os.path.exists(document_path):
                 raise HTTPException(
                     status_code=400,
                     detail="No file provided and document_path does not exist.",
                 )
+            file_name = document_name.strip() or os.path.basename(document_path)
             file_dir = os.path.dirname(document_path)
-            file_name = os.path.basename(document_path)
-            if document_name.strip() != "":
-                file_name = document_name
 
-        if not document_id or document_id.strip() == "":
+        # Generate document_id if not provided.
+        if not document_id.strip():
             document_id = f"{uuid_str}_{date_str}_{time_str}_{file_name}"
 
         os.makedirs(chunk_path, exist_ok=True)
@@ -81,9 +104,7 @@ async def split_document(
             if not custom_split_params:
                 custom_split_params = None
         except Exception as e:
-            raise HTTPException(
-                status_code=400, detail=f"Invalid split_params: {str(e)}"
-            )
+            raise HTTPException(status_code=400, detail=f"Invalid split_params: {e}")
 
         base_config = {"splitter": {"method": split_method.value}}
         if custom_split_params:
@@ -91,17 +112,25 @@ async def split_document(
                 split_method.value: custom_split_params
             }
 
-        # Instantiate managers using the absolute paths.
-        read_manager = ReadManager(input_path=file_dir)
+        # Prepare ReadManager configuration including OCR settings.
+        read_config = {
+            "file_io": {"input_path": file_dir},
+            "ocr": {"method": ocr_method.value},
+        }
+
+        # Instantiate managers.
+        read_manager = ReadManager(config=read_config)
         split_manager = SplitManager(config=base_config)
         chunk_manager = ChunkManager(
             input_path=file_dir, output_path=chunk_path, split_method=split_method.value
         )
 
-        try:
-            markdown_text = read_manager.read_file(file_name)
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Error reading file: {str(e)}")
+        # Always use ReadManager to process the file.
+        markdown_text = (
+            read_manager.read_file_object(file)
+            if file is not None
+            else read_manager.read_file(file_name)
+        )
 
         chunks = split_manager.split_text(markdown_text)
         if not chunks:
@@ -128,8 +157,7 @@ async def split_document(
                     zip_file.writestr(chunk_filename, chunk)
             zip_io.seek(0)
             headers = {
-                "Content-Disposition": f"attachment; \
-                    filename={os.path.splitext(file_name)[0]}_chunks.zip"
+                "Content-Disposition": f"attachment; filename={os.path.splitext(file_name)[0]}_chunks.zip"  # noqa: E501
             }
             return StreamingResponse(
                 zip_io, media_type="application/zip", headers=headers
@@ -144,11 +172,12 @@ async def split_document(
             split_method=split_method.value,
             metadata=metadata,
             split_params=custom_split_params,
+            ocr_method=ocr_method,
         )
+
     except HTTPException as http_exc:
         print("HTTPException encountered:", http_exc.detail)
         raise http_exc
     except Exception as e:
-        # Print the error to the console and return a 400 error with the exact error message.
         print("Unhandled error encountered:", e)
-        raise HTTPException(status_code=400, detail=f"Unhandled error: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Unhandled error: {e}")

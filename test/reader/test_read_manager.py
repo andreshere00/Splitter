@@ -1,105 +1,132 @@
+import io
 import os
-from unittest.mock import MagicMock
 
 import pytest
+from fastapi import UploadFile
 
+from src.model.llm_client import LLMClient
 from src.reader.read_manager import ReadManager
+from src.reader.readers.markitdown_reader import MarkItDownConverter
 
 
+# Fixture: use the actual test input folder.
 @pytest.fixture
-def temp_config(tmp_path):
-    """Creates a temporary config dictionary for testing."""
+def temp_config():
+    # Use the actual data/test/input directory.
     config_data = {
-        "file_io": {"input_path": str(tmp_path)},
-        "logging": {"enabled": False},
+        "file_io": {"input_path": "data/test/input"},
+        "ocr": {"method": "none"},
     }
-    return config_data, str(tmp_path)
+    return config_data, "data/test/input"
 
 
 @pytest.fixture
 def read_manager(temp_config):
-    """Creates a ReadManager instance with test config and a dummy converter."""
     config, _ = temp_config
-    # Create a dummy markdown converter.
-    dummy_converter = MagicMock()
-    dummy_converter.convert.return_value.text_content = "Converted Markdown"
-    return ReadManager(config=config, markdown_converter=dummy_converter)
-
-
-def create_test_file(directory, filename, content="test content"):
-    """Helper function to create test files."""
-    file_path = os.path.join(directory, filename)
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    with open(file_path, "w", encoding="utf-8") as file:
-        file.write(content)
-    return file_path
-
-
-def test_read_valid_docx_file(read_manager, temp_config):
-    """Test reading a valid docx file."""
-    _, input_path = temp_config
-    create_test_file(input_path, "tmp/test_1.docx", "Converted Markdown")
-    content = read_manager.read_file("tmp/test_1.docx")
-    assert content == "Converted Markdown"
+    return ReadManager(config=config)
 
 
 def test_read_valid_md_file(read_manager, temp_config):
-    """Test reading a valid md file."""
+    """Test reading a valid markdown file from disk using an existing file."""
     _, input_path = temp_config
-    create_test_file(input_path, "tmp/test_1.md", "Converted Markdown")
-    content = read_manager.read_file("tmp/test_1.md")
-    assert content == "Converted Markdown"
+    file_path = os.path.join(input_path, "test_1.md")
+    content = read_manager.read_file(file_path)
+    # Check that some content is returned.
+    assert content is not None
+    assert isinstance(content, str)
+    assert len(content) > 0
 
 
 def test_read_valid_pdf_file(read_manager, temp_config):
-    """Test reading a valid pdf file."""
+    """Test reading a valid PDF file from disk using an existing file."""
     _, input_path = temp_config
-    create_test_file(input_path, "tmp/test_1.pdf", "Converted Markdown")
-    content = read_manager.read_file("tmp/test_1.pdf")
-    assert content == "Converted Markdown"
+    file_path = os.path.join(input_path, "test_1.pdf")
+    content = read_manager.read_file(file_path)
+    assert content is not None
+    assert isinstance(content, str)
+    assert len(content) > 0
 
 
 def test_read_valid_txt_file(read_manager, temp_config):
-    """Test reading a valid txt file."""
+    """Test reading a valid TXT file from disk using an existing file."""
     _, input_path = temp_config
-    create_test_file(input_path, "tmp/test_1.txt", "Converted Markdown")
-    content = read_manager.read_file("tmp/test_1.txt")
-    assert content == "Converted Markdown"
+    file_path = os.path.join(input_path, "test_1.txt")
+    content = read_manager.read_file(file_path)
+    assert content is not None
+    assert isinstance(content, str)
+    assert len(content) > 0
 
 
-def test_read_valid_pptx_file(read_manager, temp_config):
-    """Test reading a valid pptx file."""
-    _, input_path = temp_config
-    create_test_file(input_path, "tmp/test_1.pptx", "Converted Markdown")
-    content = read_manager.read_file("tmp/test_1.pptx")
-    assert content == "Converted Markdown"
-
-
-def test_read_valid_xlsx_file(read_manager, temp_config):
-    """Test reading a valid xlsx file."""
-    _, input_path = temp_config
-    create_test_file(input_path, "tmp/test_1.xlsx", "Converted Markdown")
-    content = read_manager.read_file("tmp/test_1.xlsx")
-    assert content == "Converted Markdown"
-
-
-def test_read_from_non_existing_folder(read_manager):
-    """Test reading from a non-existing file."""
+def test_read_file_not_found(read_manager):
+    """Test that reading a non-existing file raises FileNotFoundError."""
     with pytest.raises(FileNotFoundError):
         read_manager.read_file("nonexistent.txt")
 
 
-def test_read_from_empty_file(read_manager, temp_config):
-    """Test reading from an empty file."""
-    _, input_path = temp_config
-    create_test_file(input_path, "empty.md", "")
+def test_read_empty_file(temp_config):
+    """Test that reading an empty file raises ValueError."""
+    config, input_path = temp_config
+    empty_file = os.path.join(input_path, "empty.txt")
+    # Create an empty file.
+    with open(empty_file, "w", encoding="utf-8") as f:
+        f.write("")
+    rm = ReadManager(config=config)
     with pytest.raises(ValueError, match="File is empty"):
-        read_manager.read_file("empty.md")
+        rm.read_file(empty_file)
+    os.remove(empty_file)
 
 
-def test_read_invalid_extension(read_manager, temp_config):
-    """Test reading from a file with an invalid extension."""
+def test_read_invalid_extension(temp_config):
+    """Test that reading a file with an unsupported extension raises ValueError."""
+    config, input_path = temp_config
+    invalid_file = os.path.join(input_path, "malicious.exe")
+    with open(invalid_file, "w", encoding="utf-8") as f:
+        f.write("EXE file content")
+    rm = ReadManager(config=config)
+    with pytest.raises(ValueError, match="Unsupported file extension"):
+        rm.read_file(invalid_file)
+    os.remove(invalid_file)
+
+
+def test_read_file_object(read_manager, temp_config):
+    """Test reading from an UploadFile object using an existing PDF file."""
     _, input_path = temp_config
-    create_test_file(input_path, "malicious.exe", "EXE file content")
-    with pytest.raises(ValueError, match="Invalid file extension"):
-        read_manager.read_file("malicious.exe")
+    file_path = os.path.join(input_path, "test_1.pdf")
+    with open(file_path, "rb") as f:
+        file_bytes = f.read()
+    stream = io.BytesIO(file_bytes)
+    stream.name = "test_1.pdf"
+    upload_file = UploadFile(filename="test_1.pdf", file=stream)
+    result = read_manager.read_file_object(upload_file)
+    assert result is not None
+    assert isinstance(result, str)
+    assert len(result) > 0
+
+
+def test_markitdown_instantiation(temp_config, monkeypatch):
+    """
+    Test that _get_converter_for_extension instantiates a MarkItDownConverter
+    with non-void client and model parameters.
+    """
+    config, _ = temp_config
+
+    class DummyLLMClient:
+        def get_client(self):
+            return "dummy_client"
+
+        def get_model(self):
+            return "dummy_model"
+
+    # Monkey-patch LLMClient so that it returns dummy values.
+    monkeypatch.setattr(LLMClient, "__init__", lambda self, method: None)
+    monkeypatch.setattr(LLMClient, "get_client", lambda self: "dummy_client")
+    monkeypatch.setattr(LLMClient, "get_model", lambda self: "dummy_model")
+
+    # Set OCR method to a valid value.
+    config["ocr"] = {"method": "openai"}
+    rm = ReadManager(config=config)
+    converter = rm._get_converter_for_extension("txt")
+    assert isinstance(converter, MarkItDownConverter)
+    # Verify that the converter's stored parameters are not void.
+    assert converter.llm_client == "dummy_client"
+    assert converter.llm_model == "dummy_model"

@@ -16,12 +16,15 @@ dependencies = [
     "fastapi>=0.115.11",
     "uvicorn>=0.34.0",
     "python-multipart>=0.0.20",
+    "dotenv>=0.9.9",
+    "pydantic-settings>=2.8.1",
 ]
 
 [dependency-groups]
 dev = [
     "autopep8>=2.3.2",
     "black>=25.1.0",
+    "coverage>=7.7.1",
     "flake8>=7.1.2",
     "isort>=6.0.1",
     "mkdocs>=1.6.1",
