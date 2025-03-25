@@ -18,9 +18,9 @@ class AzureOpenAIClient(BaseLLMClient):
         self.client = openai.AzureOpenAI(
             api_key=os.environ.get("AZURE_OPENAI_API_KEY"),
             api_version=os.environ.get("AZURE_OPENAI_API_VERSION"),
-            azure_endpoint=os.environ.get("AZURE_OPENAI_API_ENDPOINT"),
+            azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT"),
         )
-        self.model = os.environ.get("AZURE_OPENAI_API_DEPLOYMENT")
+        self.model = os.environ.get("AZURE_OPENAI_DEPLOYMENT")
 
     def get_client(self) -> object:
         return self.client
