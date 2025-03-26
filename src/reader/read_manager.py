@@ -45,6 +45,9 @@ class ReadManager:
         Returns:
             str: Converted Markdown text.
         """
+        if not os.path.isabs(file_path):
+            file_path = os.path.join(self.input_path, file_path)
+
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File not found: {file_path}")
         if os.path.getsize(file_path) == 0:
@@ -107,6 +110,7 @@ class ReadManager:
             "pptx": MarkItDownConverter(client, model),
             "pdf": MarkItDownConverter(client, model),
             "jpg": MarkItDownConverter(client, model),
+            "jpeg": MarkItDownConverter(client, model),
             "png": MarkItDownConverter(client, model),
         }
         return mapping.get(ext)
