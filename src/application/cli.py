@@ -13,8 +13,8 @@ def main():
     parser.add_argument(
         "config_file",
         nargs="?",
-        default="src/config.yaml",
-        help="Path to the YAML configuration file (default: src/config.yaml)",
+        default="config.yaml",
+        help="Path to the YAML configuration file (default: config.yaml)",
     )
     args = parser.parse_args()
 
