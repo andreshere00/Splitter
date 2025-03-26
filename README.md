@@ -42,7 +42,7 @@ make serve
 
 Application will be accessible through the browser at the host `0.0.0.0:8000/docs`. Port can be modified through [Makefile](./Makefile).
 
-#### **API Definition** {#api}
+#### **API Definition**
 
 ##### **Input**
 
@@ -83,7 +83,7 @@ The application is accessible through Command Line Interface (CLI) using the fol
 make run
 ```
 
-This command executes `python src/application/cli.py` with the configuration provided in `config.yaml`. See the structure of this configuration file in the [next section](#config). By default, input files are introduced in `data/input`. **Batch processing is allowed.**
+This command executes `python src/application/cli.py` with the configuration provided in `config.yaml`. See the structure of this configuration file in the [next section](#configuration). By default, input files are introduced in `data/input`. **Batch processing is allowed.**
 
 ### Docker
 
@@ -132,7 +132,7 @@ Many other commands are available (use `make help` to consult):
   make remove-data      - Remove data presented in the output folder.
 ```
 
-## Configuration {#config}
+## Configuration
 
 File handling, splitting methods and application settings can be modified using a [configuration file](config.yaml). This file is provided in `config.yaml` file. Otherwise, parameters can be passed as API parameters. The config file has the following structure by default:
 
@@ -206,22 +206,22 @@ ocr:
 
 1. **Input and output definition:** input and output paths can be defined in the section `file_io`. 
 2. **Logging configuration:** it follows a standard convention. It is used only in CLI application.
-3. **Splitter configuration:** several splitting methods can be used according to the [following table](#split). The splitting method to be used along with their parameters can be selected in this section.
+3. **Splitter configuration:** several splitting methods can be used according to the [following table](#split-manager). The splitting method to be used along with their parameters can be selected in this section.
 4. **OCR configuration:** if needed, an OCR model can be passed to analyze images and extract descriptions. Three options available: `none`, `openai`, `azure`.
 
-> Note that when using API, **configuration will be provided as parameters**. See [API definition](#api).
+> Note that when using API, **configuration will be provided as parameters**. See [API definition](#api-definition).
 
 ---
 
 ## Architecture
 
-### **1. Read Manager**
+### Read Manager
 
 - Responsible for **reading input** documents.
 - Supports **local file** formats: `txt`, `md`, ~~`doc`~~, `docx`, ~~`xls`~~, `xlsx`, `pdf`, ~~`ppt`~~, `pptx`, ~~`json`~~, ~~`yaml`~~.
 - If required, **OCR** can be applied to extract text from scanned documents (`OpenAI`, `AzureOpenAI`, ~~`Textract`~~, ~~`Mistral`~~, ~~`Custom`~~). 
 
-### **2. Split Manager** {#split}
+### Split Manager
 
 - Splits text into meaningful chunks based on different strategies.
 - Includes the following methods:
@@ -239,7 +239,8 @@ ocr:
 | **Schema-based Splitter** | Splits a hierarchical schema while preserving headers. | Input data, number of registers, overlap. | `json`, `yaml`, `xml`, `xls`, `xlsx`, `ppt`, `pptx` |
 | **Auto Splitter**      | Combines multiple splitting methods based on document content. | Input data, number of characters in each chunk, overlap. | All formats |
 
-### **3. Chunk Manager**
+### Chunk Manager
+
 - Saves the generated chunks from **Chunk Manager**.
 - Features:
   - **Aggregator**: Groups related chunks.
