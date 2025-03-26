@@ -3,7 +3,7 @@ from typing import Dict, Optional
 import yaml
 
 
-def load_config_file(path: str = "src/config.yaml") -> Dict:
+def load_config_file(path: str = "config.yaml") -> Dict:
     try:
         with open(path, "r") as f:
             return yaml.safe_load(f)
