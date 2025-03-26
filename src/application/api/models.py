@@ -38,6 +38,7 @@ class DocumentRequest(BaseModel):
             configuration for the splitting method.
         metadata (Optional[List[str]]): Additional metadata for the document.
     """
+
     document_name: Optional[str] = None
     document_path: str
     document_id: Optional[str] = None
@@ -61,6 +62,7 @@ class ChunkResponse(BaseModel):
         metadata (Optional[List[str]]): Additional metadata for the document.
         ocr_method (OCRMethodEnum): The OCR method used for processing images in the document.
     """
+
     chunks: List[str]
     chunk_id: List[str]
     chunk_path: str

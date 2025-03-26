@@ -47,7 +47,8 @@ async def split_document(
         ..., description="Method to split the document text."
     ),
     ocr_method: OCRMethodEnum = Form(
-        ..., description="OCR client to use for image processing: 'none', 'openai', or 'azure'.",
+        ...,
+        description="OCR client to use for image processing: 'none', 'openai', or 'azure'.",
     ),
     metadata: Optional[List[str]] = Form([], description="Optional metadata tags."),
     split_params: str = Form(
