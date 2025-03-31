@@ -318,26 +318,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#api-definition-api" class="md-nav__link">
+  <a href="#api-definition" class="md-nav__link">
     <span class="md-ellipsis">
-      API Definition {#api}
+      API Definition
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="API Definition {#api}">
+    <nav class="md-nav" aria-label="API Definition">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#input" class="md-nav__link">
-    <span class="md-ellipsis">
-      Input
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#input_1" class="md-nav__link">
     <span class="md-ellipsis">
       Input
     </span>
@@ -388,9 +379,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration-config" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuration {#config}
+      Configuration
     </span>
   </a>
   
@@ -407,18 +398,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-read-manager" class="md-nav__link">
+  <a href="#read-manager" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Read Manager
+      Read Manager
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-split-manager-split" class="md-nav__link">
+  <a href="#split-manager" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Split Manager {#split}
+      Split Manager
     </span>
   </a>
   
@@ -457,9 +448,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#contact" class="md-nav__link">
+  <a href="#contact-information" class="md-nav__link">
     <span class="md-ellipsis">
-      Contact
+      Contact Information
     </span>
   </a>
   
@@ -690,26 +681,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#api-definition-api" class="md-nav__link">
+  <a href="#api-definition" class="md-nav__link">
     <span class="md-ellipsis">
-      API Definition {#api}
+      API Definition
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="API Definition {#api}">
+    <nav class="md-nav" aria-label="API Definition">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#input" class="md-nav__link">
-    <span class="md-ellipsis">
-      Input
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#input_1" class="md-nav__link">
     <span class="md-ellipsis">
       Input
     </span>
@@ -760,9 +742,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration-config" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuration {#config}
+      Configuration
     </span>
   </a>
   
@@ -779,18 +761,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-read-manager" class="md-nav__link">
+  <a href="#read-manager" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Read Manager
+      Read Manager
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-split-manager-split" class="md-nav__link">
+  <a href="#split-manager" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Split Manager {#split}
+      Split Manager
     </span>
   </a>
   
@@ -829,9 +811,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#contact" class="md-nav__link">
+  <a href="#contact-information" class="md-nav__link">
     <span class="md-ellipsis">
-      Contact
+      Contact Information
     </span>
   </a>
   
@@ -858,7 +840,8 @@
 <h1 id="splitter">Splitter</h1>
 <h2 id="overview">Overview</h2>
 <p>The <strong>Splitter</strong> application aims to convert documents into markdown format, and split them into <strong>chunks</strong> using various splitting strategies. The architecture consists of three main pieces: the <code>ReadManager</code>, the <code>SplitManager</code> and the <code>ChunkManager</code>. Observe the following diagram:</p>
-<p><img alt="Splitter architecture diagram" src="./docs/assets/splitter.drawio.svg" /></p>
+<p><img alt="Splitter architecture diagram" src="assets/splitter.drawio.svg" /></p>
+<hr />
 <h2 id="how-to-launch-the-application">How to launch the application</h2>
 <p>The application is exposed via:</p>
 <ul>
@@ -881,20 +864,19 @@
 <p>The API is accessed through a FastAPI application. This application can be launched executing:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>make<span class="w"> </span>serve
 </span></code></pre></div>
+<blockquote>
 <p>Application will be accessible through the browser at the host <code>0.0.0.0:8000/docs</code>. Port can be modified through <a href="./Makefile">Makefile</a>.</p>
-<h4 id="api-definition-api"><strong>API Definition</strong> {#api}</h4>
+</blockquote>
+<h4 id="api-definition"><strong>API Definition</strong></h4>
 <h5 id="input"><strong>Input</strong></h5>
-<h5 id="input_1"><strong>Input</strong></h5>
 <p>Object: <code>class &lt;ChunkRequest&gt;</code></p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">document_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">document_path</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">document_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">ocr_method</span><span class="p">:</span> <span class="n">OCRMethodEnum</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">split_method</span><span class="p">:</span> <span class="n">SplitMethodEnum</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">ocr_method</span><span class="p">:</span> <span class="n">OCRMethodEnum</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">split_method</span><span class="p">:</span> <span class="n">SplitMethodEnum</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">split_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">split_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 </span></code></pre></div>
 <h5 id="output"><strong>Output</strong></h5>
 <p>Object: <code>class &lt;ChunkResponse&gt;</code></p>
@@ -905,16 +887,14 @@
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">document_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">ocr_method</span><span class="p">:</span> <span class="n">OCRMethodEnum</span>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">split_method</span><span class="p">:</span> <span class="n">SplitMethodEnum</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">ocr_method</span><span class="p">:</span> <span class="n">OCRMethodEnum</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">split_method</span><span class="p">:</span> <span class="n">SplitMethodEnum</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="n">split_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">split_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 </span></code></pre></div>
 <h3 id="cli">CLI</h3>
 <p>The application is accessible through Command Line Interface (CLI) using the following command:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>make<span class="w"> </span>run
 </span></code></pre></div>
-<p>This command executes <code>python src/application/cli.py</code> with the configuration provided in <code>config.yaml</code>. See the structure of this configuration file in the <a href="#config">next section</a>.</p>
+<p>This command executes <code>python src/application/cli.py</code> with the configuration provided in <a href="./config.yaml">config.yaml</a>. See the structure of this configuration file in the <a href="#configuration">next section</a>. By default, input files are introduced in <code>data/input</code>. <strong>Batch processing is allowed.</strong></p>
 <h3 id="docker">Docker</h3>
 <p>The API-interface can be launched using Docker with the following Make commands:</p>
 <p>Build the image:</p>
@@ -948,129 +928,95 @@
 </span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">  </span>make<span class="w"> </span>remove-data<span class="w">      </span>-<span class="w"> </span>Remove<span class="w"> </span>data<span class="w"> </span>presented<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>output<span class="w"> </span>folder.
 </span></code></pre></div>
 <hr />
-<p>Many other commands are available (use <code>make help</code> to consult):</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="w">  </span>make<span class="w"> </span>docs<span class="w">             </span>-<span class="w"> </span>Run<span class="w"> </span>the<span class="w"> </span>documentation<span class="w"> </span>server.
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>make<span class="w"> </span>install<span class="w">          </span>-<span class="w"> </span>Install<span class="w"> </span>application<span class="w"> </span>dependencies<span class="w"> </span>using<span class="w"> </span>uv.
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>make<span class="w"> </span>install-uv<span class="w">       </span>-<span class="w"> </span>Install<span class="w"> </span>uv<span class="w"> </span>CLI<span class="w"> </span><span class="o">(</span>OS-specific<span class="o">)</span>.
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>make<span class="w"> </span>run<span class="w">              </span>-<span class="w"> </span>Execute<span class="w"> </span>the<span class="w"> </span>application<span class="w"> </span>using<span class="w"> </span>uv.
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span>make<span class="w"> </span>serve<span class="w">            </span>-<span class="w"> </span>Serve<span class="w"> </span>the<span class="w"> </span>FastAPI<span class="w"> </span>application.
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span>make<span class="w"> </span>docker-api-build<span class="w"> </span>-<span class="w"> </span>Build<span class="w"> </span>the<span class="w"> </span>API<span class="w"> </span>dockerized<span class="w"> </span>application.
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span>make<span class="w"> </span>docker-api-run<span class="w">   </span>-<span class="w"> </span>Run<span class="w"> </span>the<span class="w"> </span>API<span class="w"> </span>dockerized<span class="w"> </span>application.
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span>make<span class="w"> </span><span class="nb">test</span><span class="w">             </span>-<span class="w"> </span>Run<span class="w"> </span>tests<span class="w"> </span>using<span class="w"> </span>uv<span class="w"> </span>and<span class="w"> </span>pytest.
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span>make<span class="w"> </span>shell<span class="w">            </span>-<span class="w"> </span>Run<span class="w"> </span>a<span class="w"> </span>uv<span class="w"> </span>shell.
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">  </span>make<span class="w"> </span>pre-commit<span class="w">       </span>-<span class="w"> </span>Install<span class="w"> </span>pre-commit<span class="w"> </span>hooks.
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span>make<span class="w"> </span>format<span class="w">           </span>-<span class="w"> </span>Run<span class="w"> </span>pyupgrade,<span class="w"> </span>isort,<span class="w"> </span>black<span class="w"> </span>and<span class="w"> </span>flake8<span class="w"> </span><span class="k">for</span><span class="w"> </span>code<span class="w"> </span>style.
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span>make<span class="w"> </span>clean<span class="w">            </span>-<span class="w"> </span>Clean<span class="w"> </span>output,<span class="w"> </span>cache<span class="w"> </span>and<span class="w"> </span>log<span class="w"> </span>files.
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">  </span>make<span class="w"> </span>clean-cache<span class="w">      </span>-<span class="w"> </span>Clean<span class="w"> </span>cache<span class="w"> </span>files.
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">  </span>make<span class="w"> </span>clean-data<span class="w">       </span>-<span class="w"> </span>Clean<span class="w"> </span>output<span class="w"> </span>data<span class="w"> </span>files.
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">  </span>make<span class="w"> </span>clean-log<span class="w">        </span>-<span class="w"> </span>Clean<span class="w"> </span>log<span class="w"> </span>files.
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">  </span>make<span class="w"> </span>remove-data<span class="w">      </span>-<span class="w"> </span>Remove<span class="w"> </span>data<span class="w"> </span>presented<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>output<span class="w"> </span>folder.
-</span></code></pre></div>
-<h2 id="configuration-config">Configuration {#config}</h2>
-<p>File handling, splitting methods and application settings can be modified using a <a href="config.yaml">configuration file</a>. This file is provided in <code>config.yaml</code> file. Otherwise, parameters can be passed as API parameters. The config file has the following structure by default:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 1. File I/O Configuration</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nt">file_io</span><span class="p">:</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">input_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data/input&quot;</span><span class="w">     </span><span class="c1"># Where the application reads files from</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">output_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data/output&quot;</span><span class="w">   </span><span class="c1"># Where the application saves the results</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># 2. Logging Configuration</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nt">logging</span><span class="p">:</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                </span><span class="c1"># Set to false to disable logging</span>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;INFO&quot;</span><span class="w">                </span><span class="c1"># Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL</span>
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;%(asctime)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(levelname)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(message)s&quot;</span>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">  </span><span class="nt">handlers</span><span class="p">:</span>
-</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;stream&quot;</span>
-</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;file&quot;</span>
-</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">      </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;logs/app.log&quot;</span>
-</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;a&quot;</span>
-</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>
-</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="l l-Scalar l-Scalar-Plain">a</span>
-</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="c1"># 3. Splitting Methods Configuration</span>
-</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="nt">splitter</span><span class="p">:</span>
-</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;recursive&quot;</span>
-</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>
-</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="w">  </span><span class="nt">methods</span><span class="p">:</span>
-</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="w">    </span><span class="nt">word</span><span class="p">:</span>
-</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="w">      </span><span class="nt">num_words</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span><span class="w">  </span><span class="c1"># Number of words in each chunk</span>
-</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>
-</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a><span class="w">    </span><span class="nt">sentence</span><span class="p">:</span>
-</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a><span class="w">      </span><span class="nt">num_sentences</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">  </span><span class="c1"># Number of sentences in each chunk</span>
-</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>
-</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a><span class="w">    </span><span class="nt">paragraph</span><span class="p">:</span>
-</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a><span class="w">      </span><span class="nt">num_paragraphs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">  </span><span class="c1"># Number of paragraphs in each chunk</span>
-</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>
-</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a><span class="w">    </span><span class="c1"># semantic:</span>
-</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a><span class="w">    </span><span class="c1">#   language_model: &quot;bert-base-uncased&quot;  # For semantic similarity</span>
-</span><span id="__span-11-34"><a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a><span class="w">    </span><span class="c1">#   overlap: 0.2                         # Overlap ratio between chunks</span>
-</span><span id="__span-11-35"><a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a><span class="w">    </span><span class="c1"># semantic:</span>
-</span><span id="__span-11-36"><a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a><span class="w">    </span><span class="c1">#   language_model: &quot;bert-base-uncased&quot;  # For semantic similarity</span>
-</span><span id="__span-11-37"><a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a><span class="w">    </span><span class="c1">#   overlap: 0.2                         # Overlap ratio between chunks</span>
-</span><span id="__span-11-38"><a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a>
-</span><span id="__span-11-39"><a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a><span class="w">    </span><span class="nt">fixed</span><span class="p">:</span>
-</span><span id="__span-11-40"><a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a><span class="w">      </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span><span class="w">  </span><span class="c1"># Number of characters per chunk</span>
-</span><span id="__span-11-41"><a id="__codelineno-11-41" name="__codelineno-11-41" href="#__codelineno-11-41"></a>
-</span><span id="__span-11-42"><a id="__codelineno-11-42" name="__codelineno-11-42" href="#__codelineno-11-42"></a><span class="w">    </span><span class="c1"># paged:</span>
-</span><span id="__span-11-43"><a id="__codelineno-11-43" name="__codelineno-11-43" href="#__codelineno-11-43"></a><span class="w">    </span><span class="c1">#   num_pages: 1  # Number of pages in each chunk</span>
-</span><span id="__span-11-44"><a id="__codelineno-11-44" name="__codelineno-11-44" href="#__codelineno-11-44"></a><span class="w">    </span><span class="c1">#   overlap: 0.1  # Overlap (in pages) between chunks</span>
-</span><span id="__span-11-45"><a id="__codelineno-11-45" name="__codelineno-11-45" href="#__codelineno-11-45"></a><span class="w">    </span><span class="c1"># paged:</span>
-</span><span id="__span-11-46"><a id="__codelineno-11-46" name="__codelineno-11-46" href="#__codelineno-11-46"></a><span class="w">    </span><span class="c1">#   num_pages: 1  # Number of pages in each chunk</span>
-</span><span id="__span-11-47"><a id="__codelineno-11-47" name="__codelineno-11-47" href="#__codelineno-11-47"></a><span class="w">    </span><span class="c1">#   overlap: 0.1  # Overlap (in pages) between chunks</span>
-</span><span id="__span-11-48"><a id="__codelineno-11-48" name="__codelineno-11-48" href="#__codelineno-11-48"></a>
-</span><span id="__span-11-49"><a id="__codelineno-11-49" name="__codelineno-11-49" href="#__codelineno-11-49"></a><span class="w">    </span><span class="nt">recursive</span><span class="p">:</span>
-</span><span id="__span-11-50"><a id="__codelineno-11-50" name="__codelineno-11-50" href="#__codelineno-11-50"></a><span class="w">      </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10000</span><span class="w">     </span><span class="c1"># Characters per chunk</span>
-</span><span id="__span-11-51"><a id="__codelineno-11-51" name="__codelineno-11-51" href="#__codelineno-11-51"></a><span class="w">      </span><span class="nt">overlap</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span><span class="w">   </span><span class="c1"># Overlapping characters</span>
-</span><span id="__span-11-52"><a id="__codelineno-11-52" name="__codelineno-11-52" href="#__codelineno-11-52"></a>
-</span><span id="__span-11-53"><a id="__codelineno-11-53" name="__codelineno-11-53" href="#__codelineno-11-53"></a><span class="w">    </span><span class="c1"># row-column:</span>
-</span><span id="__span-11-54"><a id="__codelineno-11-54" name="__codelineno-11-54" href="#__codelineno-11-54"></a><span class="w">    </span><span class="c1">#   num_columns: 2</span>
-</span><span id="__span-11-55"><a id="__codelineno-11-55" name="__codelineno-11-55" href="#__codelineno-11-55"></a><span class="w">    </span><span class="c1">#   column_names: [&quot;Column1&quot;, &quot;Column2&quot;]</span>
-</span><span id="__span-11-56"><a id="__codelineno-11-56" name="__codelineno-11-56" href="#__codelineno-11-56"></a><span class="w">    </span><span class="c1">#   num_rows: 5</span>
-</span><span id="__span-11-57"><a id="__codelineno-11-57" name="__codelineno-11-57" href="#__codelineno-11-57"></a><span class="w">    </span><span class="c1">#   row_names: [&quot;Row1&quot;, &quot;Row2&quot;]</span>
-</span><span id="__span-11-58"><a id="__codelineno-11-58" name="__codelineno-11-58" href="#__codelineno-11-58"></a><span class="w">    </span><span class="c1"># row-column:</span>
-</span><span id="__span-11-59"><a id="__codelineno-11-59" name="__codelineno-11-59" href="#__codelineno-11-59"></a><span class="w">    </span><span class="c1">#   num_columns: 2</span>
-</span><span id="__span-11-60"><a id="__codelineno-11-60" name="__codelineno-11-60" href="#__codelineno-11-60"></a><span class="w">    </span><span class="c1">#   column_names: [&quot;Column1&quot;, &quot;Column2&quot;]</span>
-</span><span id="__span-11-61"><a id="__codelineno-11-61" name="__codelineno-11-61" href="#__codelineno-11-61"></a><span class="w">    </span><span class="c1">#   num_rows: 5</span>
-</span><span id="__span-11-62"><a id="__codelineno-11-62" name="__codelineno-11-62" href="#__codelineno-11-62"></a><span class="w">    </span><span class="c1">#   row_names: [&quot;Row1&quot;, &quot;Row2&quot;]</span>
-</span><span id="__span-11-63"><a id="__codelineno-11-63" name="__codelineno-11-63" href="#__codelineno-11-63"></a>
-</span><span id="__span-11-64"><a id="__codelineno-11-64" name="__codelineno-11-64" href="#__codelineno-11-64"></a><span class="w">    </span><span class="c1"># schema-based:</span>
-</span><span id="__span-11-65"><a id="__codelineno-11-65" name="__codelineno-11-65" href="#__codelineno-11-65"></a><span class="w">    </span><span class="c1">#   num_registers: 50  # Number of registers (or rows) per chunk</span>
-</span><span id="__span-11-66"><a id="__codelineno-11-66" name="__codelineno-11-66" href="#__codelineno-11-66"></a><span class="w">    </span><span class="c1">#   overlap: 5         # Overlapping registers</span>
-</span><span id="__span-11-67"><a id="__codelineno-11-67" name="__codelineno-11-67" href="#__codelineno-11-67"></a><span class="w">    </span><span class="c1"># schema-based:</span>
-</span><span id="__span-11-68"><a id="__codelineno-11-68" name="__codelineno-11-68" href="#__codelineno-11-68"></a><span class="w">    </span><span class="c1">#   num_registers: 50  # Number of registers (or rows) per chunk</span>
-</span><span id="__span-11-69"><a id="__codelineno-11-69" name="__codelineno-11-69" href="#__codelineno-11-69"></a><span class="w">    </span><span class="c1">#   overlap: 5         # Overlapping registers</span>
-</span><span id="__span-11-70"><a id="__codelineno-11-70" name="__codelineno-11-70" href="#__codelineno-11-70"></a>
-</span><span id="__span-11-71"><a id="__codelineno-11-71" name="__codelineno-11-71" href="#__codelineno-11-71"></a><span class="w">    </span><span class="c1"># auto:</span>
-</span><span id="__span-11-72"><a id="__codelineno-11-72" name="__codelineno-11-72" href="#__codelineno-11-72"></a><span class="w">    </span><span class="c1">#   fallback_method: &quot;paragraph&quot;</span>
-</span><span id="__span-11-73"><a id="__codelineno-11-73" name="__codelineno-11-73" href="#__codelineno-11-73"></a><span class="w">    </span><span class="c1">#   chunk_size: 500</span>
-</span><span id="__span-11-74"><a id="__codelineno-11-74" name="__codelineno-11-74" href="#__codelineno-11-74"></a><span class="w">    </span><span class="c1">#   overlap: 100</span>
-</span><span id="__span-11-75"><a id="__codelineno-11-75" name="__codelineno-11-75" href="#__codelineno-11-75"></a>
-</span><span id="__span-11-76"><a id="__codelineno-11-76" name="__codelineno-11-76" href="#__codelineno-11-76"></a><span class="c1"># 4. OCR configuration</span>
-</span><span id="__span-11-77"><a id="__codelineno-11-77" name="__codelineno-11-77" href="#__codelineno-11-77"></a><span class="nt">ocr</span><span class="p">:</span>
-</span><span id="__span-11-78"><a id="__codelineno-11-78" name="__codelineno-11-78" href="#__codelineno-11-78"></a><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;azure&quot;</span><span class="w">  </span><span class="c1"># Options: azure, openai, none</span>
-</span><span id="__span-11-79"><a id="__codelineno-11-79" name="__codelineno-11-79" href="#__codelineno-11-79"></a><span class="w">  </span><span class="c1"># include_image_blobs: false</span>
-</span><span id="__span-11-80"><a id="__codelineno-11-80" name="__codelineno-11-80" href="#__codelineno-11-80"></a><span class="w">  </span><span class="c1"># include_json_structure: false</span>
+<h2 id="configuration">Configuration</h2>
+<p>File handling, splitting methods and application settings can be modified using a <a href="./config.yaml">configuration file</a>. This file is provided in <code>config.yaml</code> file. Otherwise, parameters can be passed as API parameters. The config file has the following structure by default:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># 1. File I/O Configuration</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nt">file_io</span><span class="p">:</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">input_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data/input&quot;</span><span class="w">     </span><span class="c1"># Where the application reads files from</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">output_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data/output&quot;</span><span class="w">   </span><span class="c1"># Where the application saves the results</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># 2. Logging Configuration</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="nt">logging</span><span class="p">:</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                </span><span class="c1"># Set to false to disable logging</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;INFO&quot;</span><span class="w">                </span><span class="c1"># Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">  </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;%(asctime)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(levelname)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(message)s&quot;</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span><span class="nt">handlers</span><span class="p">:</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;stream&quot;</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;file&quot;</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">      </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;logs/app.log&quot;</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;a&quot;</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="l l-Scalar l-Scalar-Plain">a</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="c1"># 3. Splitting Methods Configuration</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="nt">splitter</span><span class="p">:</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;recursive&quot;</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">  </span><span class="nt">methods</span><span class="p">:</span>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">    </span><span class="nt">word</span><span class="p">:</span>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">      </span><span class="nt">num_words</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span><span class="w">  </span><span class="c1"># Number of words in each chunk</span>
+</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>
+</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">    </span><span class="nt">sentence</span><span class="p">:</span>
+</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">      </span><span class="nt">num_sentences</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">  </span><span class="c1"># Number of sentences in each chunk</span>
+</span><span id="__span-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a>
+</span><span id="__span-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="w">    </span><span class="nt">paragraph</span><span class="p">:</span>
+</span><span id="__span-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="w">      </span><span class="nt">num_paragraphs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">  </span><span class="c1"># Number of paragraphs in each chunk</span>
+</span><span id="__span-10-31"><a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a>
+</span><span id="__span-10-32"><a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a><span class="w">    </span><span class="c1"># semantic:</span>
+</span><span id="__span-10-33"><a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a><span class="w">    </span><span class="c1">#   language_model: &quot;bert-base-uncased&quot;  # For semantic similarity</span>
+</span><span id="__span-10-34"><a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a><span class="w">    </span><span class="c1">#   overlap: 0.2                         # Overlap ratio between chunks</span>
+</span><span id="__span-10-35"><a id="__codelineno-10-35" name="__codelineno-10-35" href="#__codelineno-10-35"></a>
+</span><span id="__span-10-36"><a id="__codelineno-10-36" name="__codelineno-10-36" href="#__codelineno-10-36"></a><span class="w">    </span><span class="nt">fixed</span><span class="p">:</span>
+</span><span id="__span-10-37"><a id="__codelineno-10-37" name="__codelineno-10-37" href="#__codelineno-10-37"></a><span class="w">      </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span><span class="w">  </span><span class="c1"># Number of characters per chunk</span>
+</span><span id="__span-10-38"><a id="__codelineno-10-38" name="__codelineno-10-38" href="#__codelineno-10-38"></a>
+</span><span id="__span-10-39"><a id="__codelineno-10-39" name="__codelineno-10-39" href="#__codelineno-10-39"></a><span class="w">    </span><span class="c1"># paged:</span>
+</span><span id="__span-10-40"><a id="__codelineno-10-40" name="__codelineno-10-40" href="#__codelineno-10-40"></a><span class="w">    </span><span class="c1">#   num_pages: 1  # Number of pages in each chunk</span>
+</span><span id="__span-10-41"><a id="__codelineno-10-41" name="__codelineno-10-41" href="#__codelineno-10-41"></a><span class="w">    </span><span class="c1">#   overlap: 0.1  # Overlap (in pages) between chunks</span>
+</span><span id="__span-10-42"><a id="__codelineno-10-42" name="__codelineno-10-42" href="#__codelineno-10-42"></a>
+</span><span id="__span-10-43"><a id="__codelineno-10-43" name="__codelineno-10-43" href="#__codelineno-10-43"></a><span class="w">    </span><span class="nt">recursive</span><span class="p">:</span>
+</span><span id="__span-10-44"><a id="__codelineno-10-44" name="__codelineno-10-44" href="#__codelineno-10-44"></a><span class="w">      </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10000</span><span class="w">     </span><span class="c1"># Characters per chunk</span>
+</span><span id="__span-10-45"><a id="__codelineno-10-45" name="__codelineno-10-45" href="#__codelineno-10-45"></a><span class="w">      </span><span class="nt">overlap</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span><span class="w">   </span><span class="c1"># Overlapping characters</span>
+</span><span id="__span-10-46"><a id="__codelineno-10-46" name="__codelineno-10-46" href="#__codelineno-10-46"></a>
+</span><span id="__span-10-47"><a id="__codelineno-10-47" name="__codelineno-10-47" href="#__codelineno-10-47"></a><span class="w">    </span><span class="c1"># row-column:</span>
+</span><span id="__span-10-48"><a id="__codelineno-10-48" name="__codelineno-10-48" href="#__codelineno-10-48"></a><span class="w">    </span><span class="c1">#   num_columns: 2</span>
+</span><span id="__span-10-49"><a id="__codelineno-10-49" name="__codelineno-10-49" href="#__codelineno-10-49"></a><span class="w">    </span><span class="c1">#   column_names: [&quot;Column1&quot;, &quot;Column2&quot;]</span>
+</span><span id="__span-10-50"><a id="__codelineno-10-50" name="__codelineno-10-50" href="#__codelineno-10-50"></a><span class="w">    </span><span class="c1">#   num_rows: 5</span>
+</span><span id="__span-10-51"><a id="__codelineno-10-51" name="__codelineno-10-51" href="#__codelineno-10-51"></a><span class="w">    </span><span class="c1">#   row_names: [&quot;Row1&quot;, &quot;Row2&quot;]</span>
+</span><span id="__span-10-52"><a id="__codelineno-10-52" name="__codelineno-10-52" href="#__codelineno-10-52"></a>
+</span><span id="__span-10-53"><a id="__codelineno-10-53" name="__codelineno-10-53" href="#__codelineno-10-53"></a><span class="w">    </span><span class="c1"># schema-based:</span>
+</span><span id="__span-10-54"><a id="__codelineno-10-54" name="__codelineno-10-54" href="#__codelineno-10-54"></a><span class="w">    </span><span class="c1">#   num_registers: 50  # Number of registers (or rows) per chunk</span>
+</span><span id="__span-10-55"><a id="__codelineno-10-55" name="__codelineno-10-55" href="#__codelineno-10-55"></a><span class="w">    </span><span class="c1">#   overlap: 5         # Overlapping registers</span>
+</span><span id="__span-10-56"><a id="__codelineno-10-56" name="__codelineno-10-56" href="#__codelineno-10-56"></a>
+</span><span id="__span-10-57"><a id="__codelineno-10-57" name="__codelineno-10-57" href="#__codelineno-10-57"></a><span class="w">    </span><span class="c1"># auto:</span>
+</span><span id="__span-10-58"><a id="__codelineno-10-58" name="__codelineno-10-58" href="#__codelineno-10-58"></a><span class="w">    </span><span class="c1">#   fallback_method: &quot;paragraph&quot;</span>
+</span><span id="__span-10-59"><a id="__codelineno-10-59" name="__codelineno-10-59" href="#__codelineno-10-59"></a><span class="w">    </span><span class="c1">#   chunk_size: 500</span>
+</span><span id="__span-10-60"><a id="__codelineno-10-60" name="__codelineno-10-60" href="#__codelineno-10-60"></a><span class="w">    </span><span class="c1">#   overlap: 100</span>
+</span><span id="__span-10-61"><a id="__codelineno-10-61" name="__codelineno-10-61" href="#__codelineno-10-61"></a>
+</span><span id="__span-10-62"><a id="__codelineno-10-62" name="__codelineno-10-62" href="#__codelineno-10-62"></a><span class="c1"># 4. OCR configuration</span>
+</span><span id="__span-10-63"><a id="__codelineno-10-63" name="__codelineno-10-63" href="#__codelineno-10-63"></a><span class="nt">ocr</span><span class="p">:</span>
+</span><span id="__span-10-64"><a id="__codelineno-10-64" name="__codelineno-10-64" href="#__codelineno-10-64"></a><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;azure&quot;</span><span class="w">  </span><span class="c1"># Options: azure, openai, none</span>
+</span><span id="__span-10-65"><a id="__codelineno-10-65" name="__codelineno-10-65" href="#__codelineno-10-65"></a><span class="w">  </span><span class="c1"># include_image_blobs: false</span>
+</span><span id="__span-10-66"><a id="__codelineno-10-66" name="__codelineno-10-66" href="#__codelineno-10-66"></a><span class="w">  </span><span class="c1"># include_json_structure: false</span>
 </span></code></pre></div>
 <ol>
 <li><strong>Input and output definition:</strong> input and output paths can be defined in the section <code>file_io</code>. </li>
 <li><strong>Logging configuration:</strong> it follows a standard convention. It is used only in CLI application.</li>
-<li><strong>Splitter configuration:</strong> several splitting methods can be used according to the <a href="#split">following table</a>. The splitting method to be used along with their parameters can be selected in this section.</li>
+<li><strong>Splitter configuration:</strong> several splitting methods can be used according to the <a href="#split-manager">following table</a>. The splitting method to be used along with their parameters can be selected in this section.</li>
 <li><strong>OCR configuration:</strong> if needed, an OCR model can be passed to analyze images and extract descriptions. Three options available: <code>none</code>, <code>openai</code>, <code>azure</code>.</li>
 </ol>
 <blockquote>
-<p>Note that when using API, <strong>configuration will be provided as parameters</strong>. See <a href="#api">API definition</a>.</p>
+<p>Note that when using API, <strong>configuration will be provided as parameters</strong>. See <a href="#api-definition">API definition</a>.</p>
 </blockquote>
 <hr />
 <h2 id="architecture">Architecture</h2>
-<h3 id="1-read-manager"><strong>1. Read Manager</strong></h3>
+<h3 id="read-manager">Read Manager</h3>
+<p>Responsible for <strong>reading input</strong> documents.</p>
 <ul>
-<li>Responsible for <strong>reading input</strong> documents.</li>
-<li>Supports <strong>local file</strong> formats: <code>txt</code>, <code>md</code>, ~~<code>doc</code>~~, <code>docx</code>, ~~<code>xls</code>~~, <code>xlsx</code>, <code>pdf</code>, ~~<code>ppt</code>~~, <code>pptx</code>, ~~<code>json</code>~~, ~~<code>yaml</code>~~.</li>
-<li>If required, <strong>OCR</strong> can be applied to extract text from scanned documents (<code>OpenAI</code>, <code>AzureOpenAI</code>, ~~<code>Textract</code>~~, ~~<code>Mistral</code>~~, ~~<code>Custom</code>~~). </li>
+<li>Supports <strong>local file</strong> formats: <code>txt</code>, <code>md</code>, <code>pdf</code>, <code>docx</code>, <code>xlsx</code>, <code>png</code>, <code>jpg</code>. </li>
+<li>If required, <strong>OCR</strong> can be applied to extract text from scanned documents (<code>OpenAI</code>, <code>AzureOpenAI</code>). </li>
 </ul>
-<h3 id="2-split-manager-split"><strong>2. Split Manager</strong> {#split}</h3>
-<ul>
-<li>Splits text into meaningful chunks based on different strategies.</li>
-<li>Includes the following methods:</li>
-</ul>
+<h3 id="split-manager">Split Manager</h3>
+<p>Splits text into meaningful chunks based on different strategies.</p>
+<p>Includes the following methods:</p>
 <table>
 <thead>
 <tr>
@@ -1081,36 +1027,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><strong>Word Splitter</strong></td>
-<td>Splits text into words.</td>
-<td>Input data, number of words in each chunk.</td>
-<td><code>txt</code>, <code>markdown</code>, <code>docx</code>, <code>pdf</code>, <code>ppt</code>, <code>pptx</code>, <code>.jpg</code>, <code>.png</code></td>
-</tr>
-<tr>
-<td><strong>Sentence Splitter</strong></td>
-<td>Splits text into sentences.</td>
-<td>Input data, number of sentences in each chunk.</td>
-<td><code>txt</code>, <code>markdown</code>, <code>docx</code>, <code>pdf</code>, <code>ppt</code>, <code>pptx</code>, <code>.jpg</code>, <code>.png</code></td>
-</tr>
-<tr>
-<td><strong>Paragraph Splitter</strong></td>
-<td>Splits text into paragraphs.</td>
-<td>Input data, number of paragraphs in each chunk.</td>
-<td><code>txt</code>, <code>markdown</code>, <code>docx</code>, <code>pdf</code>, <code>ppt</code>, <code>pptx</code>, <code>.jpg</code>, <code>.png</code></td>
-</tr>
-<tr>
-<td><strong>Semantic Splitter</strong></td>
-<td>Splits text based on semantic similarity, using a language model.</td>
-<td>Input data, language model, overlap.</td>
-<td><code>txt</code>, <code>markdown</code>, <code>docx</code>, <code>pdf</code>, <code>ppt</code>, <code>pptx</code>, <code>.jpg</code>, <code>.png</code></td>
-</tr>
-<tr>
-<td><strong>Fixed Splitter</strong></td>
-<td>Splits text into a fixed number of words or characters.</td>
-<td>Input data, number of characters in each chunk.</td>
-<td><code>txt</code>, <code>markdown</code>, <code>docx</code>, <code>pdf</code>, <code>ppt</code>, <code>pptx</code>, <code>.jpg</code>, <code>.png</code></td>
-</tr>
 <tr>
 <td><strong>Word Splitter</strong></td>
 <td>Splits text into words.</td>
@@ -1154,12 +1070,6 @@
 <td><code>txt</code>, <code>markdown</code>, <code>docx</code>, <code>pdf</code>, <code>ppt</code>, <code>pptx</code>, <code>.jpg</code>, <code>.png</code></td>
 </tr>
 <tr>
-<td><strong>Recursive Splitter</strong></td>
-<td>Splits based on a specified chunk size with overlap.</td>
-<td>Input data, number of characters in each chunk, overlap parameter.</td>
-<td><code>txt</code>, <code>markdown</code>, <code>docx</code>, <code>pdf</code>, <code>ppt</code>, <code>pptx</code>, <code>.jpg</code>, <code>.png</code></td>
-</tr>
-<tr>
 <td><strong>Row-Column Splitter</strong></td>
 <td>Splits table content by rows or columns.</td>
 <td>Input data, number of columns, column names, number of rows, row names.</td>
@@ -1187,146 +1097,160 @@
 <li><strong>Markdown conversion</strong>: Converts text into Markdown format.</li>
 <li><strong>Error handling</strong>: Ensures smooth chunking.</li>
 </ul>
+<hr />
 <h2 id="scenario">Scenario</h2>
 <p>This application compose a piece of an ambicious project named <strong>"MultiRAG"</strong>. This system aims to be a super modullarizable and open-source RAG system which is fully customizable piece by piece. Observe the following architecture diagram:</p>
-<p><a href="docs/assets/MultiRAG.drawio.svg">MultiRAG architecture</a></p>
+<p><img alt="MultiRAG architecture" src="assets/MultiRAG.drawio.svg" /></p>
+<hr />
 <h2 id="project-structure">Project Structure</h2>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>.
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├──<span class="w"> </span>CHANGELOG.md
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>├──<span class="w"> </span>Dockerfile.api
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>├──<span class="w"> </span>Makefile
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>├──<span class="w"> </span>README.md
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>├──<span class="w"> </span>config.yaml
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>├──<span class="w"> </span>config.yaml
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>├──<span class="w"> </span>data
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>│<span class="w">   </span>├──<span class="w"> </span>input
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>│<span class="w">   </span>├──<span class="w"> </span>output
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>│<span class="w">   </span>└──<span class="w"> </span><span class="nb">test</span>
-</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>│<span class="w">       </span>├──<span class="w"> </span>input
-</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.docx
-</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.md
-</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.pdf
-</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.pptx
-</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.txt
-</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>│<span class="w">       </span>│<span class="w">   </span>└──<span class="w"> </span>test_1.xlsx
-</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>│<span class="w">       </span>└──<span class="w"> </span>output
-</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>├──<span class="w"> </span>docker-compose.yaml
-</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>├──<span class="w"> </span>docs
-</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>│<span class="w">   </span>├──<span class="w"> </span>assets
-</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>MultiRAG.drawio.svg
-</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>splitter.drawio.svg
-</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>splitter.drawio_v0.1.0.drawio.svg
-</span><span id="__span-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>splitter_v0.3.0.drawio.svg
-</span><span id="__span-12-27"><a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a>│<span class="w">   </span>├──<span class="w"> </span>chunker
-</span><span id="__span-12-28"><a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>docs.md
-</span><span id="__span-12-29"><a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a>│<span class="w">   </span>├──<span class="w"> </span>index.md
-</span><span id="__span-12-30"><a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a>│<span class="w">   </span>├──<span class="w"> </span>reader
-</span><span id="__span-12-31"><a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>docs.md
-</span><span id="__span-12-32"><a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>│<span class="w">   </span>└──<span class="w"> </span>splitter
-</span><span id="__span-12-33"><a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a>│<span class="w">       </span>└──<span class="w"> </span>docs.md
-</span><span id="__span-12-34"><a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a>├──<span class="w"> </span>mkdocs.yml
-</span><span id="__span-12-35"><a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a>├──<span class="w"> </span>pyproject.toml
-</span><span id="__span-12-36"><a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>├──<span class="w"> </span>requirements.txt
-</span><span id="__span-12-37"><a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a>├──<span class="w"> </span>scripts
-</span><span id="__span-12-38"><a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a>│<span class="w">   </span>├──<span class="w"> </span>build_docs.py
-</span><span id="__span-12-39"><a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a>│<span class="w">   </span>├──<span class="w"> </span>conftest.py
-</span><span id="__span-12-40"><a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a>│<span class="w">   </span>├──<span class="w"> </span>enrich_readme.py
-</span><span id="__span-12-41"><a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a>│<span class="w">   </span>└──<span class="w"> </span>validate_commit_msg.py
-</span><span id="__span-12-42"><a id="__codelineno-12-42" name="__codelineno-12-42" href="#__codelineno-12-42"></a>├──<span class="w"> </span>src
-</span><span id="__span-12-43"><a id="__codelineno-12-43" name="__codelineno-12-43" href="#__codelineno-12-43"></a>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-44"><a id="__codelineno-12-44" name="__codelineno-12-44" href="#__codelineno-12-44"></a>│<span class="w">   </span>├──<span class="w"> </span>application
-</span><span id="__span-12-45"><a id="__codelineno-12-45" name="__codelineno-12-45" href="#__codelineno-12-45"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>api
-</span><span id="__span-12-46"><a id="__codelineno-12-46" name="__codelineno-12-46" href="#__codelineno-12-46"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>app.py
-</span><span id="__span-12-47"><a id="__codelineno-12-47" name="__codelineno-12-47" href="#__codelineno-12-47"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>config.py
-</span><span id="__span-12-48"><a id="__codelineno-12-48" name="__codelineno-12-48" href="#__codelineno-12-48"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>models.py
-</span><span id="__span-12-49"><a id="__codelineno-12-49" name="__codelineno-12-49" href="#__codelineno-12-49"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>routers
-</span><span id="__span-12-50"><a id="__codelineno-12-50" name="__codelineno-12-50" href="#__codelineno-12-50"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>health.py
-</span><span id="__span-12-51"><a id="__codelineno-12-51" name="__codelineno-12-51" href="#__codelineno-12-51"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>split.py
-</span><span id="__span-12-52"><a id="__codelineno-12-52" name="__codelineno-12-52" href="#__codelineno-12-52"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>cli.py
-</span><span id="__span-12-53"><a id="__codelineno-12-53" name="__codelineno-12-53" href="#__codelineno-12-53"></a>│<span class="w">   </span>├──<span class="w"> </span>chunker
-</span><span id="__span-12-54"><a id="__codelineno-12-54" name="__codelineno-12-54" href="#__codelineno-12-54"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-55"><a id="__codelineno-12-55" name="__codelineno-12-55" href="#__codelineno-12-55"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>chunk_manager.py
-</span><span id="__span-12-56"><a id="__codelineno-12-56" name="__codelineno-12-56" href="#__codelineno-12-56"></a>│<span class="w">   </span>├──<span class="w"> </span>main.py
-</span><span id="__span-12-57"><a id="__codelineno-12-57" name="__codelineno-12-57" href="#__codelineno-12-57"></a>│<span class="w">   </span>├──<span class="w"> </span>model
-</span><span id="__span-12-58"><a id="__codelineno-12-58" name="__codelineno-12-58" href="#__codelineno-12-58"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>base_client.py
-</span><span id="__span-12-59"><a id="__codelineno-12-59" name="__codelineno-12-59" href="#__codelineno-12-59"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>llm_client.py
-</span><span id="__span-12-60"><a id="__codelineno-12-60" name="__codelineno-12-60" href="#__codelineno-12-60"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>models
-</span><span id="__span-12-61"><a id="__codelineno-12-61" name="__codelineno-12-61" href="#__codelineno-12-61"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>azure_client.py
-</span><span id="__span-12-62"><a id="__codelineno-12-62" name="__codelineno-12-62" href="#__codelineno-12-62"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>openai_client.py
-</span><span id="__span-12-63"><a id="__codelineno-12-63" name="__codelineno-12-63" href="#__codelineno-12-63"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>textract_client.py
-</span><span id="__span-12-64"><a id="__codelineno-12-64" name="__codelineno-12-64" href="#__codelineno-12-64"></a>│<span class="w">   </span>├──<span class="w"> </span>reader
-</span><span id="__span-12-65"><a id="__codelineno-12-65" name="__codelineno-12-65" href="#__codelineno-12-65"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-66"><a id="__codelineno-12-66" name="__codelineno-12-66" href="#__codelineno-12-66"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>base_reader.py
-</span><span id="__span-12-67"><a id="__codelineno-12-67" name="__codelineno-12-67" href="#__codelineno-12-67"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>read_manager.py
-</span><span id="__span-12-68"><a id="__codelineno-12-68" name="__codelineno-12-68" href="#__codelineno-12-68"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>readers
-</span><span id="__span-12-69"><a id="__codelineno-12-69" name="__codelineno-12-69" href="#__codelineno-12-69"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>custom_reader.py
-</span><span id="__span-12-70"><a id="__codelineno-12-70" name="__codelineno-12-70" href="#__codelineno-12-70"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>docling_reader.py
-</span><span id="__span-12-71"><a id="__codelineno-12-71" name="__codelineno-12-71" href="#__codelineno-12-71"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>markitdown_reader.py
-</span><span id="__span-12-72"><a id="__codelineno-12-72" name="__codelineno-12-72" href="#__codelineno-12-72"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>ocr_reader.py
-</span><span id="__span-12-73"><a id="__codelineno-12-73" name="__codelineno-12-73" href="#__codelineno-12-73"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>pdfplumber_reader.py
-</span><span id="__span-12-74"><a id="__codelineno-12-74" name="__codelineno-12-74" href="#__codelineno-12-74"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>textract_reader.py
-</span><span id="__span-12-75"><a id="__codelineno-12-75" name="__codelineno-12-75" href="#__codelineno-12-75"></a>│<span class="w">   </span>├──<span class="w"> </span>splitter
-</span><span id="__span-12-76"><a id="__codelineno-12-76" name="__codelineno-12-76" href="#__codelineno-12-76"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-77"><a id="__codelineno-12-77" name="__codelineno-12-77" href="#__codelineno-12-77"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>base_splitter.py
-</span><span id="__span-12-78"><a id="__codelineno-12-78" name="__codelineno-12-78" href="#__codelineno-12-78"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>split_manager.py
-</span><span id="__span-12-79"><a id="__codelineno-12-79" name="__codelineno-12-79" href="#__codelineno-12-79"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>splitters
-</span><span id="__span-12-80"><a id="__codelineno-12-80" name="__codelineno-12-80" href="#__codelineno-12-80"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-81"><a id="__codelineno-12-81" name="__codelineno-12-81" href="#__codelineno-12-81"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>auto_splitter.py
-</span><span id="__span-12-82"><a id="__codelineno-12-82" name="__codelineno-12-82" href="#__codelineno-12-82"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>fixed_splitter.py
-</span><span id="__span-12-83"><a id="__codelineno-12-83" name="__codelineno-12-83" href="#__codelineno-12-83"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>paged_splitter.py
-</span><span id="__span-12-84"><a id="__codelineno-12-84" name="__codelineno-12-84" href="#__codelineno-12-84"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>paragraph_splitter.py
-</span><span id="__span-12-85"><a id="__codelineno-12-85" name="__codelineno-12-85" href="#__codelineno-12-85"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>recursive_splitter.py
-</span><span id="__span-12-86"><a id="__codelineno-12-86" name="__codelineno-12-86" href="#__codelineno-12-86"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>row_column_splitter.py
-</span><span id="__span-12-87"><a id="__codelineno-12-87" name="__codelineno-12-87" href="#__codelineno-12-87"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>schema_based_splitter.py
-</span><span id="__span-12-88"><a id="__codelineno-12-88" name="__codelineno-12-88" href="#__codelineno-12-88"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>semantic_splitter.py
-</span><span id="__span-12-89"><a id="__codelineno-12-89" name="__codelineno-12-89" href="#__codelineno-12-89"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>sentence_splitter.py
-</span><span id="__span-12-90"><a id="__codelineno-12-90" name="__codelineno-12-90" href="#__codelineno-12-90"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>word_splitter.py
-</span><span id="__span-12-91"><a id="__codelineno-12-91" name="__codelineno-12-91" href="#__codelineno-12-91"></a>│<span class="w">   </span>└──<span class="w"> </span>utils
-</span><span id="__span-12-92"><a id="__codelineno-12-92" name="__codelineno-12-92" href="#__codelineno-12-92"></a>│<span class="w">       </span>├──<span class="w"> </span>config_loader.py
-</span><span id="__span-12-93"><a id="__codelineno-12-93" name="__codelineno-12-93" href="#__codelineno-12-93"></a>│<span class="w">       </span>└──<span class="w"> </span>logging_manager.py
-</span><span id="__span-12-94"><a id="__codelineno-12-94" name="__codelineno-12-94" href="#__codelineno-12-94"></a>├──<span class="w"> </span><span class="nb">test</span>
-</span><span id="__span-12-95"><a id="__codelineno-12-95" name="__codelineno-12-95" href="#__codelineno-12-95"></a>│<span class="w">   </span>├──<span class="w"> </span>application
-</span><span id="__span-12-96"><a id="__codelineno-12-96" name="__codelineno-12-96" href="#__codelineno-12-96"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-97"><a id="__codelineno-12-97" name="__codelineno-12-97" href="#__codelineno-12-97"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>api
-</span><span id="__span-12-98"><a id="__codelineno-12-98" name="__codelineno-12-98" href="#__codelineno-12-98"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-99"><a id="__codelineno-12-99" name="__codelineno-12-99" href="#__codelineno-12-99"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>routers
-</span><span id="__span-12-100"><a id="__codelineno-12-100" name="__codelineno-12-100" href="#__codelineno-12-100"></a>│<span class="w">   </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-101"><a id="__codelineno-12-101" name="__codelineno-12-101" href="#__codelineno-12-101"></a>│<span class="w">   </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_health.py
-</span><span id="__span-12-102"><a id="__codelineno-12-102" name="__codelineno-12-102" href="#__codelineno-12-102"></a>│<span class="w">   </span>│<span class="w">       </span>│<span class="w">   </span>└──<span class="w"> </span>test_split.py
-</span><span id="__span-12-103"><a id="__codelineno-12-103" name="__codelineno-12-103" href="#__codelineno-12-103"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>test_app.py
-</span><span id="__span-12-104"><a id="__codelineno-12-104" name="__codelineno-12-104" href="#__codelineno-12-104"></a>│<span class="w">   </span>├──<span class="w"> </span>chunker
-</span><span id="__span-12-105"><a id="__codelineno-12-105" name="__codelineno-12-105" href="#__codelineno-12-105"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-106"><a id="__codelineno-12-106" name="__codelineno-12-106" href="#__codelineno-12-106"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_chunk_manager.py
-</span><span id="__span-12-107"><a id="__codelineno-12-107" name="__codelineno-12-107" href="#__codelineno-12-107"></a>│<span class="w">   </span>├──<span class="w"> </span>model
-</span><span id="__span-12-108"><a id="__codelineno-12-108" name="__codelineno-12-108" href="#__codelineno-12-108"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-109"><a id="__codelineno-12-109" name="__codelineno-12-109" href="#__codelineno-12-109"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>models
-</span><span id="__span-12-110"><a id="__codelineno-12-110" name="__codelineno-12-110" href="#__codelineno-12-110"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-111"><a id="__codelineno-12-111" name="__codelineno-12-111" href="#__codelineno-12-111"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>test_azure_client.py
-</span><span id="__span-12-112"><a id="__codelineno-12-112" name="__codelineno-12-112" href="#__codelineno-12-112"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_openai_client.py
-</span><span id="__span-12-113"><a id="__codelineno-12-113" name="__codelineno-12-113" href="#__codelineno-12-113"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_llm_client.py
-</span><span id="__span-12-114"><a id="__codelineno-12-114" name="__codelineno-12-114" href="#__codelineno-12-114"></a>│<span class="w">   </span>├──<span class="w"> </span>reader
-</span><span id="__span-12-115"><a id="__codelineno-12-115" name="__codelineno-12-115" href="#__codelineno-12-115"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-116"><a id="__codelineno-12-116" name="__codelineno-12-116" href="#__codelineno-12-116"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>readers
-</span><span id="__span-12-117"><a id="__codelineno-12-117" name="__codelineno-12-117" href="#__codelineno-12-117"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-118"><a id="__codelineno-12-118" name="__codelineno-12-118" href="#__codelineno-12-118"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_markitdown_reader.py
-</span><span id="__span-12-119"><a id="__codelineno-12-119" name="__codelineno-12-119" href="#__codelineno-12-119"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_read_manager.py
-</span><span id="__span-12-120"><a id="__codelineno-12-120" name="__codelineno-12-120" href="#__codelineno-12-120"></a>│<span class="w">   </span>├──<span class="w"> </span>splitter
-</span><span id="__span-12-121"><a id="__codelineno-12-121" name="__codelineno-12-121" href="#__codelineno-12-121"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-122"><a id="__codelineno-12-122" name="__codelineno-12-122" href="#__codelineno-12-122"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>splitters
-</span><span id="__span-12-123"><a id="__codelineno-12-123" name="__codelineno-12-123" href="#__codelineno-12-123"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>__init__.py
-</span><span id="__span-12-124"><a id="__codelineno-12-124" name="__codelineno-12-124" href="#__codelineno-12-124"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>test_fixed_splitter.py
-</span><span id="__span-12-125"><a id="__codelineno-12-125" name="__codelineno-12-125" href="#__codelineno-12-125"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>test_paragraph_splitter.py
-</span><span id="__span-12-126"><a id="__codelineno-12-126" name="__codelineno-12-126" href="#__codelineno-12-126"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>test_recursive_splitter.py
-</span><span id="__span-12-127"><a id="__codelineno-12-127" name="__codelineno-12-127" href="#__codelineno-12-127"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>test_sentence_splitter.py
-</span><span id="__span-12-128"><a id="__codelineno-12-128" name="__codelineno-12-128" href="#__codelineno-12-128"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>test_word_splitter.py
-</span><span id="__span-12-129"><a id="__codelineno-12-129" name="__codelineno-12-129" href="#__codelineno-12-129"></a>│<span class="w">   </span>└──<span class="w"> </span>utils
-</span><span id="__span-12-130"><a id="__codelineno-12-130" name="__codelineno-12-130" href="#__codelineno-12-130"></a>│<span class="w">       </span>└──<span class="w"> </span>__init__.py
-</span><span id="__span-12-131"><a id="__codelineno-12-131" name="__codelineno-12-131" href="#__codelineno-12-131"></a>└──<span class="w"> </span>uv.lock
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>.
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├──<span class="w"> </span>CHANGELOG.md
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>├──<span class="w"> </span>Dockerfile.api
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>├──<span class="w"> </span>Makefile
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>├──<span class="w"> </span>README.md
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>├──<span class="w"> </span>config.yaml
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>├──<span class="w"> </span>data
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>│<span class="w">   </span>├──<span class="w"> </span>input
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>│<span class="w">   </span>├──<span class="w"> </span>output
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>│<span class="w">   </span>└──<span class="w"> </span><span class="nb">test</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>│<span class="w">       </span>├──<span class="w"> </span>input
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.docx
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.md
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.pdf
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.pptx
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_1.txt
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>│<span class="w">       </span>│<span class="w">   </span>└──<span class="w"> </span>test_1.xlsx
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>│<span class="w">       </span>└──<span class="w"> </span>output
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>├──<span class="w"> </span>docker-compose.yaml
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>├──<span class="w"> </span>docs
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>│<span class="w">   </span>├──<span class="w"> </span>api
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>docs.md
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>│<span class="w">   </span>├──<span class="w"> </span>assets
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>MultiRAG.drawio.svg
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>splitter.drawio.svg
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>splitter.drawio_v0.1.0.drawio.svg
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>splitter_v0.3.0.drawio.svg
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>│<span class="w">   </span>├──<span class="w"> </span>chunker
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>docs.md
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a>│<span class="w">   </span>├──<span class="w"> </span>index.md
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>│<span class="w">   </span>├──<span class="w"> </span>model
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>docs.md
+</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a>│<span class="w">   </span>├──<span class="w"> </span>reader
+</span><span id="__span-11-34"><a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>docs.md
+</span><span id="__span-11-35"><a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a>│<span class="w">   </span>└──<span class="w"> </span>splitter
+</span><span id="__span-11-36"><a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a>│<span class="w">       </span>└──<span class="w"> </span>docs.md
+</span><span id="__span-11-37"><a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a>├──<span class="w"> </span>mkdocs.yml
+</span><span id="__span-11-38"><a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a>├──<span class="w"> </span>pyproject.toml
+</span><span id="__span-11-39"><a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a>├──<span class="w"> </span>requirements.txt
+</span><span id="__span-11-40"><a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a>├──<span class="w"> </span>scripts
+</span><span id="__span-11-41"><a id="__codelineno-11-41" name="__codelineno-11-41" href="#__codelineno-11-41"></a>│<span class="w">   </span>├──<span class="w"> </span>build_docs.py
+</span><span id="__span-11-42"><a id="__codelineno-11-42" name="__codelineno-11-42" href="#__codelineno-11-42"></a>│<span class="w">   </span>├──<span class="w"> </span>conftest.py
+</span><span id="__span-11-43"><a id="__codelineno-11-43" name="__codelineno-11-43" href="#__codelineno-11-43"></a>│<span class="w">   </span>├──<span class="w"> </span>enrich_readme.py
+</span><span id="__span-11-44"><a id="__codelineno-11-44" name="__codelineno-11-44" href="#__codelineno-11-44"></a>│<span class="w">   </span>└──<span class="w"> </span>validate_commit_msg.py
+</span><span id="__span-11-45"><a id="__codelineno-11-45" name="__codelineno-11-45" href="#__codelineno-11-45"></a>├──<span class="w"> </span>src
+</span><span id="__span-11-46"><a id="__codelineno-11-46" name="__codelineno-11-46" href="#__codelineno-11-46"></a>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-47"><a id="__codelineno-11-47" name="__codelineno-11-47" href="#__codelineno-11-47"></a>│<span class="w">   </span>├──<span class="w"> </span>application
+</span><span id="__span-11-48"><a id="__codelineno-11-48" name="__codelineno-11-48" href="#__codelineno-11-48"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-49"><a id="__codelineno-11-49" name="__codelineno-11-49" href="#__codelineno-11-49"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>api
+</span><span id="__span-11-50"><a id="__codelineno-11-50" name="__codelineno-11-50" href="#__codelineno-11-50"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-51"><a id="__codelineno-11-51" name="__codelineno-11-51" href="#__codelineno-11-51"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>app.py
+</span><span id="__span-11-52"><a id="__codelineno-11-52" name="__codelineno-11-52" href="#__codelineno-11-52"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>config.py
+</span><span id="__span-11-53"><a id="__codelineno-11-53" name="__codelineno-11-53" href="#__codelineno-11-53"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>models.py
+</span><span id="__span-11-54"><a id="__codelineno-11-54" name="__codelineno-11-54" href="#__codelineno-11-54"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>routers
+</span><span id="__span-11-55"><a id="__codelineno-11-55" name="__codelineno-11-55" href="#__codelineno-11-55"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-56"><a id="__codelineno-11-56" name="__codelineno-11-56" href="#__codelineno-11-56"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>health.py
+</span><span id="__span-11-57"><a id="__codelineno-11-57" name="__codelineno-11-57" href="#__codelineno-11-57"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>split.py
+</span><span id="__span-11-58"><a id="__codelineno-11-58" name="__codelineno-11-58" href="#__codelineno-11-58"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>cli.py
+</span><span id="__span-11-59"><a id="__codelineno-11-59" name="__codelineno-11-59" href="#__codelineno-11-59"></a>│<span class="w">   </span>├──<span class="w"> </span>chunker
+</span><span id="__span-11-60"><a id="__codelineno-11-60" name="__codelineno-11-60" href="#__codelineno-11-60"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-61"><a id="__codelineno-11-61" name="__codelineno-11-61" href="#__codelineno-11-61"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>chunk_manager.py
+</span><span id="__span-11-62"><a id="__codelineno-11-62" name="__codelineno-11-62" href="#__codelineno-11-62"></a>│<span class="w">   </span>├──<span class="w"> </span>main.py
+</span><span id="__span-11-63"><a id="__codelineno-11-63" name="__codelineno-11-63" href="#__codelineno-11-63"></a>│<span class="w">   </span>├──<span class="w"> </span>model
+</span><span id="__span-11-64"><a id="__codelineno-11-64" name="__codelineno-11-64" href="#__codelineno-11-64"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-65"><a id="__codelineno-11-65" name="__codelineno-11-65" href="#__codelineno-11-65"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>base_client.py
+</span><span id="__span-11-66"><a id="__codelineno-11-66" name="__codelineno-11-66" href="#__codelineno-11-66"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>llm_client.py
+</span><span id="__span-11-67"><a id="__codelineno-11-67" name="__codelineno-11-67" href="#__codelineno-11-67"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>models
+</span><span id="__span-11-68"><a id="__codelineno-11-68" name="__codelineno-11-68" href="#__codelineno-11-68"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-69"><a id="__codelineno-11-69" name="__codelineno-11-69" href="#__codelineno-11-69"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>azure_client.py
+</span><span id="__span-11-70"><a id="__codelineno-11-70" name="__codelineno-11-70" href="#__codelineno-11-70"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>openai_client.py
+</span><span id="__span-11-71"><a id="__codelineno-11-71" name="__codelineno-11-71" href="#__codelineno-11-71"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>textract_client.py
+</span><span id="__span-11-72"><a id="__codelineno-11-72" name="__codelineno-11-72" href="#__codelineno-11-72"></a>│<span class="w">   </span>├──<span class="w"> </span>reader
+</span><span id="__span-11-73"><a id="__codelineno-11-73" name="__codelineno-11-73" href="#__codelineno-11-73"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-74"><a id="__codelineno-11-74" name="__codelineno-11-74" href="#__codelineno-11-74"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>base_reader.py
+</span><span id="__span-11-75"><a id="__codelineno-11-75" name="__codelineno-11-75" href="#__codelineno-11-75"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>read_manager.py
+</span><span id="__span-11-76"><a id="__codelineno-11-76" name="__codelineno-11-76" href="#__codelineno-11-76"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>readers
+</span><span id="__span-11-77"><a id="__codelineno-11-77" name="__codelineno-11-77" href="#__codelineno-11-77"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-78"><a id="__codelineno-11-78" name="__codelineno-11-78" href="#__codelineno-11-78"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>custom_reader.py
+</span><span id="__span-11-79"><a id="__codelineno-11-79" name="__codelineno-11-79" href="#__codelineno-11-79"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>docling_reader.py
+</span><span id="__span-11-80"><a id="__codelineno-11-80" name="__codelineno-11-80" href="#__codelineno-11-80"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>markitdown_reader.py
+</span><span id="__span-11-81"><a id="__codelineno-11-81" name="__codelineno-11-81" href="#__codelineno-11-81"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>ocr_reader.py
+</span><span id="__span-11-82"><a id="__codelineno-11-82" name="__codelineno-11-82" href="#__codelineno-11-82"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>pdfplumber_reader.py
+</span><span id="__span-11-83"><a id="__codelineno-11-83" name="__codelineno-11-83" href="#__codelineno-11-83"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>textract_reader.py
+</span><span id="__span-11-84"><a id="__codelineno-11-84" name="__codelineno-11-84" href="#__codelineno-11-84"></a>│<span class="w">   </span>├──<span class="w"> </span>splitter
+</span><span id="__span-11-85"><a id="__codelineno-11-85" name="__codelineno-11-85" href="#__codelineno-11-85"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-86"><a id="__codelineno-11-86" name="__codelineno-11-86" href="#__codelineno-11-86"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>base_splitter.py
+</span><span id="__span-11-87"><a id="__codelineno-11-87" name="__codelineno-11-87" href="#__codelineno-11-87"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>split_manager.py
+</span><span id="__span-11-88"><a id="__codelineno-11-88" name="__codelineno-11-88" href="#__codelineno-11-88"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>splitters
+</span><span id="__span-11-89"><a id="__codelineno-11-89" name="__codelineno-11-89" href="#__codelineno-11-89"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-90"><a id="__codelineno-11-90" name="__codelineno-11-90" href="#__codelineno-11-90"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>auto_splitter.py
+</span><span id="__span-11-91"><a id="__codelineno-11-91" name="__codelineno-11-91" href="#__codelineno-11-91"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>fixed_splitter.py
+</span><span id="__span-11-92"><a id="__codelineno-11-92" name="__codelineno-11-92" href="#__codelineno-11-92"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>paged_splitter.py
+</span><span id="__span-11-93"><a id="__codelineno-11-93" name="__codelineno-11-93" href="#__codelineno-11-93"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>paragraph_splitter.py
+</span><span id="__span-11-94"><a id="__codelineno-11-94" name="__codelineno-11-94" href="#__codelineno-11-94"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>recursive_splitter.py
+</span><span id="__span-11-95"><a id="__codelineno-11-95" name="__codelineno-11-95" href="#__codelineno-11-95"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>row_column_splitter.py
+</span><span id="__span-11-96"><a id="__codelineno-11-96" name="__codelineno-11-96" href="#__codelineno-11-96"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>schema_based_splitter.py
+</span><span id="__span-11-97"><a id="__codelineno-11-97" name="__codelineno-11-97" href="#__codelineno-11-97"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>semantic_splitter.py
+</span><span id="__span-11-98"><a id="__codelineno-11-98" name="__codelineno-11-98" href="#__codelineno-11-98"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>sentence_splitter.py
+</span><span id="__span-11-99"><a id="__codelineno-11-99" name="__codelineno-11-99" href="#__codelineno-11-99"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>word_splitter.py
+</span><span id="__span-11-100"><a id="__codelineno-11-100" name="__codelineno-11-100" href="#__codelineno-11-100"></a>│<span class="w">   </span>└──<span class="w"> </span>utils
+</span><span id="__span-11-101"><a id="__codelineno-11-101" name="__codelineno-11-101" href="#__codelineno-11-101"></a>│<span class="w">       </span>├──<span class="w"> </span>config_loader.py
+</span><span id="__span-11-102"><a id="__codelineno-11-102" name="__codelineno-11-102" href="#__codelineno-11-102"></a>│<span class="w">       </span>└──<span class="w"> </span>logging_manager.py
+</span><span id="__span-11-103"><a id="__codelineno-11-103" name="__codelineno-11-103" href="#__codelineno-11-103"></a>├──<span class="w"> </span><span class="nb">test</span>
+</span><span id="__span-11-104"><a id="__codelineno-11-104" name="__codelineno-11-104" href="#__codelineno-11-104"></a>│<span class="w">   </span>├──<span class="w"> </span>application
+</span><span id="__span-11-105"><a id="__codelineno-11-105" name="__codelineno-11-105" href="#__codelineno-11-105"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-106"><a id="__codelineno-11-106" name="__codelineno-11-106" href="#__codelineno-11-106"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>api
+</span><span id="__span-11-107"><a id="__codelineno-11-107" name="__codelineno-11-107" href="#__codelineno-11-107"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-108"><a id="__codelineno-11-108" name="__codelineno-11-108" href="#__codelineno-11-108"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>routers
+</span><span id="__span-11-109"><a id="__codelineno-11-109" name="__codelineno-11-109" href="#__codelineno-11-109"></a>│<span class="w">   </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-110"><a id="__codelineno-11-110" name="__codelineno-11-110" href="#__codelineno-11-110"></a>│<span class="w">   </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>test_health.py
+</span><span id="__span-11-111"><a id="__codelineno-11-111" name="__codelineno-11-111" href="#__codelineno-11-111"></a>│<span class="w">   </span>│<span class="w">       </span>│<span class="w">   </span>└──<span class="w"> </span>test_split.py
+</span><span id="__span-11-112"><a id="__codelineno-11-112" name="__codelineno-11-112" href="#__codelineno-11-112"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>test_app.py
+</span><span id="__span-11-113"><a id="__codelineno-11-113" name="__codelineno-11-113" href="#__codelineno-11-113"></a>│<span class="w">   </span>├──<span class="w"> </span>chunker
+</span><span id="__span-11-114"><a id="__codelineno-11-114" name="__codelineno-11-114" href="#__codelineno-11-114"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-115"><a id="__codelineno-11-115" name="__codelineno-11-115" href="#__codelineno-11-115"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_chunk_manager.py
+</span><span id="__span-11-116"><a id="__codelineno-11-116" name="__codelineno-11-116" href="#__codelineno-11-116"></a>│<span class="w">   </span>├──<span class="w"> </span>model
+</span><span id="__span-11-117"><a id="__codelineno-11-117" name="__codelineno-11-117" href="#__codelineno-11-117"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-118"><a id="__codelineno-11-118" name="__codelineno-11-118" href="#__codelineno-11-118"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>models
+</span><span id="__span-11-119"><a id="__codelineno-11-119" name="__codelineno-11-119" href="#__codelineno-11-119"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-120"><a id="__codelineno-11-120" name="__codelineno-11-120" href="#__codelineno-11-120"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>test_azure_client.py
+</span><span id="__span-11-121"><a id="__codelineno-11-121" name="__codelineno-11-121" href="#__codelineno-11-121"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_openai_client.py
+</span><span id="__span-11-122"><a id="__codelineno-11-122" name="__codelineno-11-122" href="#__codelineno-11-122"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_llm_client.py
+</span><span id="__span-11-123"><a id="__codelineno-11-123" name="__codelineno-11-123" href="#__codelineno-11-123"></a>│<span class="w">   </span>├──<span class="w"> </span>reader
+</span><span id="__span-11-124"><a id="__codelineno-11-124" name="__codelineno-11-124" href="#__codelineno-11-124"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-125"><a id="__codelineno-11-125" name="__codelineno-11-125" href="#__codelineno-11-125"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>readers
+</span><span id="__span-11-126"><a id="__codelineno-11-126" name="__codelineno-11-126" href="#__codelineno-11-126"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-127"><a id="__codelineno-11-127" name="__codelineno-11-127" href="#__codelineno-11-127"></a>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_markitdown_reader.py
+</span><span id="__span-11-128"><a id="__codelineno-11-128" name="__codelineno-11-128" href="#__codelineno-11-128"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>test_read_manager.py
+</span><span id="__span-11-129"><a id="__codelineno-11-129" name="__codelineno-11-129" href="#__codelineno-11-129"></a>│<span class="w">   </span>├──<span class="w"> </span>splitter
+</span><span id="__span-11-130"><a id="__codelineno-11-130" name="__codelineno-11-130" href="#__codelineno-11-130"></a>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-131"><a id="__codelineno-11-131" name="__codelineno-11-131" href="#__codelineno-11-131"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>splitters
+</span><span id="__span-11-132"><a id="__codelineno-11-132" name="__codelineno-11-132" href="#__codelineno-11-132"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>__init__.py
+</span><span id="__span-11-133"><a id="__codelineno-11-133" name="__codelineno-11-133" href="#__codelineno-11-133"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>test_fixed_splitter.py
+</span><span id="__span-11-134"><a id="__codelineno-11-134" name="__codelineno-11-134" href="#__codelineno-11-134"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>test_paragraph_splitter.py
+</span><span id="__span-11-135"><a id="__codelineno-11-135" name="__codelineno-11-135" href="#__codelineno-11-135"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>test_recursive_splitter.py
+</span><span id="__span-11-136"><a id="__codelineno-11-136" name="__codelineno-11-136" href="#__codelineno-11-136"></a>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>test_sentence_splitter.py
+</span><span id="__span-11-137"><a id="__codelineno-11-137" name="__codelineno-11-137" href="#__codelineno-11-137"></a>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>test_word_splitter.py
+</span><span id="__span-11-138"><a id="__codelineno-11-138" name="__codelineno-11-138" href="#__codelineno-11-138"></a>│<span class="w">   </span>└──<span class="w"> </span>utils
+</span><span id="__span-11-139"><a id="__codelineno-11-139" name="__codelineno-11-139" href="#__codelineno-11-139"></a>│<span class="w">       </span>└──<span class="w"> </span>__init__.py
+</span><span id="__span-11-140"><a id="__codelineno-11-140" name="__codelineno-11-140" href="#__codelineno-11-140"></a>└──<span class="w"> </span>uv.lock
+</span><span id="__span-11-141"><a id="__codelineno-11-141" name="__codelineno-11-141" href="#__codelineno-11-141"></a>
+</span><span id="__span-11-142"><a id="__codelineno-11-142" name="__codelineno-11-142" href="#__codelineno-11-142"></a><span class="m">39</span><span class="w"> </span>directories,<span class="w"> </span><span class="m">101</span><span class="w"> </span>files
 </span></code></pre></div>
-<h2 id="contact">Contact</h2>
+<hr />
+<h2 id="contact-information">Contact Information</h2>
 <ul>
 <li>E-mail: <a href="mailto:andresherencia2000@gmail.com">andresherencia2000@gmail.com</a>.</li>
-<li>LinkedIn: <a href="https://linkedin.com/in/andres-herencia">link</a></li>
+<li>LinkedIn: <a href="https://linkedin.com/in/andres-herencia">link</a>.</li>
 </ul>
 
 
