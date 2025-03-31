@@ -60,6 +60,6 @@ splitter:
 
 # 4. OCR configuration
 ocr:
-  method: "azure"  # Options: azure, openai, none
+  method: "azure"  # Options: none, azure, openai, textract
   # include_image_blobs: false
   # include_json_structure: false
