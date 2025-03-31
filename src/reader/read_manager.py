@@ -11,7 +11,20 @@ from src.reader.readers.markitdown_reader import MarkItDownConverter
 
 class ReadManager:
     """
-    Manages reading and converting files into text using format-specific converters.
+    ReadManager is responsible for reading input documents from a specified location.
+
+    This class supports multiple file formats such as text files (.txt, .md), Microsoft 
+    Word (.docx), PDFs, PowerPoint files (.pptx), and Excel files (.xlsx). It can also 
+    apply OCR processing when required.
+
+    Attributes:
+        config (dict): Configuration settings for file I/O, including input path and OCR method.
+
+    Methods:
+        read_file(file_path: str) -> str:
+            Reads the file from the given path and returns its content as a string.
+        read_file_object(file: UploadFile) -> str:
+            Reads the content from an uploaded file object and returns it as a string.
     """
 
     def __init__(

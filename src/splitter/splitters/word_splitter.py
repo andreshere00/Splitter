@@ -4,6 +4,13 @@ from src.splitter.base_splitter import BaseSplitter
 
 
 class WordSplitter(BaseSplitter):
+    """
+    Splits the input text into individual words.
+
+    This class tokenizes the text into words using whitespace and punctuation as delimiters.
+    It is particularly useful for further processing that requires analysis at the word level.
+    """
+
     def __init__(self, num_words: int = 10) -> None:
         """
         Initialize the splitter with the number of words per chunk.

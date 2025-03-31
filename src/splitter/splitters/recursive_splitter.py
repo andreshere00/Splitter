@@ -7,13 +7,11 @@ from src.splitter.base_splitter import BaseSplitter
 
 class RecursiveSplitter(BaseSplitter):
     """
-    RecursiveSplitter uses LangChain's RecursiveCharacterTextSplitter to split a text
-    recursively into chunks based on a defined chunk size and overlap.
+    Recursively split the input text into smaller chunks not exceeding a specified maximum length.
 
-    Attributes:
-        size (int): The target number of characters per chunk.
-        overlap (int): The number of overlapping characters between chunks.
-        splitter (RecursiveCharacterTextSplitter): The underlying splitter instance.
+    This class applies a recursive strategy to break down the text into manageable pieces. It first
+    split the text by a fixed number of characters and then further divides any resulting chunk that
+    exceeds 'max_length' until all chunks satisfy the length constraint.
     """
 
     def __init__(self, size: int = 500, overlap: int = 25) -> None:

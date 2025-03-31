@@ -5,6 +5,14 @@ from src.splitter.base_splitter import BaseSplitter
 
 
 class SentenceSplitter(BaseSplitter):
+    """
+    Splits the input text into sentences.
+
+    This class breaks the text into sentences by detecting sentence boundaries, typically using
+    punctuation marks such as periods, exclamation points, and question marks. It also attempts to
+    handle common edge cases, such as abbreviations, to improve accuracy.
+    """
+
     def __init__(self, num_sentences: int = 5):
         """
         Initialize the splitter with the number of sentences per group.

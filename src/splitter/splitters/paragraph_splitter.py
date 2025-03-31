@@ -5,11 +5,11 @@ from src.splitter.base_splitter import BaseSplitter
 
 class ParagraphSplitter(BaseSplitter):
     """
-    ParagraphSplitter divides the input text into chunks by paragraphs.
+    Split the input text into paragraphs.
 
-    Attributes:
-        num_paragraphs (int): The number of paragraphs to include in each chunk.
-                              Must be greater than 0 if specified.
+    This class identifies paragraph breaks based on newline characters or other defined delimiters,
+    and splits the text accordingly. Consecutive newline characters are treated as a single break,
+    allowing for clean paragraph extraction.
     """
 
     def __init__(self, num_paragraphs: int = None) -> None:
