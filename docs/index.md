@@ -1,3 +1,5 @@
+<!-- ⚠️ Auto-generated from README.md. Do not edit directly. -->
+
 # Splitter
 
 ## Overview
@@ -17,8 +19,8 @@ The application is exposed via:
 
 The following tools and packages are needed to execute the application:
 
-- [Python](https://www.python.org/) with `make`. `$PYTHONPATH` may be set in the `.env` file.
-- [Docker](https://www.docker.com/).
+- 🐍 [Python](https://www.python.org/) with `make`. `$PYTHONPATH` may be set in the `.env` file.
+- 🐋 [Docker](https://www.docker.com/).
 
 To install all the dependencies, you can use `make install`.
 
@@ -45,6 +47,7 @@ Application will be accessible through the browser at the host `0.0.0.0:8000/doc
 #### **API Definition** {#api}
 
 ##### **Input**
+##### **Input**
 
 Object: `class <ChunkRequest>`
 
@@ -52,6 +55,8 @@ Object: `class <ChunkRequest>`
 document_name: Optional[str] = None
 document_path: str
 document_id: Optional[str] = None
+ocr_method: OCRMethodEnum
+split_method: SplitMethodEnum
 ocr_method: OCRMethodEnum
 split_method: SplitMethodEnum
 split_params: Optional[Dict[str, Any]] = None
@@ -69,6 +74,8 @@ chunk_id: List[str]
 chunk_path: str
 document_id: str
 document_name: Optional[str] = None
+ocr_method: OCRMethodEnum
+split_method: SplitMethodEnum
 ocr_method: OCRMethodEnum
 split_method: SplitMethodEnum
 split_params: Optional[Dict[str, Any]] = None
@@ -132,6 +139,29 @@ Many other commands are available (use `make help` to consult):
   make remove-data      - Remove data presented in the output folder.
 ```
 
+----
+
+Many other commands are available (use `make help` to consult):
+
+```sh
+  make docs             - Run the documentation server.
+  make install          - Install application dependencies using uv.
+  make install-uv       - Install uv CLI (OS-specific).
+  make run              - Execute the application using uv.
+  make serve            - Serve the FastAPI application.
+  make docker-api-build - Build the API dockerized application.
+  make docker-api-run   - Run the API dockerized application.
+  make test             - Run tests using uv and pytest.
+  make shell            - Run a uv shell.
+  make pre-commit       - Install pre-commit hooks.
+  make format           - Run pyupgrade, isort, black and flake8 for code style.
+  make clean            - Clean output, cache and log files.
+  make clean-cache      - Clean cache files.
+  make clean-data       - Clean output data files.
+  make clean-log        - Clean log files.
+  make remove-data      - Remove data presented in the output folder.
+```
+
 ## Configuration {#config}
 
 File handling, splitting methods and application settings can be modified using a [configuration file](config.yaml). This file is provided in `config.yaml` file. Otherwise, parameters can be passed as API parameters. The config file has the following structure by default:
@@ -153,6 +183,7 @@ logging:
       filename: "logs/app.log"
       mode: "a"
 
+a
 # 3. Splitting Methods Configuration
 splitter:
   method: "recursive"
@@ -170,10 +201,16 @@ splitter:
     # semantic:
     #   language_model: "bert-base-uncased"  # For semantic similarity
     #   overlap: 0.2                         # Overlap ratio between chunks
+    # semantic:
+    #   language_model: "bert-base-uncased"  # For semantic similarity
+    #   overlap: 0.2                         # Overlap ratio between chunks
 
     fixed:
       size: 100  # Number of characters per chunk
 
+    # paged:
+    #   num_pages: 1  # Number of pages in each chunk
+    #   overlap: 0.1  # Overlap (in pages) between chunks
     # paged:
     #   num_pages: 1  # Number of pages in each chunk
     #   overlap: 0.1  # Overlap (in pages) between chunks
@@ -187,7 +224,15 @@ splitter:
     #   column_names: ["Column1", "Column2"]
     #   num_rows: 5
     #   row_names: ["Row1", "Row2"]
+    # row-column:
+    #   num_columns: 2
+    #   column_names: ["Column1", "Column2"]
+    #   num_rows: 5
+    #   row_names: ["Row1", "Row2"]
 
+    # schema-based:
+    #   num_registers: 50  # Number of registers (or rows) per chunk
+    #   overlap: 5         # Overlapping registers
     # schema-based:
     #   num_registers: 50  # Number of registers (or rows) per chunk
     #   overlap: 5         # Overlapping registers
@@ -233,18 +278,27 @@ ocr:
 | **Paragraph Splitter** | Splits text into paragraphs. | Input data, number of paragraphs in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
 | **Semantic Splitter**  | Splits text based on semantic similarity, using a language model. | Input data, language model, overlap. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
 | **Fixed Splitter**     | Splits text into a fixed number of words or characters. | Input data, number of characters in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
+| **Word Splitter**      | Splits text into words. | Input data, number of words in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
+| **Sentence Splitter**  | Splits text into sentences. | Input data, number of sentences in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
+| **Paragraph Splitter** | Splits text into paragraphs. | Input data, number of paragraphs in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
+| **Semantic Splitter**  | Splits text based on semantic similarity, using a language model. | Input data, language model, overlap. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
+| **Fixed Splitter**     | Splits text into a fixed number of words or characters. | Input data, number of characters in each chunk. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
 | **Paged Splitter**     | Splits text into pages. | Input data, number of pages in each chunk, overlap. | `docx`, `pdf`, `xls`, `xlsx`, `ppt`, `pptx` |
+| **Recursive Splitter** | Splits based on a specified chunk size with overlap. | Input data, number of characters in each chunk, overlap parameter. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
 | **Recursive Splitter** | Splits based on a specified chunk size with overlap. | Input data, number of characters in each chunk, overlap parameter. | `txt`, `markdown`, `docx`, `pdf`, `ppt`, `pptx`, `.jpg`, `.png` |
 | **Row-Column Splitter** | Splits table content by rows or columns. | Input data, number of columns, column names, number of rows, row names. | `xlsx`, `xls`, `json`, `yaml` |
 | **Schema-based Splitter** | Splits a hierarchical schema while preserving headers. | Input data, number of registers, overlap. | `json`, `yaml`, `xml`, `xls`, `xlsx`, `ppt`, `pptx` |
 | **Auto Splitter**      | Combines multiple splitting methods based on document content. | Input data, number of characters in each chunk, overlap. | All formats |
 
-### **3. Chunk Manager**
-- Saves the generated chunks from **Chunk Manager**.
-- Features:
-  - **Aggregator**: Groups related chunks.
-  - **Markdown conversion**: Converts text into Markdown format.
-  - **Error handling**: Ensures smooth chunking.
+### Chunk Manager
+
+Saves the generated chunks from **Chunk Manager**.
+
+Features:
+
+- **Aggregator**: Groups related chunks.
+- **Markdown conversion**: Converts text into Markdown format.
+- **Error handling**: Ensures smooth chunking.
 
 
 ## Scenario
@@ -255,12 +309,14 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 
 
 ## Project Structure
-```bash
+
+```sh
 .
 ├── CHANGELOG.md
 ├── Dockerfile.api
 ├── Makefile
 ├── README.md
+├── config.yaml
 ├── config.yaml
 ├── data
 │   ├── input
@@ -292,8 +348,10 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 ├── pyproject.toml
 ├── requirements.txt
 ├── scripts
-│   ├── conftest.py
-│   └── validate_commit_msg.py
+│   ├── build_docs.py
+│   ├── conftest.py
+│   ├── enrich_readme.py
+│   └── validate_commit_msg.py
 ├── src
 │   ├── __init__.py
 │   ├── application

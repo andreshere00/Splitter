@@ -26,6 +26,9 @@ def main():
         )
         sys.exit(1)
 
+    else:
+        print("✅ Commit message properly structured.")
+
 
 if __name__ == "__main__":
     main()

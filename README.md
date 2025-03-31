@@ -6,6 +6,8 @@ The **Splitter** application aims to convert documents into markdown format, and
 
 ![Splitter architecture diagram](./docs/assets/splitter.drawio.svg)
 
+----
+
 ## How to launch the application
 
 The application is exposed via:
@@ -17,8 +19,8 @@ The application is exposed via:
 
 The following tools and packages are needed to execute the application:
 
-- [Python](https://www.python.org/) with `make`. `$PYTHONPATH` may be set in the `.env` file.
-- [Docker](https://www.docker.com/).
+- 🐍 [Python](https://www.python.org/) with `make`. `$PYTHONPATH` may be set in the `.env` file.
+- 🐋 [Docker](https://www.docker.com/).
 
 To install all the dependencies, you can use `make install`.
 
@@ -45,6 +47,7 @@ Application will be accessible through the browser at the host `0.0.0.0:8000/doc
 #### **API Definition**
 
 ##### **Input**
+##### **Input**
 
 Object: `class <ChunkRequest>`
 
@@ -52,6 +55,8 @@ Object: `class <ChunkRequest>`
 document_name: Optional[str] = None
 document_path: str
 document_id: Optional[str] = None
+ocr_method: OCRMethodEnum
+split_method: SplitMethodEnum
 ocr_method: OCRMethodEnum
 split_method: SplitMethodEnum
 split_params: Optional[Dict[str, Any]] = None
@@ -69,6 +74,8 @@ chunk_id: List[str]
 chunk_path: str
 document_id: str
 document_name: Optional[str] = None
+ocr_method: OCRMethodEnum
+split_method: SplitMethodEnum
 ocr_method: OCRMethodEnum
 split_method: SplitMethodEnum
 split_params: Optional[Dict[str, Any]] = None
@@ -132,6 +139,9 @@ Many other commands are available (use `make help` to consult):
   make remove-data      - Remove data presented in the output folder.
 ```
 
+----
+
+## Configuration
 ## Configuration
 
 File handling, splitting methods and application settings can be modified using a [configuration file](config.yaml). This file is provided in `config.yaml` file. Otherwise, parameters can be passed as API parameters. The config file has the following structure by default:
@@ -153,6 +163,7 @@ logging:
       filename: "logs/app.log"
       mode: "a"
 
+a
 # 3. Splitting Methods Configuration
 splitter:
   method: "recursive"
@@ -247,21 +258,34 @@ ocr:
   - **Markdown conversion**: Converts text into Markdown format.
   - **Error handling**: Ensures smooth chunking.
 
+----
 
 ## Scenario
 
 This application compose a piece of an ambicious project named **"MultiRAG"**. This system aims to be a super modullarizable and open-source RAG system which is fully customizable piece by piece. Observe the following architecture diagram:
 
-[MultiRAG architecture](docs/assets/MultiRAG.drawio.svg)
+![MultiRAG architecture](docs/assets/MultiRAG.drawio.svg)
 
+
+
+
+
+
+
+
+
+
+----
 
 ## Project Structure
-```bash
+
+```sh
 .
 ├── CHANGELOG.md
 ├── Dockerfile.api
 ├── Makefile
 ├── README.md
+├── config.yaml
 ├── config.yaml
 ├── data
 │   ├── input
@@ -277,24 +301,30 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │       └── output
 ├── docker-compose.yaml
 ├── docs
-│   ├── assets
-│   │   ├── MultiRAG.drawio.svg
-│   │   ├── splitter.drawio.svg
-│   │   ├── splitter.drawio_v0.1.0.drawio.svg
-│   │   └── splitter_v0.3.0.drawio.svg
-│   ├── chunker
-│   │   └── docs.md
-│   ├── index.md
-│   ├── reader
-│   │   └── docs.md
-│   └── splitter
-│       └── docs.md
+│   ├── api
+│   │   └── docs.md
+│   ├── assets
+│   │   ├── MultiRAG.drawio.svg
+│   │   ├── splitter.drawio.svg
+│   │   ├── splitter.drawio_v0.1.0.drawio.svg
+│   │   └── splitter_v0.3.0.drawio.svg
+│   ├── chunker
+│   │   └── docs.md
+│   ├── index.md
+│   ├── model
+│   │   └── docs.md
+│   ├── reader
+│   │   └── docs.md
+│   └── splitter
+│       └── docs.md
 ├── mkdocs.yml
 ├── pyproject.toml
 ├── requirements.txt
 ├── scripts
-│   ├── conftest.py
-│   └── validate_commit_msg.py
+│   ├── build_docs.py
+│   ├── conftest.py
+│   ├── enrich_readme.py
+│   └── validate_commit_msg.py
 ├── src
 │   ├── __init__.py
 │   ├── application
@@ -348,46 +378,52 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │       ├── config_loader.py
 │       └── logging_manager.py
 ├── test
-│   ├── application
-│   │   ├── __init__.py
-│   │   └── api
-│   │       ├── __init__.py
-│   │       ├── routers
-│   │       │   ├── __init__.py
-│   │       │   ├── test_health.py
-│   │       │   └── test_split.py
-│   │       └── test_app.py
-│   ├── chunker
-│   │   ├── __init__.py
-│   │   └── test_chunk_manager.py
-│   ├── model
-│   │   ├── __init__.py
-│   │   ├── models
-│   │   │   ├── __init__.py
-│   │   │   ├── test_azure_client.py
-│   │   │   └── test_openai_client.py
-│   │   └── test_llm_client.py
-│   ├── reader
-│   │   ├── __init__.py
-│   │   ├── readers
-│   │   │   ├── __init__.py
-│   │   │   └── test_markitdown_reader.py
-│   │   └── test_read_manager.py
-│   ├── splitter
-│   │   ├── __init__.py
-│   │   └── splitters
-│   │       ├── __init__.py
-│   │       ├── test_fixed_splitter.py
-│   │       ├── test_paragraph_splitter.py
-│   │       ├── test_recursive_splitter.py
-│   │       ├── test_sentence_splitter.py
-│   │       └── test_word_splitter.py
-│   └── utils
-│       └── __init__.py
+│   ├── application
+│   │   ├── __init__.py
+│   │   └── api
+│   │       ├── __init__.py
+│   │       ├── routers
+│   │       │   ├── __init__.py
+│   │       │   ├── test_health.py
+│   │       │   └── test_split.py
+│   │       └── test_app.py
+│   ├── chunker
+│   │   ├── __init__.py
+│   │   └── test_chunk_manager.py
+│   ├── model
+│   │   ├── __init__.py
+│   │   ├── models
+│   │   │   ├── __init__.py
+│   │   │   ├── test_azure_client.py
+│   │   │   └── test_openai_client.py
+│   │   └── test_llm_client.py
+│   ├── reader
+│   │   ├── __init__.py
+│   │   ├── readers
+│   │   │   ├── __init__.py
+│   │   │   └── test_markitdown_reader.py
+│   │   └── test_read_manager.py
+│   ├── splitter
+│   │   ├── __init__.py
+│   │   └── splitters
+│   │       ├── __init__.py
+│   │       ├── test_fixed_splitter.py
+│   │       ├── test_paragraph_splitter.py
+│   │       ├── test_recursive_splitter.py
+│   │       ├── test_sentence_splitter.py
+│   │       └── test_word_splitter.py
+│   └── utils
+│       └── __init__.py
 └── uv.lock
+
+39 directories, 101 files
+
 ```
 
-## Contact
+----
+
+## Contact Information
 
 - E-mail: [andresherencia2000@gmail.com](mailto:andresherencia2000@gmail.com).
+- LinkedIn: [link](https://linkedin.com/in/andres-herencia).
 - LinkedIn: [link](https://linkedin.com/in/andres-herencia).

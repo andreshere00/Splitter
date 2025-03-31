@@ -17,25 +17,31 @@ from src.splitter.splitters.word_splitter import WordSplitter
 
 class SplitManager:
     """
-    Manages the process of splitting text into smaller chunks using a configurable splitter.
+    SplitManager is responsible for splitting text into meaningful chunks based on a 
+    specified strategy.
 
-    This class utilizes a factory design pattern to instantiate the appropriate splitter based on
-    the provided configuration. It then delegates the splitting of input text to the selected
-    splitter.
+    It supports various splitting methods, including word, sentence, paragraph, fixed, 
+    recursive, and others. The splitting behavior is configurable via the provided settings.
 
     Attributes:
-        config (dict): A dictionary containing configuration settings.
-        splitter (BaseSplitter): An instance of the selected splitter.
+        config (dict): Configuration parameters specifying the splitting method and any 
+        custom parameters.
+
+    Methods:
+        split_text(text: str) -> List[str]:
+            Splits the given text into a list of chunks according to the configured splitting 
+            strategy.
     """
 
     def __init__(
         self, config: Optional[Dict] = None, *, split_method: Optional[str] = None
     ) -> None:
         """
-        Initializes the SplitManager with a configuration dictionary or with provided arguments.
+        Initializes the SplitManager with a configuration dictionary or with provided 
+        arguments.
 
-        If no configuration is provided, a configuration dictionary is built using the provided
-        `split_method`. Defaults to `"auto"` if not specified.
+        If no configuration is provided, a configuration dictionary is built using the 
+        provided `split_method`. Defaults to `"auto"` if not specified.
 
         Args:
             config (Optional[dict]): A dictionary containing configuration settings.
@@ -52,11 +58,12 @@ class SplitManager:
         """
         Factory method to instantiate the desired splitter from configuration.
 
-        This method loads all parameters for the selected splitting method from the configuration
-        and instantiates the corresponding splitter class.
+        This method loads all parameters for the selected splitting method from the 
+        configuration and instantiates the corresponding splitter class.
 
         Returns:
-            BaseSplitter: An instance of a class that implements the splitter interface.
+            BaseSplitter: An instance of a class that implements the splitter 
+            interface.
 
         Raises:
             ValueError: If the specified splitting method is not supported.
@@ -89,9 +96,9 @@ class SplitManager:
         """
         Splits the provided text into smaller chunks using the configured splitter.
 
-        If the text is empty or only contains whitespace, a warning is logged and an empty list
-        is returned. In case of an error during splitting, an error is logged and an empty list
-        is returned.
+        If the text is empty or only contains whitespace, a warning is logged and 
+        an empty list is returned. In case of an error during splitting, an error is 
+        logged and an empty list is returned.
 
         Args:
             text (str): The text to be split.

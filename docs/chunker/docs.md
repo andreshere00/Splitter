@@ -1,7 +1,8 @@
-# **Chunking Documentation**
+# **Chunking module**
 
-Below is the documentation for the `ChunkManager` class.
+## **Chunk Manager**
 
 ::: src.chunker.chunk_manager
     options:
-      show_source: false
+      show_source: true
+members: false
