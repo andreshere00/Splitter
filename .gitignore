@@ -18,3 +18,7 @@
 data/test/output/*
 data/input/*
 data/output/*
+
+# Site assets and configuration
+site/*
+site/
