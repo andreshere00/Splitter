@@ -4,9 +4,9 @@ from typing import Any, Dict
 
 import yaml
 
-from src.chunker.chunk_manager import ChunkManager
-from src.reader.read_manager import ReadManager
-from src.splitter.split_manager import SplitManager
+from src.domain.chunker.chunk_manager import ChunkManager
+from src.domain.reader.read_manager import ReadManager
+from src.domain.splitter.split_manager import SplitManager
 
 
 class Application:

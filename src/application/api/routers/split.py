@@ -14,9 +14,9 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
 
 from src.application.api.models import ChunkResponse, OCRMethodEnum, SplitMethodEnum
-from src.chunker.chunk_manager import ChunkManager
-from src.reader.read_manager import ReadManager
-from src.splitter.split_manager import SplitManager
+from src.domain.chunker.chunk_manager import ChunkManager
+from src.domain.reader.read_manager import ReadManager
+from src.domain.splitter.split_manager import SplitManager
 
 router = APIRouter()
 
