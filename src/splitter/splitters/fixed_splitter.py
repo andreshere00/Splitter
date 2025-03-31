@@ -5,10 +5,11 @@ from src.splitter.base_splitter import BaseSplitter
 
 class FixedSplitter(BaseSplitter):
     """
-    FixedSplitter divides the input text into chunks of a fixed number of characters.
+    Split the input text into fixed-size chunks.
 
-    Attributes:
-        size (int): The number of characters per chunk.
+    This class divides the provided text into contiguous substrings, each with a length equal to
+    the specified 'chunk_size'. If the total text length is not an exact multiple of 'chunk_size',
+    the final chunk will contain the remaining characters, which may be shorter than 'chunk_size'.
     """
 
     def __init__(self, size: int = 500) -> None:
