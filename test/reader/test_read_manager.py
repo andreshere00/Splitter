@@ -6,7 +6,7 @@ from fastapi import UploadFile
 
 from src.model.llm_client import LLMClient
 from src.reader.read_manager import ReadManager
-from src.reader.readers.markitdown_reader import MarkItDownConverter
+from src.reader.readers.markitdown_reader import MarkItDownReader
 
 
 # Fixture: use the actual test input folder.
@@ -105,7 +105,7 @@ def test_read_file_object(read_manager, temp_config):
 
 def test_markitdown_instantiation(temp_config, monkeypatch):
     """
-    Test that _get_converter_for_extension instantiates a MarkItDownConverter
+    Test that _get_converter_for_extension instantiates a MarkItDownReader
     with non-void client and model parameters.
     """
     config, _ = temp_config
@@ -126,7 +126,7 @@ def test_markitdown_instantiation(temp_config, monkeypatch):
     config["ocr"] = {"method": "openai"}
     rm = ReadManager(config=config)
     converter = rm._get_converter_for_extension("txt")
-    assert isinstance(converter, MarkItDownConverter)
+    assert isinstance(converter, MarkItDownReader)
     # Verify that the converter's stored parameters are not void.
     assert converter.llm_client == "dummy_client"
     assert converter.llm_model == "dummy_model"

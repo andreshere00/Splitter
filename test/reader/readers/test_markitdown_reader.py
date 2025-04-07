@@ -1,4 +1,4 @@
-from src.reader.readers.markitdown_reader import MarkItDownConverter
+from src.reader.readers.markitdown_reader import MarkItDownReader
 
 
 # Dummy class to replace MarkItDown.
@@ -17,7 +17,7 @@ class DummyMarkItDown:
 
 def test_markitdown_converter(monkeypatch):
     """
-    Test that MarkItDownConverter stores provided llm parameters and uses
+    Test that MarkItDownReader stores provided llm parameters and uses
     the MarkItDown (monkey-patched) conversion method.
     """
     # Monkey-patch the MarkItDown class in the module with our dummy.
@@ -27,7 +27,7 @@ def test_markitdown_converter(monkeypatch):
 
     dummy_client = "dummy_client"
     dummy_model = "dummy_model"
-    converter = MarkItDownConverter(llm_client=dummy_client, llm_model=dummy_model)
+    converter = MarkItDownReader(llm_client=dummy_client, llm_model=dummy_model)
 
     # Verify that the llm parameters are correctly stored.
     assert converter.llm_client == dummy_client

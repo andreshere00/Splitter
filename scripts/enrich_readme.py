@@ -12,7 +12,7 @@ with readme_path.open("r", encoding="utf-8") as f:
     content = f.read()
 
 # Define a regex pattern to match the previously appended block,
-# which starts with "----" then "## Project Structure", and continues until the end of the 
+# which starts with "----" then "## Project Structure", and continues until the end of the
 # contact section.
 pattern = (
     r"\n----\n\n## Project Structure\n\n```sh\n.*?\n```\n\n"
@@ -51,7 +51,7 @@ append_info = f"""
 
 content += append_info
 
-with readme_path.open("w", encoding="utf-8") as f: 
+with readme_path.open("w", encoding="utf-8") as f:
     f.write(content)
 
 print("✅ README.md updated with current project structure.")

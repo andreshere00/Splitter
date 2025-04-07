@@ -14,6 +14,10 @@ logging:
       filename: "logs/app.log"
       mode: "a"
 
+# 3. Reading Methods Configuration
+reader:
+  method: "markitdown" # available: markitdown, textract, pdfplumber, docling, auto
+
 # 3. Splitting Methods Configuration
 splitter:
   method: "recursive"
@@ -60,6 +64,6 @@ splitter:
 
 # 4. OCR configuration
 ocr:
-  method: "azure"  # Options: azure, openai, none
+  method: "none"  # Options: azure, openai, none
   # include_image_blobs: false
   # include_json_structure: false

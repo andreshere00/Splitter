@@ -3,9 +3,9 @@ from markitdown import MarkItDown
 from src.reader.base_reader import BaseReader
 
 
-class MarkItDownConverter(BaseReader):
+class MarkItDownReader(BaseReader):
     """
-    A converter that leverages the MarkItDown library to convert file contents into Markdown 
+    A converter that leverages the MarkItDown library to convert file contents into Markdown
     text.
 
     This class initializes a MarkItDown instance with optional LLM client and model parameters,
@@ -14,21 +14,20 @@ class MarkItDownConverter(BaseReader):
     Attributes:
         llm_client: Optional client for a large language model (LLM) used in conversion.
         llm_model: Optional identifier or instance of the LLM model.
-        md (MarkItDown): Instance of the MarkItDown converter initialized with the provided 
+        md (MarkItDown): Instance of the MarkItDown converter initialized with the provided
             LLM parameters.
     """
 
     def __init__(self, llm_client=None, llm_model=None):
         """
-        Initialize the MarkItDownConverter with optional LLM client and model.
+        Initialize the MarkItDownReader with optional LLM client and model.
 
         Args:
-            llm_client: Optional; a client instance for interacting with a large 
+            llm_client: Optional; a client instance for interacting with a large
                 language model.
-            llm_model: Optional; the language model or model identifier to be used 
+            llm_model: Optional; the language model or model identifier to be used
                 for conversion.
         """
-        # Save the parameters for testing.
         self.llm_client = llm_client
         self.llm_model = llm_model
         self.md = MarkItDown(llm_client=llm_client, llm_model=llm_model)

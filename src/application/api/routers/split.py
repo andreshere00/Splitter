@@ -1,7 +1,3 @@
-"""
-Splitting endpoints for the Document Splitter API.
-"""
-
 import datetime
 import io
 import json
@@ -13,7 +9,12 @@ from typing import List, Optional, Union
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
 
-from src.application.api.models import ChunkResponse, OCRMethodEnum, SplitMethodEnum
+from src.application.api.models import (
+    ChunkResponse,
+    OCRMethodEnum,
+    ReaderMethodEnum,
+    SplitMethodEnum,
+)
 from src.chunker.chunk_manager import ChunkManager
 from src.reader.read_manager import ReadManager
 from src.splitter.split_manager import SplitManager
@@ -61,6 +62,13 @@ class SplitAPI:
         ocr_method: OCRMethodEnum = Form(
             ...,
             description="OCR client to use for image processing: 'none', 'openai', or 'azure'.",
+        ),
+        reader_method: ReaderMethodEnum = Form(
+            ReaderMethodEnum.markitdown,
+            description=(
+                "Reading method to use for parsing the document. "
+                "Available options: markitdown, docling, pdfplumber, textract, etc."
+            ),
         ),
         metadata: Optional[List[str]] = Form([], description="Optional metadata tags."),
         split_params: str = Form(
@@ -132,10 +140,11 @@ class SplitAPI:
                     split_method.value: custom_split_params
                 }
 
-            # Prepare ReadManager configuration.
+            # Prepare ReadManager configuration, now including reader_method.
             read_config = {
                 "file_io": {"input_path": file_dir},
                 "ocr": {"method": ocr_method.value},
+                "reader": {"method": reader_method},
             }
 
             # Instantiate managers.
@@ -194,9 +203,10 @@ class SplitAPI:
                 document_id=document_id,
                 document_name=file_name,
                 split_method=split_method.value,
-                metadata=metadata,
                 split_params=custom_split_params,
+                metadata=metadata,
                 ocr_method=ocr_method,
+                reader_method=reader_method,  # Include the new parameter in the response.
             )
 
         except HTTPException as http_exc:

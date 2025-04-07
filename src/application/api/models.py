@@ -4,6 +4,13 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
 
 
+class ReaderMethodEnum(str, Enum):
+    markitdown = "markitdown"
+    docling = "docling"
+    pdfplumber = "pdfplumber"
+    textract = "textract"
+
+
 class SplitMethodEnum(str, Enum):
     word = "word"
     sentence = "sentence"
@@ -37,6 +44,8 @@ class DocumentRequest(BaseModel):
         split_params (Optional[Dict[str, Any]]): Custom parameters to override the default
             configuration for the splitting method.
         metadata (Optional[List[str]]): Additional metadata for the document.
+        reader_method (Optional[str]): The reading method to use (e.g. "markitdown",
+            "docling", etc.).
     """
 
     document_name: Optional[str] = None
@@ -45,6 +54,7 @@ class DocumentRequest(BaseModel):
     split_method: SplitMethodEnum
     split_params: Optional[Dict[str, Any]] = None
     metadata: Optional[List[str]] = []
+    reader_method: Optional[str] = "markitdown"
 
 
 class ChunkResponse(BaseModel):
@@ -60,7 +70,9 @@ class ChunkResponse(BaseModel):
         split_method (SplitMethodEnum): The splitting method used.
         split_params (Optional[Dict[str, Any]]): The custom splitting parameters applied.
         metadata (Optional[List[str]]): Additional metadata for the document.
-        ocr_method (OCRMethodEnum): The OCR method used for processing images in the document.
+        ocr_method (OCRMethodEnum): The OCR method used for processing images in the
+            document.
+        reader_method (Optional[str]): The reading method used to process the document.
     """
 
     chunks: List[str]
@@ -72,3 +84,4 @@ class ChunkResponse(BaseModel):
     split_params: Optional[Dict[str, Any]] = None
     metadata: Optional[List[str]] = []
     ocr_method: OCRMethodEnum
+    reader_method: Optional[str] = None
