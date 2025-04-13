@@ -2,6 +2,7 @@ import re
 import subprocess
 from pathlib import Path
 
+subprocess.run(["make", "clean"], check=True)
 readme_path = Path("README.md")
 
 if not readme_path.exists():
