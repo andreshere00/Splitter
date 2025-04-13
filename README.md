@@ -230,7 +230,7 @@ Responsible for **reading input** documents.
 
 > 💡 **NOTE**: To use OCR or visual models, connection parameters must be defined in [./.env](./.env). For example, if you want to use OpenAI as an OCR model, substitute the `XXXX` placeholder with your data:
 
-> ```
+```
 # Azure OpenAI config
 AZURE_OPENAI_API_KEY=XXXX
 AZURE_OPENAI_API_VERSION=XXXX
