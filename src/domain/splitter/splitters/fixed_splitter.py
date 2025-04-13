@@ -38,8 +38,6 @@ class FixedSplitter(BaseSplitter):
         if not text:
             return []
 
-        # Use the document length as effective size if the specified size is
-        # larger.
         effective_size = self.size if self.size < len(text) else len(text)
         chunks = [
             text[i : i + effective_size] for i in range(0, len(text), effective_size)

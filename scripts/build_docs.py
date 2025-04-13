@@ -1,5 +1,9 @@
 import re
+import subprocess
 from pathlib import Path
+
+# Run 'make clean'
+subprocess.run(["make", "clean"], check=True)
 
 readme_path = Path("README.md")
 docs_index_path = Path("docs/index.md")
