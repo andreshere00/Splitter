@@ -25,7 +25,7 @@ docs: ## Run the documentation server.
 .PHONY: install
 install: ## Install application dependencies and pre-commit hooks.
 	@echo "Installing application dependencies and pre-commit hooks..."
-	uv sync && uv run pre-commit install && uv run pre-commit install --hook-type commit-msg
+	cp .env.template .env && uv sync && uv run pre-commit install && uv run pre-commit install --hook-type commit-msg
 
 .PHONY: install-uv
 install-uv: ## Install uv CLI (OS-specific).
@@ -55,7 +55,7 @@ docker-api-run: ## Run the API dockerized application.
 .PHONY: test
 test: ## Run tests using uv and pytest.
 	@echo "Running tests using uv and pytest..."
-	uv run coverage run -m pytest && uv run coverage report
+	uv run coverage run -m pytest
 
 .PHONY: shell
 shell: ## Run a uv shell.

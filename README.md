@@ -28,6 +28,8 @@ To install all the dependencies, you can use `make install`.
 make install
 ```
 
+> 💡 You may need to define some environment variables in the [`.env`](./.env) file. 
+
 This application uses `uv` as dependency management tool, if not installed, use the following command:
 
 ```sh
@@ -231,6 +233,18 @@ ocr:
 - Responsible for **reading input** documents.
 - Supports **local file** formats: `txt`, `md`, ~~`doc`~~, `docx`, ~~`xls`~~, `xlsx`, `pdf`, ~~`ppt`~~, `pptx`, ~~`json`~~, ~~`yaml`~~.
 - If required, **OCR** can be applied to extract text from scanned documents (`OpenAI`, `AzureOpenAI`, ~~`Textract`~~, ~~`Mistral`~~, ~~`Custom`~~). 
+
+> 💡 **NOTE**: To use OCR or visual models, connection parameters must be defined in [./.env](./.env). For example, if you want to use OpenAI as an OCR model, substitute the `XXXX` placeholder with your data:
+
+> ```
+# Azure OpenAI config
+AZURE_OPENAI_API_KEY=XXXX
+AZURE_OPENAI_API_VERSION=XXXX
+AZURE_OPENAI_ENDPOINT=XXXX
+AZURE_OPENAI_DEPLOYMENT=XXXX
+```
+
+For each method, the needed environment variables are specified on 
 
 ### Split Manager
 
