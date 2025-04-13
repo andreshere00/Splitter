@@ -6,19 +6,23 @@ repos:
         entry: make format
         language: system
         types: [python]
-
-      - id: run-tests
-        name: Run tests with Coverage
-        entry: bash -c "uv run coverage run --source=src -m pytest --maxfail=1 --disable-warnings -q && uv run coverage report --fail-under=70"
-        language: system
-        types: [bash]
       
       - id: commit-message-check
         name: Check Commit Message Structure
         entry: uv run python scripts/validate_commit_msg.py
         language: system
         stages: [commit-msg]
-      
+
+      - id: test-coverage-check
+        name: Ensure at least 70% test coverage
+        entry: uv run bash scripts/validate_test.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        fail_fast: false
+        require_serial: true
+        stages: [pre-commit]
+
       - id: enrich-readme
         name: Enrich README with tree structure and contact information.
         entry: uv run python scripts/enrich_readme.py

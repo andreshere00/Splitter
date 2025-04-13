@@ -28,6 +28,8 @@ def test_split_valid_file_upload_zip(client):
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )
@@ -50,6 +52,8 @@ def test_split_valid_file_path_no_zip(client):
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )
@@ -72,6 +76,8 @@ def test_split_default_params(client):
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )
@@ -95,6 +101,8 @@ def test_split_custom_params(client):
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )
@@ -117,6 +125,8 @@ def test_split_invalid_params(client):
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )

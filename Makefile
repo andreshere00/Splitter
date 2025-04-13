@@ -55,7 +55,7 @@ docker-api-run: ## Run the API dockerized application.
 .PHONY: test
 test: ## Run tests using uv and pytest.
 	@echo "Running tests using uv and pytest..."
-	uv run coverage report -m && uv run pytest 
+	uv run coverage run -m pytest && uv run coverage html
 
 .PHONY: shell
 shell: ## Run a uv shell.

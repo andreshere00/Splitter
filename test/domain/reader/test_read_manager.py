@@ -1,8 +1,12 @@
 import io
+import json
 import os
 
 import pytest
 from fastapi import UploadFile
+
+# Import the original exception thrown by MarkItDown.
+from markitdown._markitdown import UnsupportedFormatException
 
 from src.domain.reader.read_manager import ReadManager
 from src.domain.reader.readers.markitdown_reader import MarkItDownReader
@@ -28,9 +32,9 @@ def read_manager(temp_config):
 
 def test_read_valid_md_file(read_manager, temp_config):
     """Test reading a valid markdown file from disk using an existing file."""
-    _, input_path = temp_config
-    file_path = os.path.join(input_path, "test_1.md")
-    content = read_manager.read_file(file_path)
+    # Pass only the file name so that the input_path from config is applied only once.
+    file_name = "test_1.md"
+    content = read_manager.read_file(file_name)
     # Check that some content is returned.
     assert content is not None
     assert isinstance(content, str)
@@ -39,9 +43,8 @@ def test_read_valid_md_file(read_manager, temp_config):
 
 def test_read_valid_pdf_file(read_manager, temp_config):
     """Test reading a valid PDF file from disk using an existing file."""
-    _, input_path = temp_config
-    file_path = os.path.join(input_path, "test_1.pdf")
-    content = read_manager.read_file(file_path)
+    file_name = "test_1.pdf"
+    content = read_manager.read_file(file_name)
     assert content is not None
     assert isinstance(content, str)
     assert len(content) > 0
@@ -49,9 +52,8 @@ def test_read_valid_pdf_file(read_manager, temp_config):
 
 def test_read_valid_txt_file(read_manager, temp_config):
     """Test reading a valid TXT file from disk using an existing file."""
-    _, input_path = temp_config
-    file_path = os.path.join(input_path, "test_1.txt")
-    content = read_manager.read_file(file_path)
+    file_name = "test_1.txt"
+    content = read_manager.read_file(file_name)
     assert content is not None
     assert isinstance(content, str)
     assert len(content) > 0
@@ -72,19 +74,20 @@ def test_read_empty_file(temp_config):
         f.write("")
     rm = ReadManager(config=config)
     with pytest.raises(ValueError, match="File is empty"):
-        rm.read_file(empty_file)
+        rm.read_file("empty.txt")
     os.remove(empty_file)
 
 
 def test_read_invalid_extension(temp_config):
-    """Test that reading a file with an unsupported extension raises ValueError."""
+    """Test that reading a file with an unsupported extension raises the proper exception."""
     config, input_path = temp_config
     invalid_file = os.path.join(input_path, "malicious.exe")
     with open(invalid_file, "w", encoding="utf-8") as f:
         f.write("EXE file content")
     rm = ReadManager(config=config)
-    with pytest.raises(ValueError, match="Unsupported file extension"):
-        rm.read_file(invalid_file)
+    # Expect the UnsupportedFormatException from markitdown.
+    with pytest.raises(UnsupportedFormatException, match="not supported"):
+        rm.read_file("malicious.exe")
     os.remove(invalid_file)
 
 
@@ -105,8 +108,7 @@ def test_read_file_object(read_manager, temp_config):
 
 def test_markitdown_instantiation(temp_config, monkeypatch):
     """
-    Test that _get_converter_for_extension instantiates a MarkItDownReader
-    with non-void client and model parameters.
+    Test that _get_reader instantiates a MarkItDownReader with non-void client and model parameters.
     """
     config, _ = temp_config
 
@@ -117,15 +119,18 @@ def test_markitdown_instantiation(temp_config, monkeypatch):
         def get_model(self):
             return "dummy_model"
 
-    # Monkey-patch LLMClient so that it returns dummy values.
-    monkeypatch.setattr(LLMClient, "__init__", lambda self, method: None)
+    # Monkey-patch LLMClient so that it returns dummy values and sets the method attribute.
+    monkeypatch.setattr(
+        LLMClient, "__init__", lambda self, method: setattr(self, "method", method)
+    )
     monkeypatch.setattr(LLMClient, "get_client", lambda self: "dummy_client")
     monkeypatch.setattr(LLMClient, "get_model", lambda self: "dummy_model")
 
     # Set OCR method to a valid value.
     config["ocr"] = {"method": "openai"}
     rm = ReadManager(config=config)
-    converter = rm._get_converter_for_extension("txt")
+    # Use _get_reader() instead of the obsolete _get_converter_for_extension.
+    converter = rm._get_reader()
     assert isinstance(converter, MarkItDownReader)
     # Verify that the converter's stored parameters are not void.
     assert converter.llm_client == "dummy_client"
