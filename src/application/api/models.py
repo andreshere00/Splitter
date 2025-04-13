@@ -41,7 +41,7 @@ class SplitMethodEnum(str, Enum):
     # paged = "paged"
     recursive = "recursive"
     # row_column = "row-column"
-    # schema_based = "schema-based"
+    schema_based = "schema-based"
     # auto = "auto"
 
 

@@ -20,7 +20,7 @@ reader:
 
 # 4. Splitting Methods Configuration
 splitter:
-  method: "recursive"
+  method: "schema-based"
 
   methods:
     word:
@@ -53,9 +53,12 @@ splitter:
     #   num_rows: 5
     #   row_names: ["Row1", "Row2"]
 
-    # schema-based:
-    #   num_registers: 50  # Number of registers (or rows) per chunk
-    #   overlap: 5         # Overlapping registers
+    schema-based:
+      max_num_rows: 50      # Max number of rows that every chunk contain (if applicable)
+      header_lines: 1       # Where are located the headers (for CSV & Excel files)
+      max_chunk_size: 300   # Maximum number of characters that every chunk should contain
+      chunk_overlap: 0      # Number of characters which overlap between chunks
+
 
     # auto:
     #   fallback_method: "paragraph"

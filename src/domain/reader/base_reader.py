@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 
 class BaseReader(ABC):
@@ -7,5 +8,5 @@ class BaseReader(ABC):
     """
 
     @abstractmethod
-    def convert(self, file_path: str) -> str | dict:
+    def convert(self, file_path: str) -> str | dict | List[str]:
         pass
