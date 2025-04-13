@@ -6,12 +6,12 @@ from typing import Dict, Optional
 
 from fastapi import UploadFile
 
+from src.domain.reader.readers.docling_reader import DoclingReader
 from src.domain.reader.readers.markitdown_reader import MarkItDownReader
 from src.domain.reader.readers.pdfplumber_reader import PDFPlumberReader
 from src.infrastructure.model.llm_client import LLMClient
 
 # from src.domain.reader.readers.textract_reader import TextractReader
-# from src.domain.reader.readers.docling_reader import DoclingReader
 
 logging.basicConfig(
     level=logging.INFO,
@@ -103,8 +103,8 @@ class ReadManager:
 
         if self.reader_method == "markitdown":
             return MarkItDownReader(client, model)
-        # elif self.reader_method == "docling":
-        #     return DoclingReader()  # TODO: add support to client and model
+        elif self.reader_method == "docling":
+            return DoclingReader()  # TODO: add support to client and model
         elif self.reader_method == "pdfplumber":
             return PDFPlumberReader()  # TODO: add support to client and model
         # elif self.reader_method == "textract":
