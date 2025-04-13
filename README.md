@@ -44,11 +44,10 @@ The API is accessed through a FastAPI application. This application can be launc
 make serve
 ```
 
-Application will be accessible through the browser at the host `0.0.0.0:8000/docs`. Port can be modified through [Makefile](./Makefile).
+> Application will be accessible through the browser at the host `0.0.0.0:8000/docs`. Port can be modified through [Makefile](./Makefile).
 
 #### **API Definition**
 
-##### **Input**
 ##### **Input**
 
 Object: `class <ChunkRequest>`
@@ -59,12 +58,9 @@ document_path: str
 document_id: Optional[str] = None
 ocr_method: OCRMethodEnum
 split_method: SplitMethodEnum
-ocr_method: OCRMethodEnum
-split_method: SplitMethodEnum
 split_params: Optional[Dict[str, Any]] = None
 metadata: Optional[List[str]] = []
 ```
-
 
 ##### **Output**
 
@@ -76,8 +72,6 @@ chunk_id: List[str]
 chunk_path: str
 document_id: str
 document_name: Optional[str] = None
-ocr_method: OCRMethodEnum
-split_method: SplitMethodEnum
 ocr_method: OCRMethodEnum
 split_method: SplitMethodEnum
 split_params: Optional[Dict[str, Any]] = None
@@ -92,7 +86,7 @@ The application is accessible through Command Line Interface (CLI) using the fol
 make run
 ```
 
-This command executes `python src/application/cli.py` with the configuration provided in `config.yaml`. See the structure of this configuration file in the [next section](#configuration). By default, input files are introduced in `data/input`. **Batch processing is allowed.**
+This command executes `python src/application/cli.py` with the configuration provided in [config.yaml](./config.yaml). See the structure of this configuration file in the [next section](#configuration). By default, input files are introduced in `data/input`. **Batch processing is allowed.**
 
 ### Docker
 
@@ -144,9 +138,8 @@ Many other commands are available (use `make help` to consult):
 ----
 
 ## Configuration
-## Configuration
 
-File handling, splitting methods and application settings can be modified using a [configuration file](config.yaml). This file is provided in `config.yaml` file. Otherwise, parameters can be passed as API parameters. The config file has the following structure by default:
+File handling, splitting methods and application settings can be modified using a [configuration file](./config.yaml). This file is provided in `config.yaml` file. Otherwise, parameters can be passed as API parameters. The config file has the following structure by default:
 
 ```yaml
 # 1. File I/O Configuration
@@ -224,19 +217,20 @@ ocr:
 
 > Note that when using API, **configuration will be provided as parameters**. See [API definition](#api-definition).
 
----
+----
 
 ## Architecture
 
 ### Read Manager
 
-- Responsible for **reading input** documents.
-- Supports **local file** formats: `txt`, `md`, ~~`doc`~~, `docx`, ~~`xls`~~, `xlsx`, `pdf`, ~~`ppt`~~, `pptx`, ~~`json`~~, ~~`yaml`~~.
-- If required, **OCR** can be applied to extract text from scanned documents (`OpenAI`, `AzureOpenAI`, ~~`Textract`~~, ~~`Mistral`~~, ~~`Custom`~~). 
+Responsible for **reading input** documents.
+
+- Supports **local file** formats: `txt`, `md`, `pdf`, `docx`, `xlsx`, `png`, `jpg`. 
+- If required, **OCR** can be applied to extract text from scanned documents (`OpenAI`, `AzureOpenAI`). 
 
 > 💡 **NOTE**: To use OCR or visual models, connection parameters must be defined in [./.env](./.env). For example, if you want to use OpenAI as an OCR model, substitute the `XXXX` placeholder with your data:
 
-> ```
+```
 # Azure OpenAI config
 AZURE_OPENAI_API_KEY=XXXX
 AZURE_OPENAI_API_VERSION=XXXX
@@ -248,8 +242,9 @@ For each method, the needed environment variables are specified on
 
 ### Split Manager
 
-- Splits text into meaningful chunks based on different strategies.
-- Includes the following methods:
+Splits text into meaningful chunks based on different strategies.
+
+Includes the following methods:
 
 | Splitter Name          | Description | Parameters | Compatible Formats |
 |------------------------|-------------|------------|--------------------|
@@ -266,11 +261,13 @@ For each method, the needed environment variables are specified on
 
 ### Chunk Manager
 
-- Saves the generated chunks from **Chunk Manager**.
-- Features:
-  - **Aggregator**: Groups related chunks.
-  - **Markdown conversion**: Converts text into Markdown format.
-  - **Error handling**: Ensures smooth chunking.
+Saves the generated chunks from **Chunk Manager**.
+
+Features:
+
+- **Aggregator**: Groups related chunks.
+- **Markdown conversion**: Converts text into Markdown format.
+- **Error handling**: Ensures smooth chunking.
 
 ----
 
@@ -290,7 +287,6 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 ├── Dockerfile.api
 ├── Makefile
 ├── README.md
-├── config.yaml
 ├── config.yaml
 ├── data
 │   ├── input
@@ -455,5 +451,4 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 ## Contact Information
 
 - E-mail: [andresherencia2000@gmail.com](mailto:andresherencia2000@gmail.com).
-- LinkedIn: [link](https://linkedin.com/in/andres-herencia).
 - LinkedIn: [link](https://linkedin.com/in/andres-herencia).
