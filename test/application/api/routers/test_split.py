@@ -1,6 +1,8 @@
 import json
+
 import pytest
 from fastapi.testclient import TestClient
+
 from src.application.api.app import app
 
 
@@ -22,10 +24,13 @@ def test_split_valid_file_upload_zip(client):
                 "split_method": "word",
                 "download_zip": "true",
                 "split_params": json.dumps({"num_words": 1000}),
+                "ocr_method": "none",
                 "document_name": "",
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )
@@ -44,10 +49,13 @@ def test_split_valid_file_path_no_zip(client):
                 "split_method": "word",
                 "download_zip": "false",
                 "split_params": json.dumps({"num_words": 1000}),
+                "ocr_method": "none",
                 "document_name": "",
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )
@@ -66,10 +74,13 @@ def test_split_default_params(client):
                 "split_method": "word",
                 "download_zip": "false",
                 "split_params": json.dumps({}),  # empty JSON
+                "ocr_method": "none",
                 "document_name": "",
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )
@@ -89,10 +100,13 @@ def test_split_custom_params(client):
                 "split_method": "word",
                 "download_zip": "false",
                 "split_params": json.dumps({"num_words": 1000}),
+                "ocr_method": "none",
                 "document_name": "",
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )
@@ -111,10 +125,13 @@ def test_split_invalid_params(client):
                 "split_method": "word",
                 "download_zip": "false",
                 "split_params": json.dumps({"num_words": -58}),
+                "ocr_method": "none",
                 "document_name": "",
                 "metadata": "",
                 "chunk_path": "data/test/output",
                 "document_id": "",
+                "ocr_method": "none",
+                "reader_method": "markitdown",
             },
             files={"file": ("test_1.pdf", file, "application/pdf")},
         )

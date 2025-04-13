@@ -308,6 +308,17 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 [MultiRAG architecture](docs/assets/MultiRAG.drawio.svg)
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+----
+
+>>>>>>> develop
 ## Project Structure
 
 ```sh
@@ -319,6 +330,7 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 ├── config.yaml
 ├── config.yaml
 ├── data
+<<<<<<< HEAD
 │   ├── input
 │   ├── output
 │   └── test
@@ -344,6 +356,41 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │   │   └── docs.md
 │   └── splitter
 │       └── docs.md
+=======
+│   ├── input
+│   │   └── budapest_propuesta.pdf
+│   ├── output
+│   └── test
+│       ├── input
+│       │   ├── empty.txt
+│       │   ├── malicious.exe
+│       │   ├── test_1.docx
+│       │   ├── test_1.md
+│       │   ├── test_1.pdf
+│       │   ├── test_1.pptx
+│       │   ├── test_1.txt
+│       │   └── test_1.xlsx
+│       └── output
+├── docker-compose.yaml
+├── docs
+│   ├── api
+│   │   └── docs.md
+│   ├── assets
+│   │   ├── MultiRAG.drawio.svg
+│   │   ├── splitter.drawio.svg
+│   │   ├── splitter.drawio_v0.1.0.drawio.svg
+│   │   └── splitter_v0.3.0.drawio.svg
+│   ├── chunker
+│   │   └── docs.md
+│   ├── index.md
+│   ├── model
+│   │   └── docs.md
+│   ├── reader
+│   │   └── docs.md
+│   └── splitter
+│       └── docs.md
+├── logs
+>>>>>>> develop
 ├── mkdocs.yml
 ├── pyproject.toml
 ├── requirements.txt
@@ -351,8 +398,10 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │   ├── build_docs.py
 │   ├── conftest.py
 │   ├── enrich_readme.py
-│   └── validate_commit_msg.py
+│   ├── validate_commit_msg.py
+│   └── validate_test.sh
 ├── src
+<<<<<<< HEAD
 │   ├── __init__.py
 │   ├── application
 │   │   ├── api
@@ -442,6 +491,120 @@ This application compose a piece of an ambicious project named **"MultiRAG"**. T
 │   └── utils
 │       └── __init__.py
 └── uv.lock
+=======
+│   ├── __init__.py
+│   ├── application
+│   │   ├── __init__.py
+│   │   ├── api
+│   │   │   ├── __init__.py
+│   │   │   ├── app.py
+│   │   │   ├── config.py
+│   │   │   ├── models.py
+│   │   │   └── routers
+│   │   │       ├── __init__.py
+│   │   │       ├── health.py
+│   │   │       └── split.py
+│   │   └── cli.py
+│   ├── domain
+│   │   ├── __init__.py
+│   │   ├── chunker
+│   │   │   ├── __init__.py
+│   │   │   └── chunk_manager.py
+│   │   ├── reader
+│   │   │   ├── __init__.py
+│   │   │   ├── base_reader.py
+│   │   │   ├── read_manager.py
+│   │   │   └── readers
+│   │   │       ├── __init__.py
+│   │   │       ├── custom_reader.py
+│   │   │       ├── docling_reader.py
+│   │   │       ├── markitdown_reader.py
+│   │   │       ├── ocr_reader.py
+│   │   │       ├── pdfplumber_reader.py
+│   │   │       └── textract_reader.py
+│   │   └── splitter
+│   │       ├── __init__.py
+│   │       ├── base_splitter.py
+│   │       ├── split_manager.py
+│   │       └── splitters
+│   │           ├── __init__.py
+│   │           ├── auto_splitter.py
+│   │           ├── fixed_splitter.py
+│   │           ├── paged_splitter.py
+│   │           ├── paragraph_splitter.py
+│   │           ├── recursive_splitter.py
+│   │           ├── row_column_splitter.py
+│   │           ├── schema_based_splitter.py
+│   │           ├── semantic_splitter.py
+│   │           ├── sentence_splitter.py
+│   │           └── word_splitter.py
+│   ├── infrastructure
+│   │   ├── __init__.py
+│   │   ├── helpers
+│   │   │   ├── __init__.py
+│   │   │   ├── config_loader.py
+│   │   │   └── logging_manager.py
+│   │   └── model
+│   │       ├── __init__.py
+│   │       ├── base_client.py
+│   │       ├── llm_client.py
+│   │       └── models
+│   │           ├── __init__.py
+│   │           ├── azure_client.py
+│   │           ├── openai_client.py
+│   │           └── textract_client.py
+│   └── main.py
+├── test
+│   ├── __init__.py
+│   ├── application
+│   │   ├── __init__.py
+│   │   └── api
+│   │       ├── __init__.py
+│   │       ├── routers
+│   │       │   ├── __init__.py
+│   │       │   ├── test_health.py
+│   │       │   └── test_split.py
+│   │       └── test_app.py
+│   ├── domain
+│   │   ├── __init__.py
+│   │   ├── chunker
+│   │   │   ├── __init__.py
+│   │   │   └── test_chunk_manager.py
+│   │   ├── reader
+│   │   │   ├── __init__.py
+│   │   │   ├── readers
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_docling_reader.py
+│   │   │   │   ├── test_markitdown_reader.py
+│   │   │   │   ├── test_pdfplumber_reader.py
+│   │   │   │   └── test_textract_reader.py
+│   │   │   └── test_read_manager.py
+│   │   └── splitter
+│   │       ├── __init__.py
+│   │       └── splitters
+│   │           ├── __init__.py
+│   │           ├── test_fixed_splitter.py
+│   │           ├── test_paragraph_splitter.py
+│   │           ├── test_recursive_splitter.py
+│   │           ├── test_sentence_splitter.py
+│   │           └── test_word_splitter.py
+│   └── infrastructure
+│       ├── __init__.py
+│       ├── helpers
+│       │   └── __init__.py
+│       └── model
+│           ├── __init__.py
+│           ├── models
+│           │   ├── __init__.py
+│           │   ├── test_azure_client.py
+│           │   ├── test_openai_client.py
+│           │   └── test_textract_client.py
+│           └── test_llm_client.py
+└── uv.lock
+
+44 directories, 115 files
+
+>>>>>>> develop
 ```
 
 ## Contact

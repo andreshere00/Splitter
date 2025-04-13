@@ -3,32 +3,35 @@ repos:
     hooks:
       - id: flake8
         name: Check for code best-practices compliance
-        entry: uv run flake8 --max-line-length=101 --ignore=E203,W291,W293 src/
+        entry: make format
         language: system
         types: [python]
-
-      - id: run-tests
-        name: Run tests with Coverage
-        entry: bash -c "uv run coverage run --source=src -m pytest --maxfail=1 --disable-warnings -q && uv run coverage report --fail-under=70"
-        language: system
-        types: [bash]
       
       - id: commit-message-check
         name: Check Commit Message Structure
         entry: uv run python scripts/validate_commit_msg.py
         language: system
         stages: [commit-msg]
-      
-      - id: enrich-readme
-        name: Enrich README with tree structure and contact information.
-        entry: uv run python scripts/enrich_readme.py
-        language: system
-        files: ^README\.md$
-        stages: [pre-push]
 
-      - id: sync-readme-docs
-        name: Sync README.md to docs/index.md
-        entry: uv run python scripts/build_docs.py
+      - id: test-coverage-check
+        name: Ensure at least 70% test coverage
+        entry: bash scripts/validate_test.sh
         language: system
-        files: ^README\.md$
-        stages: [pre-push]
+        pass_filenames: false
+        always_run: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # - id: enrich-readme
+      #   name: Enrich README with tree structure and contact information.
+      #   entry: uv run python scripts/enrich_readme.py
+      #   language: system
+      #   files: ^README\.md$
+      #   stages: [pre-commit]
+
+      # - id: sync-readme-docs
+      #   name: Sync README.md to docs/index.md
+      #   entry: uv run python scripts/build_docs.py
+      #   language: system
+      #   files: ^README\.md$
+      #   stages: [pre-commit]

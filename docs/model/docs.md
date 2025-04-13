@@ -1,17 +1,17 @@
-# Models documentation
+# **Model module**
 
 ## LLM Client
 
-::: src.model.llm_client
+::: src.infrastructure.model.llm_client
 
 ## Base Client
 
-::: src.model.base_client
+::: src.infrastructure.model.base_client
 
 ## Available Clients
 
-::: src.model.models.azure_client
+::: src.infrastructure.model.models.azure_client
 
-::: src.model.models.openai_client
+::: src.infrastructure.model.models.openai_client
 
-::: src.model.models.textract_client
+::: src.infrastructure.model.models.textract_client

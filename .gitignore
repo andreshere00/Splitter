@@ -18,6 +18,7 @@
 data/test/output/*
 data/input/*
 data/output/*
+.coverage
 
 # Site assets and configuration
 site/*
