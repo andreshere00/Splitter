@@ -9,9 +9,8 @@ from fastapi import UploadFile
 from src.domain.reader.readers.docling_reader import DoclingReader
 from src.domain.reader.readers.markitdown_reader import MarkItDownReader
 from src.domain.reader.readers.pdfplumber_reader import PDFPlumberReader
+from src.domain.reader.readers.textract_reader import TextractReader
 from src.infrastructure.model.llm_client import LLMClient
-
-# from src.domain.reader.readers.textract_reader import TextractReader
 
 logging.basicConfig(
     level=logging.INFO,
@@ -107,7 +106,7 @@ class ReadManager:
             return DoclingReader()  # TODO: add support to client and model
         elif self.reader_method == "pdfplumber":
             return PDFPlumberReader()  # TODO: add support to client and model
-        # elif self.reader_method == "textract":
-        #     return TextractReader(client, model)
+        elif self.reader_method == "textract":
+            return TextractReader(client, model)
         else:
             raise ValueError(f"Unsupported reader method: {self.reader_method}")
