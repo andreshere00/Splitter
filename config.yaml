@@ -24,28 +24,28 @@ splitter:
 
   methods:
     word:
-      num_words: 100  # Number of words in each chunk
+      num_words: 8192  # Number of words in each chunk
 
     sentence:
-      num_sentences: 5  # Number of sentences in each chunk
+      num_sentences: 500  # Number of sentences in each chunk
 
     paragraph:
-      num_paragraphs: 3  # Number of paragraphs in each chunk
+      num_paragraphs: 100  # Number of paragraphs in each chunk
 
     # semantic:
     #   language_model: "bert-base-uncased"  # For semantic similarity
     #   overlap: 0.2                         # Overlap ratio between chunks
 
     fixed:
-      size: 100  # Number of characters per chunk
+      size: 8192  # Number of characters per chunk
 
     # paged:
     #   num_pages: 1  # Number of pages in each chunk
     #   overlap: 0.1  # Overlap (in pages) between chunks
 
     recursive:
-      size: 2048     # Characters per chunk
-      overlap: 128   # Overlapping characters
+      size: 8192     # Characters per chunk
+      overlap: 256   # Overlapping characters
 
     # row-column:
     #   num_columns: 2

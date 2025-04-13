@@ -5,23 +5,38 @@ import pytest
 from src.infrastructure.model.models.textract_client import TextractClient
 
 
+@patch("src.infrastructure.model.models.textract_client.os.getenv")
 @patch("src.infrastructure.model.models.textract_client.boto3.client")
-def test_textract_client_initialization(mock_boto_client):
+def test_initialize_textract_client(mock_boto_client, mock_getenv):
     """
-    Test that TextractClient initializes a boto3 client and sets model to None.
+    Test that environment variables are passed to boto3.client when initializing TextractClient.
     """
     fake_client = MagicMock()
     mock_boto_client.return_value = fake_client
 
+    # Simulate environment variables
+    def getenv_side_effect(key, default=None):
+        env = {
+            "AWS_ACCESS_KEY_ID": "fake-access-key",
+            "AWS_SECRET_ACCESS_KEY": "fake-secret-key",
+            "AWS_SESSION_TOKEN": "fake-session-token",
+            "AWS_REGION": "us-west-2",
+        }
+        return env.get(key, default)
+
+    mock_getenv.side_effect = getenv_side_effect
+
     client = TextractClient()
 
-    # Assert boto3.client was called correctly
-    mock_boto_client.assert_called_once_with("textract")
+    mock_boto_client.assert_called_once_with(
+        "textract",
+        aws_access_key_id="fake-access-key",
+        aws_secret_access_key="fake-secret-key",
+        aws_session_token="fake-session-token",
+        region_name="us-west-2",
+    )
 
-    # Assert the internal client is set properly
     assert client.client == fake_client
-
-    # Assert the model attribute is None
     assert client.model is None
 
 
