@@ -1,4 +1,4 @@
-# Models documentation
+# **Model module**
 
 ## LLM Client
 

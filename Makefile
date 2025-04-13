@@ -55,7 +55,7 @@ docker-api-run: ## Run the API dockerized application.
 .PHONY: test
 test: ## Run tests using uv and pytest.
 	@echo "Running tests using uv and pytest..."
-	uv run coverage run -m pytest && uv run coverage html
+	uv run coverage run -m pytest && uv run coverage report
 
 .PHONY: shell
 shell: ## Run a uv shell.
@@ -83,7 +83,7 @@ format: ## Run pyupgrade, isort, black, and flake8 for code style.
 .PHONY: clean
 clean: ## Clean output, cache, and log files.
 	@echo "Cleaning output, cache, and log files..."
-	@find . -type d \( -name 'logs/*' -o -name '*cache*' \) -exec rm -rf {} + && rm -rf data/output/* data/test/output/* *.DS_store*
+	@find . -type d \( -name '*cache*' \) -exec rm -rf {} + && rm -rf data/output/* logs/* data/test/output/* *.DS_store*
 
 .PHONY: clean-log
 clean-log: ## Clean log files.

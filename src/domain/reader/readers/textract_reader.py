@@ -2,9 +2,7 @@ import logging
 import os
 from typing import Optional
 
-from src.domain.reader.base_reader import (
-    BaseReader,
-)  # Ensure you have a BaseReader interface
+from src.domain.reader.base_reader import BaseReader
 
 
 class TextractReader(BaseReader):

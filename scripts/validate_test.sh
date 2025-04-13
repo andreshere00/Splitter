@@ -1,24 +1,23 @@
-echo "Running test suite with coverage..."
+#!/bin/bash
+set -e
 
-# Run tests with coverage; adjust "--source=src" if your source folder is different.
-coverage run --source=src -m pytest
-TEST_STATUS=$?
+echo "🔍 Running test suite and checking for minimum 70% coverage..."
 
-if [ $TEST_STATUS -ne 0 ]; then
-    echo "Tests failed. Commit aborted."
-    exit $TEST_STATUS
+# Run tests with coverage (suppressing output; adjust as needed)
+uv run coverage run --source=src -m pytest > /dev/null
+
+# Check if coverage is above threshold; if not, print full report
+if ! uv run coverage report --fail-under=70 > /dev/null; then
+    echo "❌ Coverage is below 70%."
+    uv run coverage report  # show the detailed report on failure
+    # Clean up generated coverage file
+    rm -f .coverage
+    exit 1
 fi
 
-echo "Checking coverage threshold (70%)..."
+echo "✅ All tests pass and coverage is at or above 70%."
 
-# This command will exit with a non-zero status if coverage is below 70%
-coverage report --fail-under=70
-COVERAGE_STATUS=$?
+# Clean up the generated .coverage file so that no files are modified
+rm -f .coverage
 
-if [ $COVERAGE_STATUS -ne 0 ]; then
-    echo "❌ Test coverage is below 70%. Commit aborted."
-    exit $COVERAGE_STATUS
-fi
-
-echo "✅ All tests pass and coverage is at or above 70%. Commit allowed."
 exit 0

@@ -15,11 +15,10 @@ repos:
 
       - id: test-coverage-check
         name: Ensure at least 70% test coverage
-        entry: uv run bash scripts/validate_test.sh
+        entry: bash scripts/validate_test.sh
         language: system
         pass_filenames: false
         always_run: true
-        fail_fast: false
         require_serial: true
         stages: [pre-commit]
 

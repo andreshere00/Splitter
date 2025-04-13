@@ -68,7 +68,7 @@ def test_read_file_not_found(read_manager):
 def test_read_empty_file(temp_config):
     """Test that reading an empty file raises ValueError."""
     config, input_path = temp_config
-    empty_file = os.path.join(input_path, "empty.txt")
+    empty_file = "empty.txt"
     # Create an empty file.
     with open(empty_file, "w", encoding="utf-8") as f:
         f.write("")
@@ -81,7 +81,7 @@ def test_read_empty_file(temp_config):
 def test_read_invalid_extension(temp_config):
     """Test that reading a file with an unsupported extension raises the proper exception."""
     config, input_path = temp_config
-    invalid_file = os.path.join(input_path, "malicious.exe")
+    invalid_file = "malicious.exe"
     with open(invalid_file, "w", encoding="utf-8") as f:
         f.write("EXE file content")
     rm = ReadManager(config=config)
