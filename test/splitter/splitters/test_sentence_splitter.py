@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from src.splitter.splitters.sentence_splitter import SentenceSplitter
+from src.domain.splitter.splitters.sentence_splitter import SentenceSplitter
 
 SAMPLE_TEXT = (
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget purus non est porta rutrum. "

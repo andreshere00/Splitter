@@ -1,6 +1,6 @@
 import unittest
 
-from src.splitter.splitters.paragraph_splitter import ParagraphSplitter
+from src.domain.splitter.splitters.paragraph_splitter import ParagraphSplitter
 
 # The sample text to be used in tests.
 SAMPLE_TEXT = (

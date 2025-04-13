@@ -1,4 +1,4 @@
-from src.reader.readers.markitdown_reader import MarkItDownReader
+from src.domain.reader.readers.markitdown_reader import MarkItDownReader
 
 
 # Dummy class to replace MarkItDown.
@@ -22,7 +22,7 @@ def test_markitdown_converter(monkeypatch):
     """
     # Monkey-patch the MarkItDown class in the module with our dummy.
     monkeypatch.setattr(
-        "src.reader.readers.markitdown_reader.MarkItDown", DummyMarkItDown
+        "src.domain.reader.readers.markitdown_reader.MarkItDown", DummyMarkItDown
     )
 
     dummy_client = "dummy_client"

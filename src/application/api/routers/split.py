@@ -15,9 +15,9 @@ from src.application.api.models import (
     ReaderMethodEnum,
     SplitMethodEnum,
 )
-from src.chunker.chunk_manager import ChunkManager
-from src.reader.read_manager import ReadManager
-from src.splitter.split_manager import SplitManager
+from src.domain.chunker.chunk_manager import ChunkManager
+from src.domain.reader.read_manager import ReadManager
+from src.domain.splitter.split_manager import SplitManager
 
 router = APIRouter()
 
@@ -61,13 +61,14 @@ class SplitAPI:
         ),
         ocr_method: OCRMethodEnum = Form(
             ...,
-            description="OCR client to use for image processing: 'none', 'openai', or 'azure'.",
+            description="OCR client to use for image processing."
+            "Available options: 'none', 'openai', or 'azure'.",
         ),
         reader_method: ReaderMethodEnum = Form(
-            ReaderMethodEnum.markitdown,
+            ...,
             description=(
                 "Reading method to use for parsing the document. "
-                "Available options: markitdown, docling, pdfplumber, textract, etc."
+                "Available options: markitdown, docling, pdfplumber."
             ),
         ),
         metadata: Optional[List[str]] = Form([], description="Optional metadata tags."),
@@ -206,7 +207,7 @@ class SplitAPI:
                 split_params=custom_split_params,
                 metadata=metadata,
                 ocr_method=ocr_method,
-                reader_method=reader_method,  # Include the new parameter in the response.
+                reader_method=reader_method,
             )
 
         except HTTPException as http_exc:

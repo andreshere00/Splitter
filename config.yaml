@@ -16,9 +16,9 @@ logging:
 
 # 3. Reading Methods Configuration
 reader:
-  method: "markitdown" # available: markitdown, textract, pdfplumber, docling, auto
+  method: "markitdown" # available: markitdown, docling, pdfplumber
 
-# 3. Splitting Methods Configuration
+# 4. Splitting Methods Configuration
 splitter:
   method: "recursive"
 
@@ -44,8 +44,8 @@ splitter:
     #   overlap: 0.1  # Overlap (in pages) between chunks
 
     recursive:
-      size: 10000     # Characters per chunk
-      overlap: 1000   # Overlapping characters
+      size: 2048     # Characters per chunk
+      overlap: 128   # Overlapping characters
 
     # row-column:
     #   num_columns: 2
@@ -62,7 +62,7 @@ splitter:
     #   chunk_size: 500
     #   overlap: 100
 
-# 4. OCR configuration
+# 5. OCR configuration
 ocr:
   method: "none"  # Options: azure, openai, none
   # include_image_blobs: false

@@ -83,7 +83,7 @@ format: ## Run pyupgrade, isort, black, and flake8 for code style.
 .PHONY: clean
 clean: ## Clean output, cache, and log files.
 	@echo "Cleaning output, cache, and log files..."
-	@find . -type d \( -name '*log*' -o -name '*cache*' \) -exec rm -rf {} + && rm -rf data/output/* data/test/output/* *.DS_store*
+	@find . -type d \( -name 'logs/*' -o -name '*cache*' \) -exec rm -rf {} + && rm -rf data/output/* data/test/output/* *.DS_store*
 
 .PHONY: clean-log
 clean-log: ## Clean log files.

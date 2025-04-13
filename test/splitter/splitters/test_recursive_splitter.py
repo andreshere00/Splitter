@@ -1,6 +1,6 @@
 import unittest
 
-from src.splitter.splitters.recursive_splitter import RecursiveSplitter
+from src.domain.splitter.splitters.recursive_splitter import RecursiveSplitter
 
 # Sample text for testing.
 SAMPLE_TEXT = (

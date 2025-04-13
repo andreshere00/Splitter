@@ -4,9 +4,9 @@ import os
 import pytest
 from fastapi import UploadFile
 
-from src.model.llm_client import LLMClient
-from src.reader.read_manager import ReadManager
-from src.reader.readers.markitdown_reader import MarkItDownReader
+from src.domain.reader.read_manager import ReadManager
+from src.domain.reader.readers.markitdown_reader import MarkItDownReader
+from src.infrastructure.model.llm_client import LLMClient
 
 
 # Fixture: use the actual test input folder.

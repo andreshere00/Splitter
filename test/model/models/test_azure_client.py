@@ -1,6 +1,6 @@
 import openai
 
-from src.model.models.azure_client import AzureOpenAIClient
+from src.infrastructure.model.models.azure_client import AzureOpenAIClient
 
 
 def test_azure_client(monkeypatch):

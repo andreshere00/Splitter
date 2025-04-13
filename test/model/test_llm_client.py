@@ -1,6 +1,6 @@
 import pytest
 
-from src.model.llm_client import LLMClient
+from src.infrastructure.model.llm_client import LLMClient
 
 
 def test_llm_client_none():
@@ -16,7 +16,7 @@ def test_llm_client_openai(monkeypatch):
     Test that when method is 'openai', LLMClient instantiates an OpenAIClient
     and returns the dummy client and model.
     """
-    from src.model.models.openai_client import OpenAIClient
+    from src.infrastructure.model.models.openai_client import OpenAIClient
 
     # Monkey-patch OpenAIClient's __init__ and its methods.
     monkeypatch.setattr(OpenAIClient, "__init__", lambda self: None)
@@ -35,7 +35,7 @@ def test_llm_client_azure(monkeypatch):
     Test that when method is 'azure', LLMClient instantiates an AzureOpenAIClient
     and returns the dummy client and model.
     """
-    from src.model.models.azure_client import AzureOpenAIClient
+    from src.infrastructure.model.models.azure_client import AzureOpenAIClient
 
     # Monkey-patch AzureOpenAIClient's __init__ and its methods.
     monkeypatch.setattr(AzureOpenAIClient, "__init__", lambda self: None)

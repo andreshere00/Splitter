@@ -1,6 +1,6 @@
 # **Splitter module**
 
-::: src.splitter.split_manager
+::: src.domain.splitter.split_manager
     options:
       show_source: true
 members: false
@@ -9,7 +9,7 @@ members: false
 
 ## **Base Splitter**
 
-::: src.splitter.base_splitter
+::: src.domain.splitter.base_splitter
     options:
       show_source: true
 members: false
@@ -18,27 +18,27 @@ members: false
 
 ## **Splitting Methods**
 
-::: src.splitter.splitters.word_splitter
+::: src.domain.splitter.splitters.word_splitter
     options:
       show_source: true
 members: false
 
-::: src.splitter.splitters.sentence_splitter
+::: src.domain.splitter.splitters.sentence_splitter
     options:
       show_source: true
 members: false
 
-::: src.splitter.splitters.paragraph_splitter
+::: src.domain.splitter.splitters.paragraph_splitter
     options:
       show_source: true
 members: false
 
-::: src.splitter.splitters.fixed_splitter
+::: src.domain.splitter.splitters.fixed_splitter
     options:
       show_source: true
 members: false
 
-::: src.splitter.splitters.recursive_splitter
+::: src.domain.splitter.splitters.recursive_splitter
     options:
       show_source: true
 members: false

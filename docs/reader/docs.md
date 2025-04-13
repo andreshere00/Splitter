@@ -2,7 +2,7 @@
 
 ## **Read Manager**
 
-::: src.reader.read_manager
+::: src.domain.reader.read_manager
     options:
       show_source: true
 members: false
@@ -11,7 +11,7 @@ members: false
 
 ## **Base Reader**
 
-::: src.reader.base_reader
+::: src.domain.reader.base_reader
     options:
       show_source: true
 members: false
@@ -20,7 +20,7 @@ members: false
 
 ## **Readers**
 
-::: src.reader.readers
+::: src.domain.reader.readers
     options:
       show_source: true
 members: false

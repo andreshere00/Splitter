@@ -1,6 +1,6 @@
 import unittest
 
-from src.splitter.splitters.fixed_splitter import FixedSplitter
+from src.domain.splitter.splitters.fixed_splitter import FixedSplitter
 
 # The sample text to be used in tests.
 SAMPLE_TEXT = (

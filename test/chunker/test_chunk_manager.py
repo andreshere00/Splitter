@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from src.chunker.chunk_manager import ChunkManager
+from src.domain.chunker.chunk_manager import ChunkManager
 
 
 # A dummy splitter to bypass actual splitting logic.
@@ -48,7 +48,7 @@ def chunk_manager(test_config, monkeypatch):
     config_data, output_path = test_config
     # Monkeypatch the SplitManager in the ChunkManager module to use our DummySplitManager.
     monkeypatch.setattr(
-        "src.chunker.chunk_manager.SplitManager",
+        "src.domain.chunker.chunk_manager.SplitManager",
         lambda config: DummySplitManager(),
     )
     cm = ChunkManager(config=config_data)
