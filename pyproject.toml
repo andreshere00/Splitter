@@ -29,6 +29,7 @@ dependencies = [
     "xhtml2pdf>=0.2.17",
     "pptxtopdf>=0.0.2",
     "boto3>=1.38.0",
+    "xmltodict>=0.14.2",
 ]
 
 [dependency-groups]
