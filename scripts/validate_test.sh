@@ -3,7 +3,7 @@ set -e
 
 echo "🔍 Running test suite and checking for minimum 70% coverage..."
 
-# Run tests with coverage (suppressing output; adjust as needed)
+# Run tests with coverage (suppressing output)
 uv run coverage run --source=src -m pytest > /dev/null
 
 # Check if coverage is above threshold; if not, print full report

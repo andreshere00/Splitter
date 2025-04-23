@@ -10,8 +10,8 @@
 
 ## Available Clients
 
-::: src.infrastructure.model.models.azure_client
+::: src.infrastructure.analyzer.vlm.azure_client
 
-::: src.infrastructure.model.models.openai_client
+::: src.infrastructure.analyzer.vlm.openai_client
 
-::: src.infrastructure.model.models.textract_client
+::: src.infrastructure.analyzer.vlm.textract_client

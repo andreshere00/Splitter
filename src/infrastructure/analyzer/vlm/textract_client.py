@@ -3,7 +3,7 @@ from typing import Optional
 
 import boto3
 
-from src.infrastructure.model.base_client import BaseLLMClient
+from src.infrastructure.analyzer.vlm.base_client import BaseLLMClient
 
 
 class TextractClient(BaseLLMClient):

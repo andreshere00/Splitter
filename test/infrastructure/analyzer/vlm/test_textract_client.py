@@ -2,11 +2,11 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from src.infrastructure.model.models.textract_client import TextractClient
+from src.infrastructure.analyzer.vlm.textract_client import TextractClient
 
 
-@patch("src.infrastructure.model.models.textract_client.os.getenv")
-@patch("src.infrastructure.model.models.textract_client.boto3.client")
+@patch("src.infrastructure.analyzer.vlm.textract_client.os.getenv")
+@patch("src.infrastructure.analyzer.vlm.textract_client.boto3.client")
 def test_initialize_textract_client(mock_boto_client, mock_getenv):
     """
     Test that environment variables are passed to boto3.client when initializing TextractClient.
@@ -40,7 +40,7 @@ def test_initialize_textract_client(mock_boto_client, mock_getenv):
     assert client.model is None
 
 
-@patch("src.infrastructure.model.models.textract_client.boto3.client")
+@patch("src.infrastructure.analyzer.vlm.textract_client.boto3.client")
 def test_get_client_returns_boto3_client(mock_boto_client):
     """
     Test that get_client returns the boto3 textract client.
@@ -52,7 +52,7 @@ def test_get_client_returns_boto3_client(mock_boto_client):
     assert client.get_client() == fake_client
 
 
-@patch("src.infrastructure.model.models.textract_client.boto3.client")
+@patch("src.infrastructure.analyzer.vlm.textract_client.boto3.client")
 def test_get_model_returns_none_by_default(mock_boto_client):
     """
     Test that get_model returns None by default.

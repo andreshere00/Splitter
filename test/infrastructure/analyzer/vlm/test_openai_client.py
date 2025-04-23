@@ -1,6 +1,6 @@
 import openai
 
-from src.infrastructure.model.models.openai_client import OpenAIClient
+from src.infrastructure.analyzer.vlm.openai_client import OpenAIClient
 
 
 def test_openai_client(monkeypatch):

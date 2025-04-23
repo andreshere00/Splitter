@@ -4,7 +4,7 @@ from typing import Optional
 import openai
 from dotenv import load_dotenv
 
-from src.infrastructure.model.base_client import BaseLLMClient
+from src.infrastructure.analyzer.vlm.base_client import BaseLLMClient
 
 load_dotenv()
 

@@ -1,0 +1,94 @@
+# ── Step-level defaults with allowed options ─────────────────────────────────
+anchors:
+  converter_default: &converter_default none           # options: none, markdown
+  reader_default:    &reader_default    markitdown     # options: pdfplumber, markitdown, docling, textract, pandas
+  analyzer_default:  &analyzer_default  none           # options: none, openai, azure-openai, ocr, gemini, anthropic, huggingface
+  splitter_default:  &splitter_default  auto           # options: auto, word, sentence, paragraph, fixed, recursive, schema-based
+  chunker_default:   &chunker_default   markdown       # options: markdown, html, json
+
+# ── Converter: inherit 'none' unless overridden ──────────────────────────────
+converter:
+  default: *converter_default
+  override:
+    # text: none              # options: none, markdown
+    # markdown: none          # options: none
+    # pdf: none               # options: none, markdown 
+    docx: pdf               # options: none, pdf, markdown
+    pptx: pdf               # options: none, pdf, markdown
+    xlsx: json              # options: none, json, markdown
+    html: pdf               # options: none, pdf, markdown
+    xml: pdf                # options: none, pdf, json, markdown
+    # json: none              # options: none
+    yaml: json              # options: json
+    jpg: png                # options: none, png, base64
+    # png: none               # options: none, base64
+    # base64: none            # options: none, base64
+
+# ── Reader: inherit 'markitdown' unless overridden ───────────────────────────
+reader:
+  default: *reader_default
+  override:
+    # text: markitdown        # options: markitdown
+    # markdown: markitdown    # options: pdfplumber, markitdown, docling
+    # pdf: docling            # options: pdfplumber, markitdown, docling, textract
+    # docx: markitdown        # options: markitdown, docling, textract
+    # pptx: markitdown        # options: markitdown, docling, textract, 
+    xlsx: pandas            # options: pandas, markitdown, docling
+    html: pandas            # options: pandas, markitdown, docling
+    xml: pandas             # options: pandas, markitdown, docling
+    json: pandas            # options: pandas, markitdown, docling
+    jpg: png                # options: png, base64
+    png: png                # options: png, base64
+    svg: png                # options: png, base64
+    base64: base64          # options: none
+
+# ── Analyzer: inherit 'none' unless overridden ───────────────────────────────
+analyzer:
+  default: *analyzer_default
+  override:
+    # markitdown: none        # options: none, openai, azure-openai
+    # docling: none           # options: none, openai, azure-openai, ocr, gemini, anthropic, huggingface
+    # pdfplumber: none        # options: none, openai, azure-openai, ocr, gemini, anthropic, huggingface
+    png:     azure-openai    # options: none, openai, azure-openai, ocr, gemini, anthropic, huggingface
+    base64:  azure-openai    # options: none, openai, azure-openai, ocr, gemini, anthropic, huggingface
+
+# ── Splitter: inherit 'auto' unless you specify another method ──────────────
+splitter:
+  default: *splitter_default
+  methods:
+    word:
+      num_words:     8192    # Number of words in each chunk
+    sentence:
+      num_sentences: 500     # Number of sentences in each chunk
+    paragraph:
+      num_paragraphs: 100    # Number of paragraphs in each chunk
+    fixed:
+      size:          8192    # Number of characters per chunk
+    recursive:
+      - size:          8192    # Characters per chunk
+      - overlap:       256     # Overlapping characters
+    schema-based:
+      - max_num_rows:   50     # Max rows per chunk (if tabular)
+      - header_lines:   1      # Header lines for CSV/Excel
+      - max_chunk_size: 300    # Max characters per chunk
+      - chunk_overlap:  0      # Character overlap between chunks
+    auto:
+      fallback_method: recursive  # options: fallback_method, chunk_size, overlap
+
+# ── Chunker: always 'markdown' here ─────────────────────────────────────────
+chunker:
+  default: *chunker_default   # options: markdown, html, json
+  override: {}
+    # text: markdown          # options: markdown, html, json
+    # markdown: markdown      # options: markdown, html, json  
+    # pdf: markdown           # options: markdown, html, json  
+    # docx: markdown          # options: markdown, html, json  
+    # pptx: markdown          # options: markdown, html, json  
+    # xlsx: markdown          # options: markdown, html, json  
+    # html: markdown          # options: markdown, html, json  
+    # xml: markdown           # options: markdown, html, json  
+    # json: markdown          # options: markdown, html, json  
+    # yaml: markdown          # options: markdown, html, json  
+    # jpg: markdown           # options: markdown, html, json  
+    # png: markdown           # options: markdown, html, json  
+    # base64: markdown        # options: markdown, html, json  

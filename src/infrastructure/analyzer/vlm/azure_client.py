@@ -1,7 +1,7 @@
 import openai
 
 from src.application.api.config import settings
-from src.infrastructure.model.base_client import BaseLLMClient
+from src.infrastructure.analyzer.vlm.base_client import BaseLLMClient
 
 
 class AzureOpenAIClient(BaseLLMClient):
