@@ -51,7 +51,7 @@ def test_convert_folder_redirects_to_correct_converters(monkeypatch, tmp_path):
     # 1) point ConvertManager at your real config.yaml
     project_root = Path(__file__).parents[3]
     config_path = (
-        project_root / "config_tmp.yaml"
+        project_root / "config.yaml"
     )  # TODO: Change to actual config.yaml path
     cm = ConvertManager(config_path)
 
