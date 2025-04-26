@@ -20,9 +20,3 @@ class BaseLLMClient(ABC):
         Returns the model name if applicable.
         """
         pass
-
-    def is_enabled(self) -> bool:
-        """
-        Returns True if the client is active.
-        """
-        return self.get_client() is not None

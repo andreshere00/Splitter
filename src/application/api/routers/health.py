@@ -30,4 +30,7 @@ class HealthAPI:
         Returns:
             dict: A JSON response with the application status and the current UTC time.
         """
-        return {"status": "ok", "timestamp": datetime.datetime.utcnow().isoformat()}
+        return {
+            "status": "ok",
+            "timestamp": datetime.datetime.now(datetime.UTC).isoformat(),
+        }

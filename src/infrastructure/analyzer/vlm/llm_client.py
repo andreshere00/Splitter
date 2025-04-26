@@ -3,6 +3,7 @@ from typing import Optional
 from src.infrastructure.analyzer.vlm.azure_client import AzureOpenAIClient
 from src.infrastructure.analyzer.vlm.base_client import BaseLLMClient
 from src.infrastructure.analyzer.vlm.openai_client import OpenAIClient
+from src.infrastructure.analyzer.vlm.textract_client import TextractClient
 
 
 class LLMClient:
@@ -40,6 +41,8 @@ class LLMClient:
             self.client_instance: Optional[BaseLLMClient] = OpenAIClient()
         elif self.method == "azure":
             self.client_instance: Optional[BaseLLMClient] = AzureOpenAIClient()
+        elif self.method == "textract":
+            self.client_instance = Optional[BaseLLMClient] = TextractClient()
         elif self.method == "none":
             self.client_instance = None
         else:
