@@ -4,7 +4,7 @@ from typing import Optional
 import openai
 from dotenv import load_dotenv
 
-from src.infrastructure.analyzer.vlm.base_client import BaseLLMClient
+from src.infrastructure.analyzer.analyzers.base_client import BaseLLMClient
 
 load_dotenv()
 
@@ -12,6 +12,10 @@ load_dotenv()
 class OpenAIClient(BaseLLMClient):
     """
     Client for interacting with OpenAI.
+
+    Environment variables required:
+    - OPENAI_API_KEY
+    - OPENAI_MODEL
     """
 
     def __init__(self):

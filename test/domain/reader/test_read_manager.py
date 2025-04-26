@@ -10,7 +10,7 @@ from markitdown._markitdown import UnsupportedFormatException
 
 from src.domain.reader.read_manager import ReadManager
 from src.domain.reader.readers.markitdown_reader import MarkItDownReader
-from src.infrastructure.analyzer.vlm.llm_client import LLMClient
+from src.infrastructure.analyzer.analyzers.llm_client import LLMClient
 
 
 # Fixture: use the actual test input folder.

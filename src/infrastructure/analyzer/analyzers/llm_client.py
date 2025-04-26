@@ -1,9 +1,9 @@
 from typing import Optional
 
-from src.infrastructure.analyzer.vlm.azure_client import AzureOpenAIClient
-from src.infrastructure.analyzer.vlm.base_client import BaseLLMClient
-from src.infrastructure.analyzer.vlm.openai_client import OpenAIClient
-from src.infrastructure.analyzer.vlm.textract_client import TextractClient
+from src.infrastructure.analyzer.analyzers.azure_client import AzureOpenAIClient
+from src.infrastructure.analyzer.analyzers.base_client import BaseLLMClient
+from src.infrastructure.analyzer.analyzers.openai_client import OpenAIClient
+from src.infrastructure.analyzer.analyzers.textract_client import TextractClient
 
 
 class LLMClient:

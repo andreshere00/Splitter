@@ -3,7 +3,6 @@ from pathlib import Path
 import pytest
 
 from src.infrastructure.converter.convert_manager import ConvertManager
-from src.infrastructure.helpers.config_loader import load_config
 
 
 class DummyPDF:

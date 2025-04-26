@@ -10,7 +10,7 @@ from src.domain.reader.readers.docling_reader import DoclingReader
 from src.domain.reader.readers.markitdown_reader import MarkItDownReader
 from src.domain.reader.readers.pdfplumber_reader import PDFPlumberReader
 from src.domain.reader.readers.textract_reader import TextractReader
-from src.infrastructure.analyzer.vlm.llm_client import LLMClient
+from src.infrastructure.analyzer.analyzers.llm_client import LLMClient
 
 logging.basicConfig(
     level=logging.INFO,

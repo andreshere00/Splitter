@@ -25,20 +25,20 @@ class ConvertManager:
     # map the “conversion name” in your YAML to the actual class
     _CREATORS = {
         "pdf": PDFConverter,
-        "html": HTMLConverter,
         "markdown": MarkdownConverter,
         "json": JSONConverter,
+        "html": HTMLConverter,
         "png": PNGConverter,
         "base64": Base64Converter,
     }
 
     def __init__(self, config_path: Union[str, Path]):
-        config = load_config(config_path)
-        conv_config = config["converter"]
-        self._default = conv_config["default"]
+        cfg = load_config(config_path)
+        conv_cfg = cfg["converter"]
+        self._default = conv_cfg["default"]  # e.g. “none”
         self._overrides = {
             ext.lower(): conv_name
-            for ext, conv_name in (conv_config.get("override") or {}).items()
+            for ext, conv_name in (conv_cfg.get("override") or {}).items()
         }
 
     def _get_conversion_name(self, ext: str) -> str:

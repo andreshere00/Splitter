@@ -1,12 +1,18 @@
 import openai
 
 from src.application.api.config import settings
-from src.infrastructure.analyzer.vlm.base_client import BaseLLMClient
+from src.infrastructure.analyzer.analyzers.base_client import BaseLLMClient
 
 
 class AzureOpenAIClient(BaseLLMClient):
     """
     Client for interacting with Azure OpenAI.
+
+    Environment variables required:
+    - AZURE_OPENAI_API_KEY
+    - AZURE_OPENAI_API_VERSION
+    - AZURE_OPENAI_ENDPOINT
+    - AZURE_OPENAI_DEPLOYMENT
     """
 
     def __init__(self):
