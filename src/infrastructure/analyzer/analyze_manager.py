@@ -62,5 +62,5 @@ class AnalyzeManager:
         """
         name = self._get_analyzer_name(file_ext)
         client = self._make_client(name)
-        logging.debug(f"AnalyzerManager: '{file_ext}' → '{name}' → {client!r}")
+        logging.debug(f"AnalyzeManager: '{file_ext}' → '{name}' → {client!r}")
         return client, name
