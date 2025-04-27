@@ -1,6 +1,6 @@
 [project]
 name = "splitter"
-version = "0.1.0"
+version = "0.4.0"
 description = "This application aims to convert documents into markdown format, and split them into **chunks** using various splitting strategies."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -37,6 +37,7 @@ dependencies = [
     "pdf2image>=1.17.0",
     "reportlab>=4.4.0",
     "svglib>=1.5.1",
+    "openai>=1.70.0",
 ]
 
 [dependency-groups]
