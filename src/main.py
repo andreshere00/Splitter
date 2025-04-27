@@ -11,46 +11,27 @@ from src.infrastructure.helpers.logging_manager import setup_logging
 
 class Application:
     """
-    Orchestrates the document processing workflow.
-
-    The Application class coordinates the reading, splitting, and chunk-saving process
-    using the domain-layer components: ReadManager, SplitManager, and ChunkManager.
-    It also configures logging based on the provided configuration.
-
-    Attributes:
-        config (Dict[str, Any]): Loaded configuration dictionary from the YAML file.
-        read_manager (ReadManager): Handles document reading and conversion to text.
-        split_manager (SplitManager): Splits text content into smaller chunks.
-        chunk_manager (ChunkManager): Handles saving of the generated chunks.
+    Coordinates reading, splitting, and saving chunks.
     """
 
-    def __init__(self, config: Dict[str, Any]) -> None:
-        """
-        Initializes the Application with the given configuration.
-
-        Args:
-            config (Dict[str, Any]): Configuration dictionary containing settings for
-                file I/O, logging, reader method, splitting strategy, etc.
-        """
+    def __init__(self, config: Dict[str, Any], config_path: str) -> None:
         self.config = config
+        self.config_path = config_path
 
-        # Setup logging using the configuration from YAML
         setup_logging(self.config.get("logging", {}))
 
-        self.read_manager = ReadManager(config=self.config)
+        # Pass the path only to ReadManager (SplitManager doesn’t need it)
+        self.read_manager = ReadManager(
+            config=self.config, config_path=self.config_path
+        )
         self.split_manager = SplitManager(config=self.config)
         self.chunk_manager = ChunkManager(config=self.config)
 
-    def run(self) -> None:
-        """
-        Executes the main application workflow:
-        - Reads all files in the input directory.
-        - Converts each file to markdown text using the configured reader.
-        - Splits the text into chunks based on the configured splitter.
-        - Saves the resulting chunks to the output directory.
+    # ------------------------------------------------------------------ #
+    # main workflow
+    # ------------------------------------------------------------------ #
 
-        If the input directory is missing or contains no valid files, an error is logged.
-        """
+    def run(self) -> None:
         cwd = os.getcwd()
         input_path = self.config.get("file_io", {}).get("input_path", "data/input")
         if not os.path.isabs(input_path):
@@ -66,44 +47,42 @@ class Application:
             logging.error(f"No files found in input directory: {input_path}")
             return
 
-        splitter_method = self.config.get("splitter", {}).get("method", "unknown")
+        splitter_method = self.config.get("splitter", {}).get("default", "unknown")
 
-        for file in files:
-            input_file = os.path.join(input_path, file)
-            if not os.path.isfile(input_file):
+        for fname in files:
+            # Skip hidden/metadata files like .DS_Store
+            if fname.startswith("."):
                 continue
 
-            logging.info(f"Processing file: {input_file}")
+            infile = os.path.join(input_path, fname)
+            if not os.path.isfile(infile):
+                continue
+
+            logging.info(f"Processing file: {infile}")
             try:
-                markdown_text = self.read_manager.read_file(file)
-            except Exception as e:
-                logging.error(f"Error reading file {input_file}: {e}")
+                md_text = self.read_manager.read_file(fname)
+            except Exception as exc:
+                logging.error(f"Error reading {infile}: {exc}")
                 continue
 
-            chunks = self.split_manager.split_text(markdown_text)
-            logging.info(f"Generated {len(chunks)} chunks from the file.")
+            chunks = self.split_manager.split_text(md_text)
+            logging.info(f"Generated {len(chunks)} chunks from {fname}")
 
-            basename = os.path.basename(input_file)
-            base_filename, original_extension = os.path.splitext(basename)
-            self.chunk_manager.save_chunks(
-                chunks, base_filename, original_extension, splitter_method
-            )
+            base, ext = os.path.splitext(fname)
+            self.chunk_manager.save_chunks(chunks, base, ext, splitter_method)
+
+
+# ---------------------------------------------------------------------- #
+# CLI entry point
+# ---------------------------------------------------------------------- #
 
 
 def main(config_file: str = "config.yaml") -> None:
-    """
-    Entry point for the CLI or script execution.
-
-    Loads the configuration from the given YAML file, initializes the Application,
-    and runs the document processing workflow.
-
-    Args:
-        config_file (str): Path to the YAML configuration file. Defaults to "config.yaml".
-    """
-    config = load_config(config_file)
-    app = Application(config)
-    app.run()
+    cfg = load_config(config_file)
+    Application(cfg, config_file).run()
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    main(sys.argv[1] if len(sys.argv) > 1 else "config.yaml")

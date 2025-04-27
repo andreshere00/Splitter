@@ -26,11 +26,15 @@ logging.basicConfig(
 
 class ReadManager:
     """
-    1) Convert incoming file → standardized extension
-    2) Ask AnalyzeManager which LLM client & model to use
-    3) Pick the right Reader, feed it the client+model
-    4) Return the markdown text
+    1) Convert file (if needed)
+    2) Select analyzer client/model
+    3) Choose the correct Reader (honouring reader.override in YAML)
+    4) Return markdown text
     """
+
+    # ------------------------------------------------------------------ #
+    # construction
+    # ------------------------------------------------------------------ #
 
     def __init__(
         self,
@@ -39,27 +43,60 @@ class ReadManager:
         input_path: Optional[str] = None,
         config_path: str = "config.yaml",
     ) -> None:
-        # --- load config & defaults
-        if config is None:
-            input_path = input_path or "data/input"
-            config = {"file_io": {"input_path": input_path}}
-        self.config = config
-        self.input_path = self.config["file_io"]["input_path"]
+        self.config = config or {}
+
+        # input_path resolution
+        self.input_path = input_path or self.config.get("file_io", {}).get(
+            "input_path", "data/input"
+        )
 
         # managers
         self.converter = ConvertManager(config_path)
         self.analyzer = AnalyzeManager(config_path)
 
-        # reader method (e.g. "markitdown")
-        self.reader_method: str = self.config.get("reader", {}).get(
-            "method", "markitdown"
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        logging.info(f"{now} | ReadManager initialized | input_path={self.input_path}")
+
+    # ------------------------------------------------------------------ #
+    # helpers
+    # ------------------------------------------------------------------ #
+
+    def _reader_for_extension(self, ext: str) -> str:
+        """
+        Decide which reader to use for a given file extension,
+        looking at reader.override first, then reader.default,
+        finally falling back to 'markitdown'.
+        """
+        ext = ext.lstrip(".").lower()
+        r_cfg = self.config.get("reader", {})
+        return r_cfg.get("override", {}).get(
+            ext,
+            r_cfg.get("method", "markitdown"),
         )
 
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        logging.info(f"{now} | ReadManager initialized | Config: {self.config}")
+    @staticmethod
+    def _build_reader(method: str, client, model):
+        """
+        Instantiate the reader class specified by `method`.
+        """
+        mapping = {
+            "markitdown": lambda: MarkItDownReader(client, model),
+            "docling": DoclingReader,
+            "pdfplumber": PDFPlumberReader,
+            "textract": lambda: TextractReader(client, model),
+            "pandas": PandasReader,
+        }
+        factory = mapping.get(method)
+        if not factory:
+            raise ValueError(f"Unsupported reader method: {method}")
+        return factory()
+
+    # ------------------------------------------------------------------ #
+    # public API
+    # ------------------------------------------------------------------ #
 
     def read_file(self, file_path: str) -> str:
-        # 1) resolve path
+        # resolve path
         if not os.path.isabs(file_path):
             file_path = os.path.join(self.input_path, file_path)
         p = Path(file_path)
@@ -68,57 +105,32 @@ class ReadManager:
         if p.stat().st_size == 0:
             raise ValueError(f"{file_path} is empty")
 
-        # 2) convert into a temp folder
+        # convert (may return same file)
         with tempfile.TemporaryDirectory() as tmpdir:
             converted = self.converter.convert_file(p, tmpdir)
-            # converted is a Path to the (maybe new-ext) file
 
-            # 3) pick analyzer client + model
-            client, model_name = self.analyzer.get_analyzer(converted.suffix)
+            # select reader method based on final extension
+            reader_method = self._reader_for_extension(converted.suffix)
 
-            # 4) instantiate the reader
-            reader = self._make_reader(client, model_name)
+            # analyzer client/model
+            client, model = self.analyzer.get_analyzer(converted.suffix)
 
-            # 5) run conversion → markdown text
+            # build reader
+            reader = self._build_reader(reader_method, client, model)
+
+            # convert to markdown
             try:
-                text = reader.convert(str(converted))
-                now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                logging.info(
-                    f"{now} | read_file finished | {converted.name} | "
-                    f"{reader.__class__.__name__}"
-                )
-                return text
-            except Exception as e:
-                logging.error(f"Reader failed on {converted}: {e}")
+                return reader.convert(str(converted))
+            except Exception as exc:
+                logging.error(f"Reader failed on {converted}: {exc}")
                 raise RuntimeError("Failed to read file")
 
     def read_file_object(self, file: UploadFile) -> str:
-        # same trick for an UploadFile
         suffix = "." + file.filename.rsplit(".", 1)[-1]
         with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
             tmp.write(file.file.read())
             tmp_path = tmp.name
-
         try:
             return self.read_file(tmp_path)
         finally:
             os.remove(tmp_path)
-
-    def _make_reader(self, client, model_name: Optional[str]):
-        """
-        Pass client + model_name into the Reader constructor.
-        client may be None (if analyzer == 'none').
-        model_name may be None too.
-        """
-        if self.reader_method == "markitdown":
-            return MarkItDownReader(client, model_name)
-        elif self.reader_method == "docling":
-            return DoclingReader()  # TODO: Add support to models
-        elif self.reader_method == "pdfplumber":
-            return PDFPlumberReader()  # TODO: Add support to models
-        elif self.reader_method == "textract":
-            return TextractReader(client, model_name)
-        elif self.reader_method == "pandas":
-            return PandasReader()
-
-        raise ValueError(f"Unsupported reader method: {self.reader_method}")

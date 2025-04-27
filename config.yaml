@@ -3,7 +3,7 @@ anchors:
   converter_default: &converter_default none           # options: none, markdown
   reader_default:    &reader_default    markitdown     # options: pdfplumber, markitdown, docling, textract, pandas
   analyzer_default:  &analyzer_default  none           # options: none, openai, azure-openai, ocr, gemini, anthropic, huggingface
-  splitter_default:  &splitter_default  auto           # options: auto, word, sentence, paragraph, fixed, recursive, schema-based
+  splitter_default:  &splitter_default  recursive      # options: auto, word, sentence, paragraph, fixed, recursive, schema-based
   chunker_default:   &chunker_default   markdown       # options: markdown, html, json
 
 # ── Converter: inherit 'none' unless overridden ──────────────────────────────
