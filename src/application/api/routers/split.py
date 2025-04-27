@@ -11,6 +11,7 @@ from fastapi.responses import StreamingResponse
 
 from src.application.api.models import (
     ChunkResponse,
+    ConverterMethodEnum,
     OCRMethodEnum,
     ReaderMethodEnum,
     SplitMethodEnum,
@@ -34,55 +35,23 @@ class SplitAPI:
         response_model=ChunkResponse,
         summary="Split Document",
         description=(
-            "Splits a document into chunks using the specified split method. "
-            "You can either upload a file or specify a file path. "
-            "It has an OCR feature to analyze images from the documents. "
-            "Optionally, the result can be returned as a ZIP file."
+            "Splits a document into chunks. Supports optional upfront "
+            "conversion (none/pdf/markdown/json/html/png)."
         ),
     )
     async def split_document(
-        file: Optional[Union[UploadFile, str]] = File(
-            None, description="Uploaded file. Leave empty if using a file path."
-        ),
-        document_path: str = Form(
-            "data/input",
-            description="Absolute or relative path where the document is located.",
-        ),
-        document_name: str = Form(
-            "",
-            description="Name for the document; if empty, the uploaded file's name is used.",
-        ),
-        document_id: str = Form(
-            "",
-            description="Optional document identifier. If empty, one will be generated.",
-        ),
-        split_method: SplitMethodEnum = Form(
-            ..., description="Method to split the document text."
-        ),
-        ocr_method: OCRMethodEnum = Form(
-            ...,
-            description="OCR client to use for image processing."
-            "Available options: 'none', 'openai', or 'azure'.",
-        ),
-        reader_method: ReaderMethodEnum = Form(
-            ...,
-            description=(
-                "Reading method to use for parsing the document. "
-                "Available options: markitdown, docling, pdfplumber."
-            ),
-        ),
-        metadata: Optional[List[str]] = Form([], description="Optional metadata tags."),
-        split_params: str = Form(
-            "{}",
-            description="JSON string of custom parameters for splitting (must be a JSON object).",
-        ),
-        chunk_path: str = Form(
-            "data/output", description="Path where the output chunks will be stored."
-        ),
-        download_zip: bool = Form(
-            False,
-            description="If true, returns the chunks in a ZIP archive instead of JSON.",
-        ),
+        file: Optional[Union[UploadFile, str]] = File(None),
+        document_path: str = Form("data/input"),
+        document_name: str = Form(""),
+        document_id: str = Form(""),
+        conversion_method: ConverterMethodEnum = Form(...),
+        split_method: SplitMethodEnum = Form(...),
+        ocr_method: OCRMethodEnum = Form(...),
+        reader_method: ReaderMethodEnum = Form(...),
+        metadata: Optional[List[str]] = Form([]),
+        split_params: str = Form("{}"),
+        chunk_path: str = Form("data/output"),
+        download_zip: bool = Form(False),
     ) -> Union[ChunkResponse, StreamingResponse]:
         """
         Splits a document into chunks and returns the results.
@@ -146,6 +115,7 @@ class SplitAPI:
                 "file_io": {"input_path": file_dir},
                 "ocr": {"method": ocr_method.value},
                 "reader": {"method": reader_method},
+                "converter": {"method": conversion_method.value},  # ← NEW
             }
 
             # Instantiate managers.
@@ -203,6 +173,7 @@ class SplitAPI:
                 chunk_path=chunk_path,
                 document_id=document_id,
                 document_name=file_name,
+                conversion_method=conversion_method,
                 split_method=split_method.value,
                 split_params=custom_split_params,
                 metadata=metadata,
